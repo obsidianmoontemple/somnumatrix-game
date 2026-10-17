@@ -374,14 +374,38 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
 /* ---------- phones and tablets ---------- */
 .strip{display:contents}
 #joy{position:fixed;z-index:15;left:calc(22px + env(safe-area-inset-left,0px));bottom:calc(26px + env(safe-area-inset-bottom,0px));
-  width:132px;height:132px;border-radius:50%;background:rgba(201,190,168,.07);border:1px solid rgba(201,190,168,.28);
+  width:136px;height:136px;border-radius:50%;box-sizing:border-box;
+  /* a dark glassy dish inside a bright ring with a dark edge either side, so it reads
+     on a white floor at noon and on a black street at night alike (Thaddeus, 17 October:
+     "i can barely see it"); warm bone, never white, so it never glares */
+  background:radial-gradient(circle,rgba(7,8,11,.22) 0,rgba(7,8,11,.46) 70%,rgba(7,8,11,.58) 100%);
+  border:3px solid rgba(222,212,190,.92);
+  box-shadow:0 0 0 2px rgba(7,8,11,.7),inset 0 0 0 2px rgba(7,8,11,.55),0 3px 12px rgba(0,0,0,.45);
   touch-action:none;transition:opacity .3s}
-#joyknob{position:absolute;left:50%;top:50%;width:58px;height:58px;margin:-29px 0 0 -29px;border-radius:50%;
-  background:rgba(201,190,168,.26);border:1px solid rgba(201,190,168,.4)}
+/* four small marks round the ring show which way is which */
+#joy::before{content:"";position:absolute;inset:7px;border-radius:50%;pointer-events:none;
+  background:
+    linear-gradient(rgba(222,212,190,.85),rgba(222,212,190,.85)) 50% 0/4px 12px no-repeat,
+    linear-gradient(rgba(222,212,190,.85),rgba(222,212,190,.85)) 50% 100%/4px 12px no-repeat,
+    linear-gradient(rgba(222,212,190,.85),rgba(222,212,190,.85)) 0 50%/12px 4px no-repeat,
+    linear-gradient(rgba(222,212,190,.85),rgba(222,212,190,.85)) 100% 50%/12px 4px no-repeat}
+#joyknob{position:absolute;left:50%;top:50%;width:60px;height:60px;margin:-30px 0 0 -30px;border-radius:50%;box-sizing:border-box;
+  background:radial-gradient(circle at 38% 34%,#E6DCC6 0,#CDBF9F 55%,#A8996F 100%);
+  border:2px solid rgba(7,8,11,.75);box-shadow:0 0 0 2px rgba(222,212,190,.55),0 4px 10px rgba(0,0,0,.55)}
+/* bigger on a tablet, where the thumb sits further in */
+@media (min-width:700px) and (min-height:700px){
+  #joy{width:156px;height:156px}
+  #joyknob{width:68px;height:68px;margin:-34px 0 0 -34px}
+}
+/* on a tablet the chat and problem buttons sat on top of the joystick: while walking, lift them
+   clear of it (and of the arrow pad and its hide button, when that is chosen) */
+body.touch:not(.ps-phone) #joy:not(.gone)~#bug-btn{bottom:calc(250px + env(safe-area-inset-bottom,0px))}
+body.touch:not(.ps-phone) #joy:not(.gone)~#wc-btn{bottom:calc(300px + env(safe-area-inset-bottom,0px))}
 #tbtns{position:fixed;z-index:15;right:calc(18px + env(safe-area-inset-right,0px));bottom:calc(26px + env(safe-area-inset-bottom,0px));
   display:flex;flex-direction:column;gap:10px;align-items:flex-end}
-#tbtns button{min-width:62px;height:62px;border-radius:31px;padding:0 16px;background:rgba(7,8,11,.62);
-  border:1px solid rgba(201,190,168,.35);color:var(--bone);font-size:15px;touch-action:none}
+#tbtns button{min-width:62px;height:62px;border-radius:31px;padding:0 16px;background:rgba(7,8,11,.7);
+  border:2px solid rgba(222,212,190,.8);color:#E6DCC6;font-size:15px;font-weight:600;touch-action:none;
+  box-shadow:0 0 0 1px rgba(7,8,11,.6),0 3px 10px rgba(0,0,0,.4);text-shadow:0 1px 2px rgba(0,0,0,.6)}
 #t-speak{border-color:var(--ember)!important;color:var(--ember)!important}
 #joy.gone,#tbtns.gone,#tbtns button.gone{display:none}
 
@@ -397,7 +421,8 @@ body{font-family:var(--sans);color:var(--bone);-webkit-font-smoothing:antialiase
 #pdview [data-v="in"]{grid-area:in} #pdview [data-v="out"]{grid-area:out} #pdview [data-v="turn"]{grid-area:turn}
 #pdview [data-v="up"]{grid-area:up} #pdview [data-v="down"]{grid-area:down}
 #pdview [data-v="left"]{grid-area:left} #pdview [data-v="right"]{grid-area:right}
-.pd{background:rgba(7,8,11,.62);border:1px solid var(--line);color:var(--bone);border-radius:14px;
+.pd{background:rgba(7,8,11,.7);border:2px solid rgba(222,212,190,.75);color:#E6DCC6;border-radius:14px;
+  box-shadow:0 0 0 1px rgba(7,8,11,.6),0 3px 10px rgba(0,0,0,.4);
   font-size:18px;font-family:var(--sans);display:flex;align-items:center;justify-content:center;
   -webkit-tap-highlight-color:transparent;backdrop-filter:blur(3px);cursor:pointer;padding:0}
 .pd.on{background:rgba(201,168,104,.28);border-color:var(--gold);color:var(--gold)}

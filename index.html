@@ -1315,7 +1315,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/143-971a063962.js"></script>
 <script src="assets/js/144-a25a3356de.js"></script>
 <script>
-"use strict";(function(){var e={chair:"sit",armchair:"sit",sofa:"sit",benchin:"sit",bench:"sit",pew:"sit",throneseat:"sit",stool:"sit",barstool:"sit",schooldesk:"sit",bed:"lie",bunk:"lie",hospitalbed:"lie"};var t=null,n=null,i=null;function r(){return typeof store!=="undefined"&&store.inside&&typeof INT!=="undefined"&&INT&&INT.root&&typeof walkMode!=="undefined"&&walkMode}function o(){var t=false;try{var n=typeof needsVendorHere==="function"&&needsVendorHere();t=!!(n&&n!=="stall")}catch(e){}var i=camera.position,r=INT.level||0,o=r*(INT.floor||4),a=null,s=t?.95:1.7;INT.root.children.forEach(function(t){var n=t.userData&&t.userData.furn;if(!n||!e[n])return;if(Math.abs(t.position.y-o)>1)return;var r=Math.hypot(i.x-(INT.ox+t.position.x),i.z-(INT.oz+t.position.z));if(r<s){s=r;a=t}});return a}function a(){if(!i)return;camera.position.set(i.back.x,i.back.y,i.back.z);i=null}addEventListener("keydown",function(t){if(document.activeElement&&/TEXTAREA|INPUT/.test(document.activeElement.tagName))return;if(i&&/^(KeyW|KeyA|KeyS|KeyD|ArrowUp|ArrowDown|ArrowLeft|ArrowRight|Space|KeyC)$/.test(t.code)){a();return}if(t.code!=="KeyE"||!r()||i)return;if(typeof nearChar!=="undefined"&&nearChar)return;if(typeof talkOpen!=="undefined"&&talkOpen)return;var n=o();if(!n)return;t.preventDefault();t.stopImmediatePropagation();var s=n.userData.furn,u=e[s],f=camera.position,l=INT.level||0,c=l*(INT.floor||4);i={k:s,how:u,back:{x:f.x,y:f.y,z:f.z},x:INT.ox+n.position.x,z:INT.oz+n.position.z,y:c+(u==="lie"?.95:1.15)};if(typeof setStatus==="function")setStatus(u==="lie"?"<b>You lie down.</b> Any movement key gets you up.":"<b>You sit.</b> Any movement key stands you up.")},true);function s(){try{if(i){if(!r()){i=null}else{camera.position.set(i.x,i.y,i.z)}}else if(r()){var a=o(),u=a&&a.userData.furn;if(u&&t!==a&&!(typeof nearChar!=="undefined"&&nearChar)){t=a;if(n!==a&&typeof setStatus==="function"){n=a;setStatus("<b>"+(e[u]==="lie"?"A bed.":"A seat.")+"</b> Press <b>E</b> to "+(e[u]==="lie"?"lie down":"sit")+".")}}else if(!a)t=null}else{t=null;n=null}}catch(e){}requestAnimationFrame(s)}requestAnimationFrame(s);if(typeof renderView==="function"){var u=renderView;renderView=function(){try{if(i&&r())camera.position.set(i.x,i.y,i.z)}catch(e){}return u.apply(this,arguments)}}})();
+"use strict";
 </script>
 <script src="assets/js/146-c81fa709bd.js"></script>
 <script src="assets/js/147-6b2d197f51.js"></script>
@@ -1596,6 +1596,9 @@ var CW={near:.05,base:0,was:-1};function cwWant(){if(typeof camera==="undefined"
 
 
 <script src="assets/js/327-d3211f751e.js"></script>
+
+
+<script src="assets/js/328-e52b9be5ec.js"></script>
 
 </body>
 </html>

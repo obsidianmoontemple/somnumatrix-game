@@ -1219,7 +1219,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/073-d83dac7ebb.js"></script>
 <script src="assets/js/074-a137c61d24.js"></script>
 <script src="assets/js/075-3c53bb46ec.js"></script>
-<script src="assets/js/076-5e5e81c6b8.js"></script>
+<script src="assets/js/076-31e9235da1.js"></script>
 <script>
 "use strict";var DW_CLOUD={config:{},live:false};var CLOUDKEY="dreamwalker.cloudcfg";function cloudOn(){return typeof DW_CONFIG!=="undefined"&&!!DW_CONFIG.supabaseUrl&&/^sb_publishable_/.test(DW_CONFIG.supabaseKey||"")}function cloudHeaders(){return{apikey:DW_CONFIG.supabaseKey,Authorization:"Bearer "+DW_CONFIG.supabaseKey}}function loadCloudConfig(){try{var e=JSON.parse(localStorage.getItem(CLOUDKEY)||"null");if(e)DW_CLOUD.config=e}catch(e){}if(!cloudOn()||typeof fetch!=="function")return Promise.resolve(DW_CLOUD.config);return fetch(DW_CONFIG.supabaseUrl.replace(/\/+$/,"")+"/rest/v1/app_config?select=key,value",{headers:cloudHeaders()}).then(function(e){if(!e.ok)throw new Error(e.status);return e.json()}).then(function(e){var t={};e.forEach(function(e){t[e.key]=e.value});DW_CLOUD.config=t;DW_CLOUD.live=true;try{localStorage.setItem(CLOUDKEY,JSON.stringify(t))}catch(e){}applyCloud();return t}).catch(function(){return DW_CLOUD.config})}function cloudReleased(e){var t=DW_CLOUD.config.miller_released;return Array.isArray(t)&&t.indexOf(e)>-1}var DEVKEY="dreamwalker.device",APP_VERSION="15";function deviceId(e){var t=null;try{t=localStorage.getItem(DEVKEY)}catch(e){}if(!t&&e){t=typeof crypto!=="undefined"&&crypto.randomUUID?crypto.randomUUID():"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(e){var t=Math.random()*16|0;return(e==="x"?t:t&3|8).toString(16)});try{localStorage.setItem(DEVKEY,t)}catch(e){}}return t}function platformWord(){var e=typeof matchMedia==="function"&&matchMedia("(pointer:coarse)").matches;var t=Math.min(innerWidth||1e3,innerHeight||1e3)<600;return e?t?"phone":"tablet":"computer"}function rpc(e,t){return fetch(DW_CONFIG.supabaseUrl.replace(/\/+$/,"")+"/rest/v1/rpc/"+e,{method:"POST",headers:Object.assign({"Content-Type":"application/json"},cloudHeaders()),body:JSON.stringify(t)})}function checkin(){if(!cloudOn()||typeof fetch!=="function"||DW_TESTING)return;if(cfg().counted===false)return;if(navigator.webdriver||/^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname||"")||location.protocol==="file:")return;var e=deviceId(true);rpc("checkin",{p_id:e,p_platform:platformWord(),p_version:APP_VERSION}).catch(function(){})}function forgetDevice(){var e=deviceId(false);if(!e)return;try{localStorage.removeItem(DEVKEY)}catch(e){}if(cloudOn()&&typeof fetch==="function")rpc("forget_device",{p_id:e}).catch(function(){})}function applyCloud(){var e=DW_CLOUD.config.announcement;if(typeof e==="string"&&e.trim()&&typeof setStatus==="function")setStatus(esc(e.trim()))}
 </script>
@@ -1229,7 +1229,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/081-0e84343df2.js"></script>
 <script src="assets/js/082-62bb5dc4aa.js"></script>
 <script src="assets/js/083-0c5f41dc7f.js"></script>
-<script src="assets/js/084-6b57c32abe.js"></script>
+<script src="assets/js/084-5f11b3c671.js"></script>
 <script src="assets/js/085-905db028be.js"></script>
 <script src="assets/js/086-34457b3826.js"></script>
 <script src="assets/js/087-129f7bfb3d.js"></script>
@@ -1245,7 +1245,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 
 <script src="assets/js/094-6b7278c524.js"></script>
 
-<script src="assets/js/095-7d05d98f9d.js"></script>
+<script src="assets/js/095-342099440d.js"></script>
 
 
 <script>
@@ -1392,7 +1392,7 @@ var CITY_CAR_MODELS={car:1,coupe:1,sportscar:1,roadster:1,taxicab:1,van:1,truck:
 <script src="assets/js/202-9063053682.js"></script>
 <script src="assets/js/203-46adc8980d.js"></script>
 <script src="assets/js/204-bb754e02d3.js"></script>
-<script src="assets/js/205-7f0954f6fc.js"></script>
+<script src="assets/js/205-144d00f883.js"></script>
 <script src="assets/js/206-6e6430fb38.js"></script>
 <script src="assets/js/207-956c9cdd38.js"></script>
 <script src="assets/js/208-54acffdfd1.js"></script>
@@ -1408,7 +1408,7 @@ var CITY_CAR_MODELS={car:1,coupe:1,sportscar:1,roadster:1,taxicab:1,van:1,truck:
 <script src="assets/js/218-91eab051f3.js"></script>
 <script src="assets/js/219-64bd5ec352.js"></script>
 <script src="assets/js/220-a0b6f14d8a.js"></script>
-<script src="assets/js/221-34fd02e75a.js"></script>
+<script src="assets/js/221-b166e610f2.js"></script>
 <script>
 var TGD={n:0};function tgdKeep(){if(!INT||!walkMode||!INT.lifts||!INT.lifts.length||!INT.W||!INT.D)return;if(INT.spec&&INT.spec.archetype&&INT.spec.archetype!=="somnucortower"&&!(typeof STOREYS!=="undefined"&&STOREYS[INT.spec.archetype]>3))return;var e=camera.position,t=INT.W/2-.35,r=INT.D/2-.35,i=e.x-INT.ox,n=e.z-INT.oz;if((INT.level||0)===0&&Math.abs(e.x-INT.exit.x)<1.6&&n>0)return;var T=Math.max(-t,Math.min(t,i)),a=Math.max(-r,Math.min(r,n));if(T!==i||a!==n){e.x=INT.ox+T;e.z=INT.oz+a;TGD.n++}}(function(){if(typeof interiorTick!=="function")return;var e=interiorTick;interiorTick=function(t){var r=e.apply(this,arguments);try{tgdKeep()}catch(e){}return r}})();
 </script>
@@ -1521,7 +1521,7 @@ var SG_ICONS={0:{file:"0.webp?v=13e278c",cols:16,cell:80},1:{file:"1.webp?v=fe1e
 "use strict";var WSF={worlds:{station:1,casino:1,party:1,lounge:1,northpole:1,underdark:1,greenwold:1},min:2.5};(function(){if(typeof PAINT==="undefined"||typeof WORLDS==="undefined")return;PAINT.wsgrain=function(r,t){var e=rng(9157),a=new Float32Array(64*64);for(var s=0;s<a.length;s++)a[s]=e();var n=function(r,t,e){var s=Math.floor(r),n=Math.floor(t),i=r-s,o=t-n;i=i*i*(3-2*i);o=o*o*(3-2*o);var f=(s%e+e)%e,u=(n%e+e)%e,l=(f+1)%e,c=(u+1)%e,w=a[u*64+f],h=a[u*64+l],d=a[c*64+f],g=a[c*64+l];return w+(h-w)*i+(d-w)*o+(w-h-d+g)*i*o};var i=r.createImageData(t,t),o=i.data;for(var f=0;f<t;f++)for(var u=0;u<t;u++){var l=u/t,c=f/t;var w=n(l*4,c*4,4)*.5+n(l*8,c*8,8)*.25+n(l*16,c*16,16)*.15+n(l*32,c*32,32)*.1,h=n(l*64,c*64,64);var d=Math.max(0,Math.min(255,(.84+w*.16+h*.05)*255)),g=(f*t+u)*4;o[g]=o[g+1]=o[g+2]=d;o[g+3]=255}r.putImageData(i,0,0)};if(typeof TILE!=="undefined")TILE.wsgrain=3.5})();function wsfUVs(r,t){var e=r.attributes.position,a=r.attributes.normal,s=r.attributes.uv;if(!e||!a)return false;if(!s){s=new THREE.BufferAttribute(new Float32Array(e.count*2),2);r.setAttribute("uv",s)}for(var n=0;n<e.count;n++){var i=e.getX(n)*t.x,o=e.getY(n)*t.y,f=e.getZ(n)*t.z,u=Math.abs(a.getX(n)),l=Math.abs(a.getY(n)),c=Math.abs(a.getZ(n));if(l>=u&&l>=c)s.setXY(n,i,f);else if(u>=c)s.setXY(n,f,o);else s.setXY(n,i,o)}s.needsUpdate=true;return true}function wsfPlain(r){if(!r||r.map||r.transparent||r.opacity!==undefined&&r.opacity<1)return false;if(!(r.isMeshLambertMaterial||r.isMeshStandardMaterial||r.isMeshPhongMaterial||r.isMeshToonMaterial))return false;if(r.emissive&&r.emissive.r+r.emissive.g+r.emissive.b>.15)return false;if(r.userData&&(r.userData.bwSurf||r.userData.wsfSkip))return false;return true}function wsfDress(r){if(!r||typeof texOf!=="function")return 0;var t=null,e=0,a=new THREE.Box3,s=new THREE.Vector3,n=new THREE.Vector3;r.updateMatrixWorld(true);r.traverse(function(r){if(!r.isMesh||r.isInstancedMesh||r.userData.wsf)return;r.userData.wsf=1;var i=r.material,o=r.geometry;if(Array.isArray(i)||!wsfPlain(i)||!o||!o.attributes)return;if(o.userData.wsf)return;if(!o.boundingBox)o.computeBoundingBox();a.copy(o.boundingBox);a.getSize(s);r.getWorldScale(n);var f=Math.max(s.x*Math.abs(n.x),s.y*Math.abs(n.y),s.z*Math.abs(n.z));if(!(f>=WSF.min))return;var u=s.y*Math.abs(n.y)<.25*f,l={h:0,s:0,l:0};i.color.getHSL(l);var c=u&&l.s>.18&&l.h>.17&&l.h<.45?"grass":u&&l.s>.15&&l.h>.04&&l.h<.14&&l.l<.6?"earth":"wsgrain";var w=c==="wsgrain"?t||(t=texOf("wsgrain")):texOf(c);if(!w)return;if(!wsfUVs(o,{x:Math.abs(n.x)||1,y:Math.abs(n.y)||1,z:Math.abs(n.z)||1}))return;o.userData.wsf=1;i.map=w;if(c!=="wsgrain")i.color.multiplyScalar(255/204);i.needsUpdate=true;e++});return e}(function(){if(typeof worldGo!=="function")return;var r=worldGo;worldGo=function(t,e){var a=r.apply(this,arguments);try{var s=WORLDS[t];if(a&&s&&s.g&&WSF.worlds[t]){wsfDress(s.g);setTimeout(function(){try{if(s.g)wsfDress(s.g)}catch(r){}},4e3)}}catch(r){if(window.console)console.warn("[world surfaces]",t,r)}return a}})();
 </script>
 
-<script src="assets/js/301-b2f2edd02a.js"></script>
+<script src="assets/js/301-17a8d874ac.js"></script>
 
 <script src="assets/js/302-30d866c84c.js"></script>
 <script src="assets/js/303-89dfc43a1d.js"></script>

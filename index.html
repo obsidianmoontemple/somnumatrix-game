@@ -1416,7 +1416,7 @@ var TGD={n:0};function tgdKeep(){if(!INT||!walkMode||!INT.lifts||!INT.lifts.leng
 <script src="assets/js/224-24a964f61c.js"></script>
 <script src="assets/js/225-1daec32ca5.js"></script>
 <script src="assets/js/226-a3f92f91f2.js"></script>
-<script src="assets/js/227-b7031b888d.js"></script>
+<script src="assets/js/227-1142f05ea9.js"></script>
 <script>
 "use strict";(function(){if(typeof THREE==="undefined"||!THREE.Skeleton||!THREE.SkinnedMesh||THREE.Skeleton.prototype.skinOrigin)return;var e=new THREE.Vector3,t=new THREE.Matrix4,n=new THREE.Matrix4,r=new THREE.Matrix4;THREE.Skeleton.prototype.skinOrigin=e;THREE.Skeleton.prototype.update=function(){var r=this.bones,i=this.boneInverses,o=this.boneMatrices,a=t.elements;for(var s=0,d=r.length;s<d;s++){t.multiplyMatrices(r[s]?r[s].matrixWorld:n,i[s]);a[12]-=e.x;a[13]-=e.y;a[14]-=e.z;t.toArray(o,s*16)}if(this.boneTexture)this.boneTexture.needsUpdate=true};var i=THREE.SkinnedMesh.prototype.updateMatrixWorld;THREE.SkinnedMesh.prototype.updateMatrixWorld=function(t){i.call(this,t);if(this.bindMode==="attached")this.bindMatrixInverse.multiply(r.makeTranslation(e.x,e.y,e.z))};function o(t){if(!t||t.skinOrigin)return;t.skinOrigin=1;var n=t.render;t.render=function(t,r){if(r&&typeof camera!=="undefined"&&r===camera){var i=r.position;if(Math.abs(i.x-e.x)>200||Math.abs(i.y-e.y)>200||Math.abs(i.z-e.z)>200)e.set(Math.round(i.x),Math.round(i.y),Math.round(i.z))}return n.apply(this,arguments)}}if(typeof renderer!=="undefined"&&renderer)o(renderer);else if(typeof initWorld==="function"){var a=initWorld;initWorld=function(){var e=a.apply(this,arguments);try{o(renderer)}catch(e){}return e}}})();
 </script>
@@ -1616,13 +1616,16 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/333-2ca5185200.js"></script>
 
 
-<script src="assets/js/334-e4ec9c718e.js"></script>
+<script src="assets/js/334-3581299da3.js"></script>
 
 
 <script src="assets/js/335-162c600b4f.js"></script>
 
 
 <script src="assets/js/336-15e3713683.js"></script>
+
+
+<script src="assets/js/337-25d764faed.js"></script>
 
 </body>
 </html>

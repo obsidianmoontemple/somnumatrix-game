@@ -1207,7 +1207,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/063-0b7ce49e85.js"></script>
 <script src="assets/js/064-28639b53bf.js"></script>
 <script src="assets/js/065-2babd5abdf.js"></script>
-<script src="assets/js/066-a90864c484.js"></script>
+<script src="assets/js/066-48e39301f0.js"></script>
 <script src="assets/js/067-d543485101.js"></script>
 <script>
 "use strict";var NAV_CELL=2,NAV_R=.35,NAV_MAXCELLS=180*180,navQueue=[],NAV_PER_FRAME=6;function navBlocked(a,r){return blockedAt(a,r,0)}function lineClear(a,r,e,t){var n=Math.hypot(e-a,t-r),i=Math.max(1,Math.ceil(n/.8));for(var f=1;f<=i;f++){var u=f/i;if(navBlocked(a+(e-a)*u,r+(t-r)*u))return false}return true}function freeNear(a,r){if(!navBlocked(a,r))return{x:a,z:r};for(var e=1.5;e<60;e+=1.5){for(var t=0;t<12;t++){var n=t*Math.PI/6,i=a+Math.cos(n)*e,f=r+Math.sin(n)*e;if(!navBlocked(i,f))return{x:i,z:f}}}return{x:a,z:r}}function findPath(a,r,e,t){var n=freeNear(e,t);e=n.x;t=n.z;if(lineClear(a,r,e,t))return[{x:e,z:t}];var i=40,f=Math.min(a,e)-i,u=Math.min(r,t)-i,h=Math.max(a,e)+i,o=Math.max(r,t)+i;var v=Math.ceil((h-f)/NAV_CELL),l=Math.ceil((o-u)/NAV_CELL);if(v*l>NAV_MAXCELLS){var s=Math.sqrt(v*l/NAV_MAXCELLS);v=Math.floor(v/s);l=Math.floor(l/s)}var M=(h-f)/v,c=(o-u)/l;function x(a){return f+(a+.5)*M}function A(a){return u+(a+.5)*c}var d=new Uint8Array(v*l),p=new Uint8Array(v*l);function E(a,r){var e=r*v+a;if(!p[e]){p[e]=1;d[e]=navBlocked(x(a),A(r))?1:0}return d[e]}var m=Math.min(v-1,Math.max(0,Math.floor((a-f)/M))),y=Math.min(l-1,Math.max(0,Math.floor((r-u)/c)));var g=Math.min(v-1,Math.max(0,Math.floor((e-f)/M))),w=Math.min(l-1,Math.max(0,Math.floor((t-u)/c)));var z=new Float32Array(v*l).fill(1e9),C=new Int32Array(v*l).fill(-1),L=new Uint8Array(v*l);var k=[[0,m,y]];z[y*v+m]=0;var N=[[1,0,1],[-1,0,1],[0,1,1],[0,-1,1],[1,1,1.414],[1,-1,1.414],[-1,1,1.414],[-1,-1,1.414]],R=false,_=0;while(k.length&&_++<4e4){var V=0;for(var D=1;D<k.length;D++)if(k[D][0]<k[V][0])V=D;var P=k[V];k[V]=k[k.length-1];k.pop();var U=P[1],B=P[2],Q=B*v+U;if(L[Q])continue;L[Q]=1;if(U===g&&B===w){R=true;break}for(var T=0;T<8;T++){var b=U+N[T][0],O=B+N[T][1];if(b<0||O<0||b>=v||O>=l)continue;var F=O*v+b;if(L[F]||E(b,O))continue;if(N[T][2]>1&&(E(U+N[T][0],B)||E(U,B+N[T][1])))continue;var I=z[Q]+N[T][2];if(I<z[F]){z[F]=I;C[F]=Q;k.push([I+Math.hypot(b-g,O-w),b,O])}}}if(!R)return[{x:e,z:t}];var S=[],X=w*v+g;while(X!==-1){S.push({x:x(X%v),z:A(Math.floor(X/v))});X=C[X]}S.reverse();S[S.length-1]={x:e,z:t};var q=[],G={x:a,z:r},Y=0;while(Y<S.length-1){var j=Y+1;for(var H=S.length-1;H>Y;H--)if(lineClear(G.x,G.z,S[H].x,S[H].z)){j=H;break}q.push(S[j]);G=S[j];Y=j}if(!q.length)q.push({x:e,z:t});return q}function walksOnGround(a,r){if(!a||!a.userData||a.userData.drives)return false;if(r&&r.archetype==="dragon"){var e=r.deity&&DEITY[r.deity];var t=e?e.icons:["wings"];if(t.indexOf("wings")>-1&&t.indexOf("sea")===-1)return false}if(r&&typeof CREATURE!=="undefined"&&CREATURE[r.archetype]){var n=CREATURE[r.archetype].kind;if(n==="flyer"||n==="swarm")return false}if(r&&r.archetype==="bird")return false;return true}function wantPath(a){if(navQueue.indexOf(a)===-1)navQueue.push(a)}function navTick(){var a=0;while(navQueue.length&&a<NAV_PER_FRAME){var r=navQueue.shift(),e=meshes[r];if(!e||!e.userData.target)continue;e.userData.path=findPath(e.position.x,e.position.z,e.userData.target.x,e.userData.target.z);a++}}
@@ -1277,7 +1277,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 </script>
 <script src="assets/js/116-9a7be9197e.js"></script>
 <script src="assets/js/117-75f6fd3c87.js"></script>
-<script src="assets/js/118-899829e702.js"></script>
+<script src="assets/js/118-084e3fc91b.js"></script>
 <script src="assets/js/119-608c50ac70.js"></script>
 <script src="assets/js/120-e3175146f9.js"></script>
 <script src="assets/js/121-24b3b4c2b9.js"></script>
@@ -1324,16 +1324,16 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/150-6b82fb7538.js"></script>
 <script src="assets/js/151-4bf6a36362.js"></script>
 <script src="assets/js/152-22550d414c.js"></script>
-<script src="assets/js/153-72e3c30dda.js"></script>
+<script src="assets/js/153-e65e801f41.js"></script>
 <script src="assets/js/154-b2c81b9b48.js"></script>
 <script src="assets/js/155-1423381296.js"></script>
 <script src="assets/js/156-aa0b889beb.js"></script>
 <script src="assets/js/157-11c1883e13.js"></script>
 <script src="assets/js/158-f7635bcbdf.js"></script>
-<script src="assets/js/159-e52eaaa024.js"></script>
-<script src="assets/js/160-12d2006b63.js"></script>
-<script src="assets/js/161-6034e5c91a.js"></script>
-<script src="assets/js/162-ebab739dbd.js"></script>
+<script src="assets/js/159-d771f0f1a9.js"></script>
+<script src="assets/js/160-92b0de3061.js"></script>
+<script src="assets/js/161-181b429039.js"></script>
+<script src="assets/js/162-273b38f87e.js"></script>
 <script src="assets/js/163-5fd216b582.js"></script>
 <script src="assets/js/164-645930a40f.js"></script>
 <script src="assets/js/165-4fcc0fe85b.js"></script>
@@ -1567,7 +1567,7 @@ var SG_ICONS={0:{file:"0.webp?v=13e278c",cols:16,cell:80},1:{file:"1.webp?v=fe1e
 <script src="assets/js/318-3880654417.js"></script>
 
 
-<script src="assets/js/319-375fda690a.js"></script>
+<script src="assets/js/319-764ed08ad0.js"></script>
 
 
 <script src="assets/js/320-c7f44695b8.js"></script>
@@ -1635,6 +1635,9 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 
 
 <script src="assets/js/340-de5ace3776.js"></script>
+
+
+<script src="assets/js/341-bc74e0d4bd.js"></script>
 
 </body>
 </html>

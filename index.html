@@ -1229,7 +1229,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/081-0e84343df2.js"></script>
 <script src="assets/js/082-62bb5dc4aa.js"></script>
 <script src="assets/js/083-0c5f41dc7f.js"></script>
-<script src="assets/js/084-6e05a25619.js"></script>
+<script src="assets/js/084-bd9bc3d3e3.js"></script>
 <script src="assets/js/085-905db028be.js"></script>
 <script src="assets/js/086-34457b3826.js"></script>
 <script src="assets/js/087-129f7bfb3d.js"></script>
@@ -1312,7 +1312,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script>
 "use strict";var LW_WET={water:1,pond:1,koipond:1,moonpool:1,reflectpool:1,frozenlake:1,whirlpool:1,pool:1,lavaflow:1};var LW_WET_OK={pier:1,bridge:1,waterfall:1,kelp:1,coral:1,anemones:1,giantclam:1,shipwreck:1,wreckedship:1,merpalace:1,sunkenruins:1,bubbles:1,waterpalace:1,boat:1,fishingboat:1,ship:1,submarine:1,soulferry:1,reeds:1,lighthouse:0,icespire:1,flood:1,tidalwave:1,treasurechest:1,styx:1,seaserpent:1,kraken:1,mermaid:1,merman:1,siren:1,selkie:1,fish:1,shark:1,whale:1,dolphin:1,seahorse:1,jellyfish:1,octopus:1,eel:1,kelpie:1,turtle:1,frog:1,crab:1,giantworm:0};function lwWet(e){return!!LW_WET[e]}function lwDry(e){var r=KIT[e];if(!r||LW_WET[e]||LW_WET_OK[e])return false;if(r.cat==="being"||r.cat==="vehicle")return false;return true}function lwRadius(e,r){var t=KIT[e]||KIT.house,a=r&&r.s||1;return Math.max(t.size[0],t.size[2])*.5*a}function lwClash(e,r,t,a,s){var l=lwWet(e),o=lwDry(e);if(!l&&!o)return null;var i=lwRadius(e,r)*(l?1.1:.9),n=store.here||0,c=store.objects||[];for(var u=0;u<c.length;u++){var f=c[u];if(!f||f===s||f.filler||f.city||f.hub||(f.realm||0)!==n)continue;if(l?!lwDry(f.archetype)||(KIT[f.archetype]||{}).cat!=="structure"&&lwRadius(f.archetype,f.attrs)<2:!lwWet(f.archetype))continue;var h=lwRadius(f.archetype,f.attrs)*(l?.9:1.1);if(Math.hypot(f.x-t,f.z-a)<i+h)return f}return null}(function(){if(typeof spotFor!=="function")return;var e=spotFor;spotFor=function(r,t,a){var s=e.apply(this,arguments);try{if(!s||!KIT[r]||!lwWet(r)&&!lwDry(r))return s;var l=KIT[r],o=0;while(lwClash(r,a,s.x,s.z)&&o<10&&(l.cat==="structure"||lwWet(r)&&l.size[0]>25)){s=e.call(this,r,null,a);o++}var i=lwClash(r,a,s.x,s.z);if(i){var n=s.x,c=s.z,u=lwRadius(r,a)+lwRadius(i.archetype,i.attrs)+2;for(var f=0;f<24;f++){var h=Math.atan2(c-i.z,n-i.x)+(f%2?1:-1)*Math.floor((f+1)/2)*.5,p=u*(1+Math.floor(f/8)*.5);var w=i.x+Math.cos(h)*p,y=i.z+Math.sin(h)*p;if(!lwClash(r,a,w,y)){s.x=w;s.z=y;break}}}}catch(e){}return s}})();setTimeout(function(){try{if(typeof spotFor!=="function"||!store||!store.objects)return;var e=0;store.objects.slice().forEach(function(r){if(!r||!lwWet(r.archetype)||r.filler||r.city||r.placed||(r.realm||0)!==(store.here||0))return;if(!lwClash(r.archetype,r.attrs,r.x,r.z,r))return;var t=store.objects.indexOf(r);store.objects.splice(t,1);var a=spotFor(r.archetype,null,r.attrs);store.objects.splice(t,0,r);if(a&&!lwClash(r.archetype,r.attrs,a.x,a.z,r)){r.x=a.x;r.z=a.z;if(typeof refresh==="function")refresh(r);e++}});if(e&&typeof save==="function")save()}catch(e){}},6e3);
 </script>
-<script src="assets/js/143-971a063962.js"></script>
+<script src="assets/js/143-dbd2ad128b.js"></script>
 <script src="assets/js/144-a25a3356de.js"></script>
 <script>
 "use strict";
@@ -1439,7 +1439,7 @@ var TGD={n:0};function tgdKeep(){if(!INT||!walkMode||!INT.lifts||!INT.lifts.leng
 <script src="assets/js/241-9353fb0053.js"></script>
 <script src="assets/js/242-a92e4dace1.js"></script>
 <script src="assets/js/243-4592453710.js"></script>
-<script src="assets/js/244-327d49dbc6.js"></script>
+<script src="assets/js/244-29d2786fb1.js"></script>
 <script src="assets/js/245-929405727e.js"></script>
 <script src="assets/js/246-6416a0c4ac.js"></script>
 <script src="assets/js/247-4e1f1e0bcb.js"></script>
@@ -1653,6 +1653,9 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 
 
 <script src="assets/js/346-18df9d6723.js"></script>
+
+
+<script src="assets/js/347-4324d85f8a.js"></script>
 
 </body>
 </html>

@@ -45,3 +45,16 @@ taken from the `hdri/city.exr` file of the npm package `@pmndrs/assets` 1.7.0 (C
 
 Drawn for the game (leaf shapes, veins and twigs placed by a script), with the mottling inside each leaf taken from the ambientCG
 material Grass004 (CC0, above). Stored grey with see-through gaps, so the season's colour still decides the tree's colour.
+
+## The Labyrinth (`maze/`, added 22 October 2026)
+
+Also from **ambientCG** (CC0 1.0), through the same mirror: colour at 1024 pixels (`-1k`, computers) and 512 pixels (phones,
+headsets), and the GL normal map at 512 pixels (`-n`, computers only).
+
+| Labyrinth surface | ambientCG material |
+|---|---|
+| wall (the stone maze) | Rock022 |
+| hedge (the living hedges) | Moss001 |
+| floor (the stone maze's paths) | Ground037 |
+| lawn (the hedge maze's paths) | Grass004 |
+| plaza (the Heart and the Deep) | PavingStones020 |

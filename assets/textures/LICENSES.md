@@ -58,3 +58,21 @@ headsets), and the GL normal map at 512 pixels (`-n`, computers only).
 | floor (the stone maze's paths) | Ground037 |
 | lawn (the hedge maze's paths) | Grass004 |
 | plaza (the Heart and the Deep) | PavingStones020 |
+
+## World Bundle surfaces (`bundles/`, added 24 October 2026)
+
+Also from **ambientCG** (CC0 1.0), the same mirror. Kept in full colour (the game tints them only lightly), with a normal map
+(`_n`, 512 pixels, used on computers only) for real relief. 512 pixels for phones and headsets, 1024 (`-1k`) for computers.
+
+| file | ambientCG material | | file | ambientCG material |
+|---|---|---|---|---|
+| cave | Rock013 | | brass | Metal009 |
+| strata | Rock022 | | iron | Metal024 |
+| ashlar | Bricks008 | | velvet | Fabric002 |
+| limestone | Bricks024 | | quilt | Fabric007 |
+| slate | RoofingTiles002 | | damask | Fabric009 |
+| terracotta | RoofingTiles006 | | cotto | Tiles027 |
+| stucco | PaintedPlaster006 | | darktile | Tiles017 |
+| planks | Planks012 | | checker | Tiles014 |
+| oak | WoodFloor009 | | marble | Marble001 |
+| deck | Planks006 | | moss | Moss001 |

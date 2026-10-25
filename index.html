@@ -1331,8 +1331,8 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/080-c1a7c2fa54.js"></script>
 <script src="assets/js/081-da488ddcba.js"></script>
 <script src="assets/js/082-0e84343df2.js"></script>
-<script src="assets/js/083-62bb5dc4aa.js"></script>
-<script src="assets/js/084-0c5f41dc7f.js"></script>
+<script src="assets/js/083-d5c34889df.js"></script>
+<script src="assets/js/084-dcdf65f95f.js"></script>
 <script src="assets/js/085-bd9bc3d3e3.js"></script>
 <script src="assets/js/086-905db028be.js"></script>
 <script src="assets/js/087-34457b3826.js"></script>
@@ -1407,7 +1407,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/136-1b72ae2fd1.js"></script>
 <script src="assets/js/137-fce336cf97.js"></script>
 <script src="assets/js/138-9c1df722bd.js"></script>
-<script src="assets/js/139-28c653f0d3.js"></script>
+<script src="assets/js/139-6bd24d7e0d.js"></script>
 <script>
 "use strict";(function(){if(typeof KIT==="undefined"||!KIT.cave)return;if(typeof CUSTOM_SHAPE!=="undefined"&&CUSTOM_SHAPE.ell)KIT.cave.parts=[{g:"ell",s:[6.5,4.6,5.5],p:[0,2.2,-1],c:7038300},{g:"ell",s:[3.8,3.2,3.4],p:[-3.6,1.6,.8],c:6182991},{g:"ell",s:[3.4,2.8,3.2],p:[3.8,1.4,.6],c:6511956},{g:"ell",s:[2.6,2.2,2.4],p:[1.2,4.6,-1.6],c:7498593},{g:"ell",s:[1.9,2.3,.9],p:[0,1.2,3.95],c:920587},{g:"ell",s:[.9,.7,.8],p:[-2.8,.5,4.3],c:5722440},{g:"ell",s:[.8,.55,.7],p:[2.9,.4,4.1],c:6182991}];else(KIT.cave.parts||[]).forEach(function(e){if(e.g==="pln"&&e.c==="dark"){e.p=[0,2.4,4.05];e.s=[4.6,4.4]}});var e=6051406,t=4209461;function r(e){return new THREE.MeshLambertMaterial({color:e,flatShading:true})}if(typeof FURN!=="undefined"){FURN.stalagmite=function(){var n=F([P(cone(.45,1.8,7),r(e),0,.9,0),P(cone(.28,1.1,6),r(t),.55,.55,.2),P(cone(.2,.8,6),r(e),-.4,.4,-.25)]);return n};FURN.stalactites=function(){var e=typeof INT_H!=="undefined"?INT_H:3.2;var n=F([]);[[0,0,1.3],[.7,.3,.9],[-.6,-.4,1.1],[.2,-.8,.7]].forEach(function(a){var o=P(cone(.22,a[2],6),r(t),a[0],e-a[2]/2,a[1]);o.rotation.x=Math.PI;n.add(o)});return n};FURN.boulder=function(){return F([P(new THREE.DodecahedronGeometry(.9,0),r(e),0,.6,0),P(new THREE.DodecahedronGeometry(.55,0),r(t),.9,.35,.4)])};FURN.crystals=function(){var e=F([]);[[0,0,1.1,0],[.3,.15,.8,.35],[-.25,.2,.7,-.4],[.1,-.3,.6,.2]].forEach(function(t){var r=P(new THREE.OctahedronGeometry(.18,0),new THREE.MeshBasicMaterial({color:9427184}),t[0],t[2]/2,t[1]);r.scale.set(1,t[2]*2.6,1);r.rotation.z=t[3];e.add(r)});return e};FURN.cavepool=function(){return F([P(new THREE.CylinderGeometry(1.6,1.6,.04,14),new THREE.MeshLambertMaterial({color:1981002,transparent:true,opacity:.85}),0,.03,0)])}}if(typeof SOLIDFURN!=="undefined"){SOLIDFURN.boulder=1;SOLIDFURN.stalagmite=1}if(typeof PLANS!=="undefined")PLANS.cave={mode:"hall",w:14,d:20,fill:"cave",wall:t,floor:"stone"};if(typeof ROOMNAME!=="undefined")ROOMNAME.cave="the cavern";if(typeof fillHall==="function"){var n=fillHall;fillHall=function(e,t,r,a,o){if(e!=="cave")return n.apply(this,arguments);for(var i=-r/2+2;i<r/2-3;i+=3.2){a("boulder",-t/2+1.1,i,i);a("boulder",t/2-1.1,i+1.4,-i)}[[-t/4,-r/4],[t/4,-r/6],[-t/6,r/8],[t/5,r/5],[0,-r/2+2.2]].forEach(function(e,t){a("stalagmite",e[0],e[1],t)});[[-t/5,-r/3],[t/6,0],[0,r/4]].forEach(function(e){a("stalactites",e[0],e[1],0)});a("crystals",-t/2+2.2,-r/2+2,0);a("crystals",t/2-2.4,-r/8,0);a("crystals",-t/2+2.4,r/5,0);a("cavepool",t/6,-r/3,0);o.push({x:0,z:r/6,room:"cavern"})}}function a(e){return!!(e&&(e.archetype==="cave"||KIT[e.archetype]&&KIT[e.archetype].caveLike))}if(typeof enterable==="function"){var o=enterable;enterable=function(e){if(a(e)&&!e.filler)return true;return o.apply(this,arguments)}}if(typeof doorWorld==="function"){var i=doorWorld;doorWorld=function(e){if(!a(e))return i.apply(this,arguments);var t=e.attrs||{},r=t.s||1,n=((KIT[e.archetype]||{}).doorZ||5)*r*(t.d||1)+.6,o=e.rot||0;return{x:e.x+n*Math.sin(o),z:e.z+n*Math.cos(o),out:{x:Math.sin(o),z:Math.cos(o)}}}}if(typeof makeInterior==="function"){var l=makeInterior;makeInterior=function(e){var t=l.apply(this,arguments);if(!a(e)||!t)return t;var n={};(t.winMats||[]).concat(t.winGlints||[]).forEach(function(e){n[e.uuid]=1});t.root.traverse(function(e){if(e.isMesh&&e.material&&n[e.material.uuid])e.visible=false});t.winMats=[];t.winGlints=[];t.lightSpots=[];t.cave=true;var o=t.ceilH||3.2,i=r(3354410);t.root.add(P(box(t.W+.4,.4,t.D+.4),i,0,o+.2,0));return t}}})();
 </script>
@@ -1494,7 +1494,7 @@ var CITY_CAR_MODELS={car:1,coupe:1,sportscar:1,roadster:1,taxicab:1,van:1,truck:
 <script src="assets/js/201-c43b3eab4c.js"></script>
 <script src="assets/js/202-d181204783.js"></script>
 <script src="assets/js/203-9063053682.js"></script>
-<script src="assets/js/204-b97d821a2b.js"></script>
+<script src="assets/js/204-17e5af5fd2.js"></script>
 <script src="assets/js/205-e951c5c7c2.js"></script>
 <script src="assets/js/206-144d00f883.js"></script>
 <script src="assets/js/207-58aaed816a.js"></script>
@@ -1509,8 +1509,8 @@ var CITY_CAR_MODELS={car:1,coupe:1,sportscar:1,roadster:1,taxicab:1,van:1,truck:
 <script src="assets/js/216-f8945df5f8.js"></script>
 <script src="assets/js/217-67a790f861.js"></script>
 <script src="assets/js/218-ccdc9ffba2.js"></script>
-<script src="assets/js/219-91eab051f3.js"></script>
-<script src="assets/js/220-64bd5ec352.js"></script>
+<script src="assets/js/219-f15fa12a91.js"></script>
+<script src="assets/js/220-f2882e2ee9.js"></script>
 <script src="assets/js/221-a0b6f14d8a.js"></script>
 <script src="assets/js/222-b16ae82ad3.js"></script>
 <script>
@@ -1529,7 +1529,7 @@ var TGD={n:0};function tgdKeep(){if(!INT||!walkMode||!INT.lifts||!INT.lifts.leng
 "use strict";var DMENU={ok:false};function dmOpen(){var e=document.getElementById("more");return!!(e&&!e.hasAttribute("hidden"))}function dmShut(){var e=document.getElementById("more"),t=document.getElementById("morebtn");if(!e||e.hasAttribute("hidden"))return;e.setAttribute("hidden","");if(t)t.setAttribute("aria-expanded","false")}function dmBuild(){if(DMENU.ok)return;var e=document.getElementById("more"),t=document.getElementById("morebtn"),n=e&&e.parentNode&&e.parentNode.querySelector(".row");if(!e||!t||!n)return;DMENU.ok=true;var i=document.createElement("style");i.textContent="#scrim .row{position:relative;z-index:5}"+"#scrim #more{position:absolute;z-index:30;right:0;bottom:calc(100% + 8px);margin:0;display:block;"+"width:min(340px,calc(100vw - 32px));max-height:min(62vh,520px);overflow-y:auto;-webkit-overflow-scrolling:touch;"+"padding:10px 10px 6px;border:1px solid rgba(201,190,168,.35);border-radius:12px;background:#0B0B12;isolation:isolate;"+"box-shadow:0 10px 30px rgba(0,0,0,.55)}"+"#scrim #more[hidden]{display:none}"+"#scrim #more .more-g{display:flex;flex-direction:column;align-items:stretch;gap:4px;margin:0 0 10px}"+"#scrim #more .more-h{width:auto;margin:2px 4px 2px}"+"#scrim #more .btn{display:block;width:100%;text-align:left;padding:10px 12px;font-size:14px;background:#14141C}"+"#morebtn .dm-c{display:inline-block;margin-left:6px;font-size:.8em}"+"body.ps-phone:not(.ps-walk) #ps-menu,body.ps-phone:not(.ps-walk) #ps-sheet{display:none!important}"+".dm-tuck{visibility:hidden!important;pointer-events:none!important}";document.head.appendChild(i);n.appendChild(e);var o=document.createElement("div");o.className="more-g";o.innerHTML='<span class="more-h">This dream</span>';["plotbtn","landbtn","setbtn"].forEach(function(e){var t=document.getElementById(e);if(t)o.appendChild(t)});e.insertBefore(o,e.firstChild);t.innerHTML='☰ Menu<span class="dm-c" aria-hidden="true">▾</span>';t.setAttribute("aria-haspopup","true");var r=document.createElement("div");r.className="more-g";r.id="dm-also";e.insertBefore(r,o.nextSibling);t.addEventListener("click",function(){if(!dmOpen())return;var e=typeof psMenuSections==="function"?psMenuSections(false,{noExtras:true}):[],t=0;r.innerHTML="";e.forEach(function(e){var n=document.createElement("span");n.className="more-h";n.textContent=e.t;r.appendChild(n);e.items.forEach(function(e){var n=document.createElement("button");n.type="button";n.className="btn";n.textContent=e.label;n.addEventListener("click",function(){setTimeout(e.run,30)});r.appendChild(n);t++})});r.style.display=t?"":"none"});var a=function(){if(!dmOpen())return;var t=n.getBoundingClientRect().top;e.style.maxHeight=Math.max(150,Math.min(520,t-104))+"px"};t.addEventListener("click",a);window.addEventListener("resize",a);e.addEventListener("click",function(e){var t=e.target&&e.target.closest?e.target.closest("button"):null;if(t)setTimeout(dmShut,0)});document.addEventListener("pointerdown",function(n){if(!dmOpen())return;var i=n.target;if(i&&(i===t||t.contains(i)||e.contains(i)))return;dmShut()},true);document.addEventListener("keydown",function(e){if(e.key==="Escape"&&dmOpen())dmShut()})}function dmTick(){if(typeof psCandidates!=="function")return;var e=!(typeof walkMode!=="undefined"&&walkMode);psCandidates().forEach(function(t){if(t.box.classList.contains("dm-tuck")!==e)t.box.classList.toggle("dm-tuck",e)})}(function(){var e=function(){try{dmBuild()}catch(e){if(window.console)console.warn("[dream-menu]",e)}setInterval(function(){try{dmTick()}catch(e){}},500)};if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",e);else e()})();
 </script>
 <script src="assets/js/232-2ca64922ab.js"></script>
-<script src="assets/js/233-3c4396e08a.js"></script>
+<script src="assets/js/233-936d994fe8.js"></script>
 <script src="assets/js/234-efb637f0a7.js"></script>
 <script>
 "use strict";var FALL={air:false,top:0,gap:0,taint:false,calm:2,last:null,cool:0,here:null,missing:false};function fallEligible(){if(typeof walkMode==="undefined"||!walkMode)return false;if(typeof store==="undefined"||store.inside)return false;if(!(typeof inCityNow==="function"&&inCityNow()))return false;if(typeof canFly!=="undefined"&&canFly)return false;if(typeof DRIVE!=="undefined"&&DRIVE&&DRIVE.on)return false;if(typeof rideArch!=="undefined"&&rideArch)return false;if(typeof riding!=="undefined"&&riding)return false;if(typeof CORP!=="undefined"&&CORP&&CORP.mounted)return false;if(typeof magicRiding!=="undefined"&&magicRiding)return false;if(typeof WLD!=="undefined"&&WLD&&WLD.on)return false;if(typeof HARM!=="undefined"&&HARM.state==="down")return false;return true}function fallFeet(){var e=typeof PW!=="undefined"&&PW&&typeof PW.applied==="number"?PW.applied:0;return camera.position.y-1.72-e}(function(){if(typeof groundTick!=="function")return;var e=groundTick;groundTick=function(t){var a=camera.position,n=a.x,i=a.z,r=fallFeet();var f=e.apply(this,arguments);try{fallWatch(t||0,n,i,r)}catch(e){if(window.console)console.warn("fall-harm:",e)}return f}})();function fallWatch(e,t,a,n){var i=camera.position,r=fallFeet(),f=FALL;if(f.cool>0)f.cool-=e;var o=typeof store!=="undefined"&&store.here||0;var l=!f.last||f.here!==o||Math.hypot(t-f.last.x,a-f.last.z)>4||Math.abs(n-f.last.f)>.3;f.last={x:i.x,z:i.z,f:r};f.here=o;if(l||!fallEligible()){f.air=false;f.calm=1.5;return}if(f.calm>0)f.calm-=e;var u=typeof standFall!=="undefined"&&standFall>0;if(u){if(!f.air){f.air=true;f.top=n;f.gap=0;f.taint=f.calm>0}f.top=Math.max(f.top,n);var s=typeof supportAt==="function"?supportAt(i.x,i.z,n):r;f.gap=Math.max(f.gap,n-s);return}if(!f.air)return;f.air=false;if(f.taint)return;var d=Math.min(f.top-r,f.gap);if(d>=4)fallLanded(Math.round(d*10)/10)}function fallLanded(e){if(FALL.cool>0)return;FALL.cool=3;var t=e<10?e.toFixed(0):Math.round(e);if(!(typeof signedIn==="function"&&signedIn())||FALL.missing||typeof cityRpc!=="function"){setStatus("<b>You fall "+t+" m and land hard.</b> Go gently.");return}cityRpc("fall_hurt",{p_metres:e}).then(function(a){if(!a)return;if(typeof a.hp==="number"&&typeof harmApply==="function"){FALL.quiet=true;try{harmApply({hp:a.hp,state:a.state,recovers_at:a.recovers_at})}finally{FALL.quiet=false}}if(a.ok===false||!a.harm)return;if(a.state==="down"){var n=a.recovers_at&&typeof harmClock==="function"?harmClock(a.recovers_at):"";setStatus("<b>You fall "+t+" m and go down.</b> You are carried to the City Hospital"+(n?" and will be on your feet about "+n:"")+". A physician or a nurse can see to you sooner.")}else if(e>=10){setStatus("<b>You fall "+t+" m and land badly.</b> You are badly hurt: "+a.hp+" of 100. It mends by itself, or the City Hospital can see to you.")}else{setStatus("<b>You fall "+t+" m and land hard.</b> You are hurt: "+a.hp+" of 100. Go gently for a while.")}}).catch(function(e){if(typeof rpcMissing==="function"&&rpcMissing(e))FALL.missing=true;setStatus("<b>You fall "+t+" m and land hard.</b>")})}(function(){if(typeof harmFlash!=="function")return;var e=harmFlash;harmFlash=function(){if(FALL.quiet){if(typeof harmPaint==="function")harmPaint();return}return e.apply(this,arguments)}})();function fallDrop(e){e=Math.max(0,Math.min(200,+e||0));if(!fallEligible())return"Be on foot, out in Somnucor, not flying or riding, first.";var t=camera.position;t.y+=e;if(typeof flyY!=="undefined")flyY=fallFeet();FALL.last={x:t.x,z:t.z,f:fallFeet()};FALL.calm=0;FALL.air=false;FALL.cool=0;return"Falling "+e+" m."}
@@ -1539,8 +1539,8 @@ var TGD={n:0};function tgdKeep(){if(!INT||!walkMode||!INT.lifts||!INT.lifts.leng
 <script src="assets/js/238-554a341a7a.js"></script>
 <script src="assets/js/239-d46bf382ea.js"></script>
 <script src="assets/js/240-57e44fb98f.js"></script>
-<script src="assets/js/241-8f6eef1b26.js"></script>
-<script src="assets/js/242-9353fb0053.js"></script>
+<script src="assets/js/241-ddcbe261fe.js"></script>
+<script src="assets/js/242-509b100e90.js"></script>
 <script src="assets/js/243-a92e4dace1.js"></script>
 <script src="assets/js/244-4592453710.js"></script>
 <script src="assets/js/245-c1feecb012.js"></script>
@@ -1568,7 +1568,7 @@ var TGD={n:0};function tgdKeep(){if(!INT||!walkMode||!INT.lifts||!INT.lifts.leng
 <script src="assets/js/259-568658f75d.js"></script>
 <script src="assets/js/260-5e6fd87124.js"></script>
 <script src="assets/js/261-5ec62ec05f.js"></script>
-<script src="assets/js/262-68e9d2d2a7.js"></script>
+<script src="assets/js/262-f79007aab3.js"></script>
 <script src="assets/js/263-7e1ec9cb25.js"></script>
 <script src="assets/js/264-943e0fe4ef.js"></script>
 <script>
@@ -1597,9 +1597,9 @@ var SG_ICONS={0:{file:"0.webp?v=13e278c",cols:16,cell:80},1:{file:"1.webp?v=fe1e
 <script src="assets/js/280-9c55d8dd09.js"></script>
 <script src="assets/js/281-9fb983e734.js"></script>
 <script src="assets/js/282-3c36d52df5.js"></script>
-<script src="assets/js/283-4794188bc9.js"></script>
+<script src="assets/js/283-8fc27251a8.js"></script>
 <script src="assets/js/284-35464b290c.js"></script>
-<script src="assets/js/285-d4b3661910.js"></script>
+<script src="assets/js/285-7d68f6611b.js"></script>
 <script src="assets/js/286-18c83a2083.js"></script>
 <script src="assets/js/287-e533d71f04.js"></script>
 <script src="assets/js/288-3f2a93b775.js"></script>
@@ -1607,7 +1607,7 @@ var SG_ICONS={0:{file:"0.webp?v=13e278c",cols:16,cell:80},1:{file:"1.webp?v=fe1e
 <script src="assets/js/290-73e7083f57.js"></script>
 <script src="assets/js/291-1a5b652070.js"></script>
 <script src="assets/js/292-4bd3c760bc.js"></script>
-<script src="assets/js/293-c369994a92.js"></script>
+<script src="assets/js/293-cfb18b6dac.js"></script>
 <script src="assets/js/294-5f40fbf8e7.js"></script>
 
 <script src="assets/js/295-04fa79ee9a.js"></script>
@@ -1619,7 +1619,7 @@ var SG_ICONS={0:{file:"0.webp?v=13e278c",cols:16,cell:80},1:{file:"1.webp?v=fe1e
 <script src="assets/js/299-c6de6fed46.js"></script>
 
 
-<script src="assets/js/300-6c544e0244.js"></script>
+<script src="assets/js/300-43a57dd898.js"></script>
 
 <script>
 "use strict";var WSF={worlds:{station:1,casino:1,party:1,lounge:1,northpole:1,underdark:1,greenwold:1},min:2.5};(function(){if(typeof PAINT==="undefined"||typeof WORLDS==="undefined")return;PAINT.wsgrain=function(r,t){var e=rng(9157),a=new Float32Array(64*64);for(var s=0;s<a.length;s++)a[s]=e();var n=function(r,t,e){var s=Math.floor(r),n=Math.floor(t),i=r-s,o=t-n;i=i*i*(3-2*i);o=o*o*(3-2*o);var f=(s%e+e)%e,u=(n%e+e)%e,l=(f+1)%e,c=(u+1)%e,w=a[u*64+f],h=a[u*64+l],d=a[c*64+f],g=a[c*64+l];return w+(h-w)*i+(d-w)*o+(w-h-d+g)*i*o};var i=r.createImageData(t,t),o=i.data;for(var f=0;f<t;f++)for(var u=0;u<t;u++){var l=u/t,c=f/t;var w=n(l*4,c*4,4)*.5+n(l*8,c*8,8)*.25+n(l*16,c*16,16)*.15+n(l*32,c*32,32)*.1,h=n(l*64,c*64,64);var d=Math.max(0,Math.min(255,(.84+w*.16+h*.05)*255)),g=(f*t+u)*4;o[g]=o[g+1]=o[g+2]=d;o[g+3]=255}r.putImageData(i,0,0)};if(typeof TILE!=="undefined")TILE.wsgrain=3.5})();function wsfUVs(r,t){var e=r.attributes.position,a=r.attributes.normal,s=r.attributes.uv;if(!e||!a)return false;if(!s){s=new THREE.BufferAttribute(new Float32Array(e.count*2),2);r.setAttribute("uv",s)}for(var n=0;n<e.count;n++){var i=e.getX(n)*t.x,o=e.getY(n)*t.y,f=e.getZ(n)*t.z,u=Math.abs(a.getX(n)),l=Math.abs(a.getY(n)),c=Math.abs(a.getZ(n));if(l>=u&&l>=c)s.setXY(n,i,f);else if(u>=c)s.setXY(n,f,o);else s.setXY(n,i,o)}s.needsUpdate=true;return true}function wsfPlain(r){if(!r||r.map||r.transparent||r.opacity!==undefined&&r.opacity<1)return false;if(!(r.isMeshLambertMaterial||r.isMeshStandardMaterial||r.isMeshPhongMaterial||r.isMeshToonMaterial))return false;if(r.emissive&&r.emissive.r+r.emissive.g+r.emissive.b>.15)return false;if(r.userData&&(r.userData.bwSurf||r.userData.wsfSkip))return false;return true}function wsfDress(r){if(!r||typeof texOf!=="function")return 0;var t=null,e=0,a=new THREE.Box3,s=new THREE.Vector3,n=new THREE.Vector3;r.updateMatrixWorld(true);r.traverse(function(r){if(!r.isMesh||r.isInstancedMesh||r.userData.wsf)return;r.userData.wsf=1;var i=r.material,o=r.geometry;if(Array.isArray(i)||!wsfPlain(i)||!o||!o.attributes)return;if(o.userData.wsf)return;if(!o.boundingBox)o.computeBoundingBox();a.copy(o.boundingBox);a.getSize(s);r.getWorldScale(n);var f=Math.max(s.x*Math.abs(n.x),s.y*Math.abs(n.y),s.z*Math.abs(n.z));if(!(f>=WSF.min))return;var u=s.y*Math.abs(n.y)<.25*f,l={h:0,s:0,l:0};i.color.getHSL(l);var c=u&&l.s>.18&&l.h>.17&&l.h<.45?"grass":u&&l.s>.15&&l.h>.04&&l.h<.14&&l.l<.6?"earth":"wsgrain";var w=c==="wsgrain"?t||(t=texOf("wsgrain")):texOf(c);if(!w)return;if(!wsfUVs(o,{x:Math.abs(n.x)||1,y:Math.abs(n.y)||1,z:Math.abs(n.z)||1}))return;o.userData.wsf=1;i.map=w;if(c!=="wsgrain")i.color.multiplyScalar(255/204);i.needsUpdate=true;e++});return e}(function(){if(typeof worldGo!=="function")return;var r=worldGo;worldGo=function(t,e){var a=r.apply(this,arguments);try{var s=WORLDS[t];if(a&&s&&s.g&&WSF.worlds[t]){wsfDress(s.g);setTimeout(function(){try{if(s.g)wsfDress(s.g)}catch(r){}},4e3)}}catch(r){if(window.console)console.warn("[world surfaces]",t,r)}return a}})();
@@ -1639,13 +1639,13 @@ var SG_ICONS={0:{file:"0.webp?v=13e278c",cols:16,cell:80},1:{file:"1.webp?v=fe1e
 (function(){var e=null;try{e=new URLSearchParams(location.search)}catch(e){return}var t=e.get("kgo"),o=parseInt(e.get("gihide"),10)||0;if(!t)return;var n=0,i=0,r=false,a=false;function f(e){if(typeof setStatus==="function")try{setStatus(e)}catch(e){}}function c(){try{e.delete("kgo");e.delete("gihide");var t=e.toString().replace(/^play=(&|$)/,"play$1");history.replaceState(null,"",location.pathname+(t?"?"+t:"")+location.hash)}catch(e){}}function l(){return typeof store!=="undefined"&&store&&store.workplaceAt&&Object.keys(store.workplaceAt).length>0&&typeof camera!=="undefined"}function p(){var e=t.split(":")[0],n=t.slice(e.length+1);if(e==="tower"&&typeof ktToTower==="function")ktToTower();else if(e==="ring"&&typeof ktToRing==="function")ktToRing(n);else if(e==="place"&&typeof ktToPlace==="function")ktToPlace(n);else if(e==="family"&&typeof worldGo==="function")worldGo("family",{at:n==="fam"?"fam":"wed"});else if(e==="party"&&typeof worldGo==="function")worldGo("party",n?{at:n}:{});else if(e==="race"&&typeof worldGo==="function")worldGo("race");else if(e==="kids"&&typeof worldGo==="function")worldGo("kidszone");else if(e==="palace"&&typeof pbById==="function"){var i=pbById(n),r=i&&i.id!=="north"&&typeof pbSpec==="function"?pbSpec(i):null;if(r&&typeof ktLand==="function"){var a=pbDoor(r);ktLand(a.x,a.z,r.x,r.z,i.name)}else if(i&&typeof pbGo==="function")pbGo(i.id);else return f("The admin page asked for a place the game does not know.")}else return f("The admin page asked for a place the game does not know.");if(o&&typeof giHideHere==="function")setTimeout(function(){giHideHere(o)},4e3)}function u(){n++;if(n>120){c();return}var e=typeof signedIn==="function"&&signedIn();if(!e){if(n===6)f("Sign in as the Keeper and you will be taken where the admin page asked.");setTimeout(u,1500);return}if(!(typeof amKeeper==="function"&&amKeeper())){if(!r&&i<4&&typeof checkKeeper==="function"){r=true;i++;checkKeeper().then(function(){r=false},function(){r=false})}if(i>=4&&!r){f("Only the Keeper travels this way.");c();return}setTimeout(u,1500);return}if(t.indexOf("family:")!==0&&t.indexOf("party")!==0&&t!=="race"&&t!=="kids"&&t!=="palace:north"&&!l()){if(!a&&typeof toSomnucor==="function"){a=true;try{toSomnucor()}catch(e){}}setTimeout(u,1500);return}c();setTimeout(p,1200)}setTimeout(u,2500)})();
 </script>
 
-<script src="assets/js/308-3514fb53f0.js"></script>
+<script src="assets/js/308-8b0bb46c25.js"></script>
 
 
 <script src="assets/js/309-4b6b345afd.js"></script>
 
 
-<script src="assets/js/310-556b797b2b.js"></script>
+<script src="assets/js/310-bb457c05c9.js"></script>
 
 
 <script src="assets/js/311-2cc13f7449.js"></script>
@@ -1686,7 +1686,7 @@ var SG_ICONS={0:{file:"0.webp?v=13e278c",cols:16,cell:80},1:{file:"1.webp?v=fe1e
 <script src="assets/js/324-25889a6ace.js"></script>
 
 
-<script src="assets/js/325-f1a5092179.js"></script>
+<script src="assets/js/325-e3caa45d17.js"></script>
 
 
 <script>
@@ -1732,13 +1732,13 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/338-e8d6663060.js"></script>
 
 
-<script src="assets/js/339-25d764faed.js"></script>
+<script src="assets/js/339-f7bcc03586.js"></script>
 
 
 <script src="assets/js/340-700717c509.js"></script>
 
 
-<script src="assets/js/341-c0dbedba68.js"></script>
+<script src="assets/js/341-a0f2b3c894.js"></script>
 
 
 <script src="assets/js/342-cd997b48ca.js"></script>
@@ -1771,10 +1771,10 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/351-317202ad1b.js"></script>
 
 
-<script src="assets/js/352-645893e44a.js"></script>
+<script src="assets/js/352-6b80bfaf3f.js"></script>
 
 
-<script src="assets/js/353-22e0cf881e.js"></script>
+<script src="assets/js/353-a6e0056f91.js"></script>
 
 
 <script src="assets/js/354-fe7530446a.js"></script>

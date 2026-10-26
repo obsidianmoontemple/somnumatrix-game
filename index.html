@@ -1818,7 +1818,7 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/366-6f6c46a0bf.js"></script>
 
 
-<script src="assets/js/367-9bd72a7eed.js"></script>
+<script src="assets/js/367-b540e81296.js"></script>
 
 
 <script src="assets/js/368-f1311e8a16.js"></script>
@@ -1842,7 +1842,7 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/374-8015d85120.js"></script>
 
 
-<script src="assets/js/375-0ed503acc9.js"></script>
+<script src="assets/js/375-2ecdc14391.js"></script>
 
 
 <script src="assets/js/376-4d1f0fa0bd.js"></script>
@@ -1858,6 +1858,14 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 
 
 <script src="assets/js/380-cfd8b2ec5f.js"></script>
+
+
+<script>
+"use strict";var PCX={arm:null,at:0,t:null};function pcxBtn(e,t){var n=PCX.arm===e&&Date.now()-PCX.at<5e3,a=document.createElement("button");a.type="button";a.setAttribute("data-pcx",e);a.textContent=n?"Sure? Tap again":t;a.style.cssText=(typeof PH_BTN2==="string"?PH_BTN2:"")+";font-size:12px;padding:5px 10px"+(n?";background:#C0392B;color:#fff":"");a.onclick=function(t){t.stopPropagation();pcxTap(e)};return a}function pcxTap(e){if(PCX.arm!==e||Date.now()-PCX.at>=5e3){PCX.arm=e;PCX.at=Date.now();clearTimeout(PCX.t);PCX.t=setTimeout(function(){if(PCX.arm===e){PCX.arm=null;if(PH.open)phPaint()}},5e3);phPaint();return}PCX.arm=null;clearTimeout(PCX.t);if(e==="msg1"||e==="msgall")pcxServer(e==="msg1"?PH.withId:null);else pcxTown(e==="town1"?FPS.with:null)}function pcxServer(e){phCall("phone_clear",{p_with:e||null}).then(function(t){PH.msg=t&&t.say||"";if(t&&t.ok){if(e){PH.thread={ok:true,messages:[]}}return phCall("phone_inbox").then(function(e){PH.inbox=e;phBadge();phPaint()})}phPaint()}).catch(function(e){var t=String(e&&e.message||e||"");PH.msg=/function|404|PGRST|does not exist/i.test(t)?"Clearing messages opens soon.":t;phPaint()})}function pcxTown(e){if(typeof fpsStore!=="function")return;var t=fpsStore();if(e){if(typeof fpsLeave==="function"&&FPS.with===e){fpsLeave();FPS.with=e}delete t.log[e];t.unread[e]=0;FPS.from=0}else{if(typeof fpsLeave==="function")fpsLeave();t.log={};t.unread={}}if(typeof fpsSave==="function")fpsSave();if(typeof fpsBadge==="function")fpsBadge();PH.msg=e?"Texts cleared.":"All texts cleared.";phPaint()}(function(){if(typeof phPaint!=="function")return;var e=phPaint;phPaint=function(){var t=e.apply(this,arguments);try{var n=document.getElementById("ph-box");if(!n||n.style.display==="none"||!PH.open)return t;var a=n.querySelector(".body");if(!a)return t;if(PH.tab==="msgs"&&PH.withId){var o=n.querySelector("[data-p='back']");if(o&&o.parentNode&&(PH.thread&&PH.thread.messages||[]).length)o.parentNode.appendChild(pcxBtn("msg1","Clear"))}else if(PH.tab==="msgs"){if((PH.inbox&&PH.inbox.threads||[]).length)a.insertBefore(pcxRow(pcxBtn("msgall","Clear all")),a.firstChild)}else if(PH.tab==="town"&&typeof FPS!=="undefined"){var i=typeof fpsStore==="function"?fpsStore():{log:{}};if(FPS.with){var r=n.querySelector("[data-fps='back']");if(r&&r.parentNode&&(i.log[FPS.with]||[]).length)r.parentNode.appendChild(pcxBtn("town1","Clear"))}else if(Object.keys(i.log).some(function(e){return(i.log[e]||[]).length})){a.insertBefore(pcxRow(pcxBtn("townall","Clear all texts")),a.firstChild)}}}catch(e){if(window.console)console.warn("[phone-clear]",e)}return t}})();function pcxRow(e){var t=document.createElement("div");t.style.cssText="display:flex;justify-content:flex-end;margin:2px 0 4px";t.appendChild(e);return t}
+</script>
+
+
+<script src="assets/js/382-b3d113b233.js"></script>
 
 </body>
 </html>

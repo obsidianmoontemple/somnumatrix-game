@@ -1,0 +1,14 @@
+{
+  "name": "White Widow",
+  "short_name": "Widow",
+  "description": "The White Widow, the Keeper's companion for SomnuMatrix.",
+  "start_url": "widow.html",
+  "scope": "widow.html",
+  "display": "standalone",
+  "background_color": "#07080B",
+  "theme_color": "#07080B",
+  "icons": [
+    { "src": "widow-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "widow-512.png", "sizes": "512x512", "type": "image/png" }
+  ]
+}

@@ -1291,7 +1291,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 "use strict";var WAKE_AT=4;function normName(e){return String(e||"").toLowerCase().replace(/^(a|an|the|some)\s+/,"").trim()}function resolveCharacter(e,r,a){var n=normName(r)||e;for(var t=0;t<store.characters.length;t++){var i=store.characters[t];if(i.archetype!==e)continue;if(normName(i.name)===n||i.aka.indexOf(n)>-1){noteDetail(i,n,a);return i}}return newCharacter(e,r,a,n)}var NOT_SOMEONE={car:1,truck:1,bus:1,bicycle:1,train:1,boat:1,ship:1,plane:1,hotairballoon:1,dog:1,cat:1,horse:1,bird:1,crowd:0};function isSomeone(e){if(!e)return false;var r=e.archetype;if(NOT_SOMEONE[r])return false;if(typeof CREATURE!=="undefined"&&CREATURE[r]){var a=CREATURE[r].kind;return a==="folk"}return true}function canSpeakTo(e){return isSomeone(e)||e.awake&&e.src&&e.src.name==="stated"}function newCharacter(e,r,a,n){n=n||normName(r)||e;var t={id:uid(),archetype:e,name:r||e,aka:[n],details:[],sessions:[store.session],awake:false,log:[],objId:null,x:0,z:0,primary:true,src:{name:"stated"},role:null,shift:null,routine:null,home:null,work:null,anchor:null,born:(new Date).toISOString().slice(0,10)};seedDetails(t,a);store.characters.push(t);return t}function seedDetails(e,r){var a=r||{};if(a.s&&a.s>1.4)addDetail(e,"larger than they should be");if(a.s&&a.s<.7)addDetail(e,"small, smaller than expected");if(a.h&&a.h>1.5)addDetail(e,"unusually tall");if(a.c!==undefined)addDetail(e,"coloured "+("#"+("000000"+a.c.toString(16)).slice(-6)))}function addDetail(e,r){r=String(r).trim();if(!r||e.details.indexOf(r)>-1)return false;e.details.push(r);return true}function noteDetail(e,r,a){if(r&&e.aka.indexOf(r)===-1)e.aka.push(r);if(e.sessions.indexOf(store.session)===-1)e.sessions.push(store.session);seedDetails(e,a);checkWake(e)}function feedContext(e){if(!e)return;var r=e.toLowerCase();store.characters.forEach(function(a){if(a.primary===false)return;var n=a.aka.some(function(e){return e&&r.indexOf(e)>-1});if(!n)return;var t=/[^.!?]+[.!?]?/g,i;while(i=t.exec(e)){var s=i[0],o=s.toLowerCase();if(!a.aka.some(function(e){return e&&o.indexOf(e)>-1}))continue;var c=s.replace(/[.!?]$/,"").trim();if(c.length>8&&c.length<220)addDetail(a,c)}if(a.sessions.indexOf(store.session)===-1)a.sessions.push(store.session);checkWake(a)});if(typeof nightmareScan==="function")nightmareScan(e);if(typeof insideScan==="function")insideScan(e)}function awareness(e){return Math.min(1,(e.details.length+(e.sessions.length-1)*2)/WAKE_AT)}function checkWake(e){if(e.awake)return false;if(awareness(e)<1)return false;e.awake=true;var r=e.objId?specById(e.objId):null;if(r){r.solid=true;refresh(r)}setStatus("<b>"+esc(e.name)+" has become aware of you.</b>");save();return true}function charOf(e){if(!e||!e.charId)return null;for(var r=0;r<store.characters.length;r++)if(store.characters[r].id===e.charId)return store.characters[r];return null}function awakeNear(e,r){var a=null,n=r*r;for(var t=0;t<store.characters.length;t++){var i=store.characters[t];if(!i.objId)continue;if(i.visible===false)continue;if(!canSpeakTo(i))continue;if(store.inside&&typeof INT!=="undefined"&&INT&&i.insideAt===INT.spec.id&&(i.onLevel||0)!==(INT.level||0))continue;var s=i.x-e.x,o=i.z-e.z,c=s*s+o*o;var u=i.deity&&DEITY[i.deity]&&DEITY[i.deity].dragon;if(u)c=Math.max(0,c-45*45+r*r);if(c<n){n=c;a=i}}return a}
 </script>
 <script src="assets/js/050-0d77377a6c.js"></script>
-<script src="assets/js/051-2e89acc060.js"></script>
+<script src="assets/js/051-6397be0d1b.js"></script>
 <script src="assets/js/052-a31fec8032.js"></script>
 <script src="assets/js/053-fc5f7e4fcb.js"></script>
 <script>
@@ -1354,7 +1354,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 
 <script src="assets/js/096-6b7278c524.js"></script>
 
-<script src="assets/js/097-52583dcb65.js"></script>
+<script src="assets/js/097-833e45011b.js"></script>
 
 
 <script>
@@ -1399,7 +1399,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/128-f29100d6e0.js"></script>
 <script src="assets/js/129-3e187c81ac.js"></script>
 <script src="assets/js/130-6e2b7d7d33.js"></script>
-<script src="assets/js/131-25f7a93862.js"></script>
+<script src="assets/js/131-597427de68.js"></script>
 <script src="assets/js/132-9684a63a5e.js"></script>
 <script>
 "use strict";var ROOMS_HD={bed:"bed",sofa:"sofa",armchair:"armchair",table:"diningtable",chair:"chair",bookshelf:"bookshelf",lamp:"floorlamp",stove:"stove",counter:"kitchencounter",fridge:"fridge",sink:"sink",bathtub:"bathtub",desk:"desk",rug:"rug",chandelier:"chandelier",shelfgoods:"shopshelf",till:"cashregister",crates:"crates",barrel:"barrel",plant:"pottedplant",tv:"tv",toilet:"toilet",displaycase:"displaycase",lectern:"lectern",cauldron:"cauldron"};function roomsHdEntries(t){if(!t||!t.a||t.__rooms)return;t.__rooms=1;Object.keys(ROOMS_HD).forEach(function(e){var r=t.a[ROOMS_HD[e]];if(!r)return;var a={};Object.keys(r).forEach(function(t){a[t]=r[t]});a.all=true;a.t=0;if(!a.fit)a.fit="stretch";t.a["furn:"+e]=a})}(function(){if(typeof modelsManifest!=="function")return;var t=modelsManifest;modelsManifest=function(e){return t(function(t){try{roomsHdEntries(t)}catch(t){}e(t)})}})();(function(){if(typeof FURN!=="object"||!FURN||typeof modelDress!=="function")return;var t=0;Object.keys(ROOMS_HD).forEach(function(e){var r=FURN[e];if(typeof r!=="function")return;FURN[e]=function(){var a=r.apply(this,arguments);try{if(a&&a.isObject3D){a.userData.kitKids=a.children.slice();modelDress(a,{archetype:"furn:"+e,id:e+":"+t++,attrs:{},solid:true,placed:true})}}catch(t){}return a}})})();
@@ -1514,7 +1514,7 @@ var CITY_CAR_MODELS={car:1,coupe:1,sportscar:1,roadster:1,taxicab:1,van:1,truck:
 <script src="assets/js/217-f8945df5f8.js"></script>
 <script src="assets/js/218-67a790f861.js"></script>
 <script src="assets/js/219-ccdc9ffba2.js"></script>
-<script src="assets/js/220-f15fa12a91.js"></script>
+<script src="assets/js/220-8da1c64a6d.js"></script>
 <script src="assets/js/221-f2882e2ee9.js"></script>
 <script src="assets/js/222-a0b6f14d8a.js"></script>
 <script src="assets/js/223-b16ae82ad3.js"></script>
@@ -1866,6 +1866,12 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 
 
 <script src="assets/js/382-b3d113b233.js"></script>
+
+
+<script src="assets/js/383-0579d267d2.js"></script>
+
+
+<script src="assets/js/384-7840726433.js"></script>
 
 </body>
 </html>

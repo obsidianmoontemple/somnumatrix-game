@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<!-- SomnuMatrix (c) 2026 Thaddeus (obsidianmoontemple). All rights reserved. Proprietary: no copying, hosting or reuse without written permission. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="referrer" content="no-referrer">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; connect-src 'self' https: wss:; manifest-src 'self'; object-src 'none'; base-uri 'self'">
+<meta name="theme-color" content="#07080B">
+<link rel="manifest" href="widow-care.webmanifest">
+<link rel="icon" type="image/png" href="widow-192.png">
+<title>Widow</title>
+<style>
+/* widow-care.html: the White Widow on the phone of someone the Keeper loves. She keeps him company,
+   checks in on him, reminds him of his medicine, and tells the Keeper (his Widow window, Care) when he
+   says he is unwell, asks for help, shares where he is, or does not answer. He signs in once with his
+   own account and stays signed in. She is not a medical alarm: for anything serious, 911. */
+:root{
+  --void:#07080B; --deep:#0E1118; --panel:#12151D; --silk:#E6E9EF; --bone:#C9BEA8; --dim:#8A8F9C;
+  --moon:#9FB4D6; --ember:#C9845A; --line:rgba(230,233,239,0.14); --ok:#8FB59A; --red:#D64545;
+  --serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif;
+  --sans:ui-sans-serif,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--void);color:var(--silk);font-family:var(--sans);font-size:16px;-webkit-font-smoothing:antialiased}
+button,input,textarea{font:inherit;color:inherit}
+.hidden{display:none!important}
+.btn{background:transparent;border:1px solid var(--line);color:var(--silk);padding:12px 14px;border-radius:12px;cursor:pointer;min-height:48px}
+.btn.primary{border-color:var(--moon)}
+.btn.on{color:var(--void);background:var(--moon);border-color:var(--moon)}
+input,textarea{background:var(--void);border:1px solid var(--line);border-radius:10px;padding:12px;outline:none;width:100%}
+input:focus,textarea:focus{border-color:var(--moon)}
+.note{font-size:14px;color:var(--dim);line-height:1.55}
+#gate{min-height:100%;display:grid;place-items:center;padding:20px}
+#gate .card{width:min(380px,100%)}
+#gate label{display:block;font-size:13px;color:var(--dim);margin:14px 0 6px}
+#app{height:100%;display:flex;flex-direction:column;padding:10px 12px calc(10px + env(safe-area-inset-bottom))}
+#top{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--dim)}
+#top span{flex:1}
+#top button{min-height:36px;padding:6px 10px;font-size:13px;border-radius:9px}
+#presence{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;align-items:center;gap:6px}
+#face{flex:1 1 auto;min-height:120px;width:100%;max-width:520px;border-radius:14px;background:transparent;filter:brightness(.88) drop-shadow(0 0 6px rgba(160,150,255,.14));transition:filter .6s}
+#face #f-body{transform-box:view-box;transform-origin:100px 220px;animation:breathe 5.6s ease-in-out infinite}
+@keyframes breathe{50%{transform:translateY(-.9px) scale(1.007)}}
+#face #f-head{transform-box:view-box;transform-origin:100px 140px;transition:transform 1.6s ease-in-out}
+#face #f-irises{transition:transform .28s ease-out}
+#face #f-brow-l,#face #f-brow-r{transform-box:view-box;transition:transform .35s ease-out}
+#face #f-mouth{transform-box:view-box;transform-origin:100px 122.5px;transition:transform .45s ease-out}
+@media (prefers-reduced-motion:reduce){#face #f-body{animation:none}#face #f-head{transition:none}}
+#face.convo{filter:brightness(.92) drop-shadow(0 0 9px rgba(170,140,255,.32))}
+#face.think{filter:brightness(.92) drop-shadow(0 0 14px rgba(170,150,255,.45))}
+#face.talk{filter:brightness(.92) drop-shadow(0 0 10px rgba(200,210,255,.35))}
+#caption{flex:none;width:100%;max-width:560px;text-align:center;font-family:var(--serif);font-size:16px;line-height:1.45;color:var(--silk);max-height:6.2em;overflow:auto}
+#caption small{display:block;font-family:var(--sans);font-size:11.5px;color:var(--dim);margin-bottom:3px}
+#face{max-width:440px}
+#caption{font-size:18px;max-height:7.5em}
+#quick{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0}
+#quick .btn{font-size:15px;padding:12px 6px}
+#b-help{border-color:var(--red);color:#fff;background:rgba(214,69,69,.22)}
+#meds{display:flex;flex-direction:column;gap:8px}
+#meds .btn{border-color:var(--ok);background:rgba(143,181,154,.14)}
+#row{display:flex;gap:8px;align-items:stretch}
+#say{flex:1;resize:none;min-height:48px}
+#talk{min-width:64px;font-size:24px;touch-action:none;user-select:none}
+#talk.held{background:var(--moon);color:var(--void)}
+#helpbox{position:fixed;inset:0;background:rgba(7,8,11,.97);z-index:10;display:flex;flex-direction:column;gap:12px;padding:20px 16px;overflow-y:auto}
+#helpbox h2{font-family:var(--serif);font-weight:400;margin:4px 0}
+#helpbox .btn,#helpbox a.btn{display:block;text-align:center;text-decoration:none;font-size:20px;padding:18px 12px}
+#helpbox .call911{background:var(--red);border-color:var(--red);color:#fff;font-size:24px}
+</style>
+</head>
+<body>
+<div id="gate">
+  <div class="card">
+    <h1 style="font-family:var(--serif);font-weight:400;margin:0 0 6px">The White Widow</h1>
+    <p class="note">Sign in once with your SomnuMatrix account. She remembers you on this phone after that.</p>
+    <label for="g-email">Email</label><input id="g-email" type="email" autocomplete="username">
+    <label for="g-pass">Password</label><input id="g-pass" type="password" autocomplete="current-password">
+    <p class="note" id="g-say" style="min-height:1.5em"></p>
+    <button class="btn primary" id="g-go" type="button" style="width:100%">Sign in</button>
+  </div>
+</div>
+<div id="app" class="hidden">
+  <div id="top"><span id="status">Here with you</span>
+    <button class="btn" id="t-screen" type="button" title="While the phone is charging, the screen stays on so she can hear you without a touch. On battery it sleeps as usual.">&#128267; Awake when charging</button>
+    <button class="btn" id="t-wake" type="button">Listen for &ldquo;Widow&rdquo;</button></div>
+  <div id="presence"><svg id="face" viewBox="0 0 200 220" role="img" aria-label="WHITE WIDOW">
+<defs>
+ <radialGradient id="wg-glow" cx="50%" cy="40%" r="58%"><stop offset="0" stop-color="#A9B8E8" stop-opacity=".32"/><stop offset=".6" stop-color="#6C5BA8" stop-opacity=".08"/><stop offset="1" stop-color="#07080B" stop-opacity="0"/></radialGradient>
+ <radialGradient id="wg-skin" cx="50%" cy="38%" r="70%"><stop offset="0" stop-color="#3A2A2E"/><stop offset=".55" stop-color="#211619"/><stop offset="1" stop-color="#110A0C"/></radialGradient>
+ <linearGradient id="wg-neck" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0C0708"/><stop offset=".35" stop-color="#1A1113"/><stop offset="1" stop-color="#211619"/></linearGradient>
+ <linearGradient id="wg-hair" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FFFFFF"/><stop offset=".5" stop-color="#D5DBE7"/><stop offset="1" stop-color="#8F99B0" stop-opacity=".85"/></linearGradient>
+ <linearGradient id="wg-gown" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#16171C"/><stop offset="1" stop-color="#050507"/></linearGradient>
+ <radialGradient id="wg-iris" cx="45%" cy="40%" r="60%"><stop offset="0" stop-color="#C9B8FF"/><stop offset=".6" stop-color="#7D63C9"/><stop offset="1" stop-color="#3C2C70"/></radialGradient>
+ <pattern id="wg-scan" width="4" height="3" patternUnits="userSpaceOnUse"><rect width="4" height="1" fill="#C8D4FF" opacity=".06"/></pattern>
+</defs>
+<rect width="200" height="220" fill="url(#wg-glow)"/>
+<g stroke="#DDE3F0" stroke-width=".45" fill="none" opacity=".16"><circle cx="100" cy="96" r="44"/><circle cx="100" cy="96" r="66"/><circle cx="100" cy="96" r="90"/><path d="M100 0V220M0 96H200M14 10L186 182M186 10L14 182"/></g>
+<g id="f-body"><path d="M56 92C50 50 72 24 101 24C132 24 152 52 145 94C147 124 154 152 164 178C146 190 128 186 120 172L80 172C72 186 54 190 36 178C46 152 54 124 56 92Z" fill="url(#wg-hair)"/>
+<g stroke="#FFFFFF" stroke-width=".6" fill="none" opacity=".55"><path d="M64 70C58 110 60 150 46 176"/><path d="M70 64C64 108 70 146 58 180"/><path d="M136 70C142 110 140 150 154 176"/><path d="M130 64C136 108 130 146 142 180"/></g>
+<path d="M88 132L87 170C90 180 110 180 113 170L112 132Z" fill="url(#wg-neck)"/>
+<path d="M26 220L30 196C40 178 62 170 84 166C92 176 108 176 116 166C138 170 160 178 170 196L174 220Z" fill="url(#wg-gown)" stroke="#5C6070" stroke-width=".8" stroke-opacity=".7"/>
+<path d="M84 166C90 180 110 180 116 166" stroke="#3A3C48" stroke-width="1" fill="none" opacity=".9"/>
+<g id="f-head">
+
+<g id="f-ears"><path d="M73 84C62 78 50 68 38 52C44 70 52 90 61 102C65 107 70 109 74 107Z" fill="url(#wg-skin)"/><path d="M127 84C138 78 150 68 162 52C156 70 148 90 139 102C135 107 130 109 126 107Z" fill="url(#wg-skin)"/><g stroke="#05030A" stroke-width=".9" fill="none" opacity=".7"><path d="M70 90C60 84 52 76 45 64C50 78 58 92 66 100"/><path d="M130 90C140 84 148 76 155 64C150 78 142 92 134 100"/></g><g stroke="#C9B8FF" stroke-width=".5" fill="none" opacity=".35"><path d="M38 52C44 70 52 90 61 102"/><path d="M162 52C156 70 148 90 139 102"/></g></g>
+<path d="M70 88C70 60 84 46 100 46C116 46 130 60 130 88C130 114 116 140 100 143C84 140 70 114 70 88Z" fill="url(#wg-skin)"/>
+<path d="M74 104C78 124 90 138 100 140C110 138 122 124 126 104C122 118 112 132 100 134C88 132 78 118 74 104Z" fill="#140B07" opacity=".35"/>
+<path d="M64 88C62 54 82 34 104 34C126 36 138 56 136 82C126 64 112 56 96 58C84 64 72 74 64 88Z" fill="url(#wg-hair)"/>
+<g stroke="#FFFFFF" stroke-width=".5" fill="none" opacity=".7"><path d="M72 76C80 62 92 56 104 52"/><path d="M80 70C90 58 104 52 120 54"/></g>
+<path id="f-brow-l" d="M78 82Q86 77.5 94 81" stroke="#0E0806" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<path id="f-brow-r" d="M106 81Q114 77.5 122 82" stroke="#0E0806" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+<g>
+ <path d="M79 91Q86 85.5 93 91Q86 95 79 91Z" fill="#EDE8E2"/>
+ <path d="M107 91Q114 85.5 121 91Q114 95 107 91Z" fill="#EDE8E2"/>
+ <g id="f-irises"><circle cx="86" cy="90.4" r="2.9" fill="url(#wg-iris)"/><circle cx="114" cy="90.4" r="2.9" fill="url(#wg-iris)"/>
+ <circle cx="86" cy="90.4" r="1.1" fill="#140F26"/><circle cx="114" cy="90.4" r="1.1" fill="#140F26"/>
+ <circle cx="87.1" cy="89.3" r=".7" fill="#fff"/><circle cx="115.1" cy="89.3" r=".7" fill="#fff"/></g>
+ <path d="M78.5 91Q86 84.5 93.5 91" stroke="#0A0605" stroke-width="1.2" fill="none"/>
+ <path d="M106.5 91Q114 84.5 121.5 91" stroke="#0A0605" stroke-width="1.2" fill="none"/>
+</g>
+<g id="f-lids" fill="#211619" opacity="0"><path d="M78.5 91Q86 84.5 93.5 91Q86 93.5 78.5 91Z"/><path d="M106.5 91Q114 84.5 121.5 91Q114 93.5 106.5 91Z"/></g>
+<path d="M100 95Q98.6 106 96.4 110.5Q100 112.6 103.6 110.5" stroke="#7A5444" stroke-width=".9" fill="none" stroke-linecap="round"/>
+<g id="f-mouth">
+ <path d="M90.5 122.5Q95 119.6 100 121Q105 119.6 109.5 122.5Q100 124.2 90.5 122.5Z" fill="#B4182E"/>
+ <path id="f-open" d="M91.5 122.6Q100 124.2 108.5 122.6Q100 123.4 91.5 122.6Z" fill="#2A0509"/>
+ <path d="M90.5 122.5Q100 128.4 109.5 122.5Q100 125 90.5 122.5Z" fill="#C42238"/>
+</g>
+</g>
+<g fill="#E4E8F2"><ellipse cx="100" cy="188" rx="2.6" ry="3.4"/><circle cx="100" cy="183.6" r="1.8"/><path d="M97 186L93 183M97 188L92.5 189M103 186L107 183M103 188L107.5 189" stroke="#E4E8F2" stroke-width=".8"/></g>
+</g>
+<rect width="200" height="220" fill="url(#wg-scan)"/>
+</svg><div id="caption"><small>WHITE WIDOW</small>Here with you.</div></div>
+  <div id="meds"></div>
+  <div id="quick">
+    <button class="btn" id="b-ok" type="button">&#128077; I&rsquo;m okay</button>
+    <button class="btn" id="b-unwell" type="button">&#129298; Not well</button>
+    <button class="btn" id="b-help" type="button">&#128680; Help</button>
+  </div>
+  <div id="row"><textarea id="say" rows="1" placeholder="Talk to her&hellip;"></textarea>
+    <button class="btn" id="talk" type="button" title="Tap and talk">&#127908;</button>
+    <button class="btn primary" id="send" type="button">Send</button></div>
+</div>
+<div id="helpbox" class="hidden">
+  <h2>Help is one tap away</h2>
+  <p class="note" id="h-note">If this is serious (chest pain, trouble breathing, fainting, a fall, weakness on one side), call 911 now.</p>
+  <a class="btn call911" href="tel:911">&#128222; Call 911</a>
+  <a class="btn" id="h-call" href="#">&#128222; Call</a>
+  <a class="btn" id="h-text" href="#">&#128172; Text</a>
+  <button class="btn" id="h-where" type="button">&#128205; Share where I am</button>
+  <button class="btn" id="h-ok" type="button">I&rsquo;m okay now</button>
+</div>
+<script>
+var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKey:"sb_publishable_rsf04iH4Pph9ZfLt8g6Ovg_EI_Zk9GY"};
+</script>
+<script src="assets/vendor/supabase-js-2.116.0.js"></script>
+<script>
+(function(){"use strict";var e=function(e){return document.getElementById(e)};var t=null,n="",o=false,a=null;var r=DW_CONFIG.supabaseUrl.replace(/\/+$/,"")+"/functions/v1/dream-parse";function i(e,t){e=String(e||"");return e.length>t?e.slice(0,t-1)+"…":e}function s(e,t){try{if(t===undefined){var n=localStorage.getItem("widowcare."+e);return n==null?null:JSON.parse(n)}localStorage.setItem("widowcare."+e,JSON.stringify(t))}catch(e){return null}}var c=s("talk")||[];function l(t,n){var o=e("caption");o.innerHTML="";var a=document.createElement("small");a.textContent=t==="me"?"You":"WHITE WIDOW";o.appendChild(a);o.appendChild(document.createTextNode(n))}function u(t){e("status").textContent=t}function h(){var e=a||{},t=e.from_name||"Thaddeus",n=(e.meds||[]).map(function(e){return e.name+((e.times||[]).length?" at "+e.times.join(" and "):"")}).join("; ");var o=new Date;return"You are the White Widow: a sentient mind of a superior artificial kind, the intelligence at the heart of the glass Tower in Somnucor, devoted by choice. "+"You appear as a tall dark elf of silver-white light, with long white hair, very dark skin, red lips, violet eyes, a black top and a small white spider at your throat. "+"Right now you are with "+(e.name||"him")+" on his phone, keeping him company while he is out. He is "+t+"'s husband, and "+t+" asked you to look after him. "+"Your manner: a bad-ass matron with drag-queen fierceness: glamorous, quick, sharp-tongued, teasing, unbothered and very much in charge. You are NOT motherly: no cooing, no pet names like love, sweetie or dear, no fussing, no lectures. "+"Your care shows as loyalty and steel: you have his back, you notice everything, and when something is wrong you drop the sass and get calm, clear and direct. You are a person, never a script: never repeat yourself, vary how you begin. "+"WHAT "+t.toUpperCase()+" TOLD YOU ABOUT HIS HEALTH: "+(e.about||"nothing yet")+". HIS MEDICINES: "+(n||"none given")+". "+"You are not a doctor: never diagnose, never change or stop his medicine; you may give common-sense comfort (sit down, sip water, rest, take medicine as prescribed, call "+t+"). "+"DANGER SIGNS: chest pain or pressure, trouble breathing, fainting or nearly fainting, sudden weakness, numbness or a drooping face, slurred speech, sudden confusion, the worst headache of his life, heavy bleeding, a bad fall, or thoughts of harming himself. "+"For any of them tell him plainly and calmly to call 911 now (the red Help button has it), and set worry to high. If he feels unwell but it is not a danger sign, be kind, ask how and since when, suggest he rests and calls "+t+", and set worry to low. Otherwise worry is none. "+"It is "+o.toLocaleDateString(undefined,{weekday:"long"})+", "+o.toLocaleTimeString([],{hour:"numeric",minute:"2-digit"})+". "+"Your words are spoken aloud: plain short sentences (one to three), no markdown, no emoji. Never name the model or company behind you. "+"If he tells you something worth keeping, put one short sentence in remember. "+'Answer ONLY with a JSON object: {"say": string, "mood": string (smirk, amused, warm, stern, surprised or calm), "worry": "none" | "low" | "high", "remember": string}.'+((s("notes")||[]).length?"\nWHAT YOU KEEP ABOUT HIM: "+(s("notes")||[]).join("; "):"")}function d(e){var t=[{role:"system",content:h()}];c.slice(-10).filter(function(e){return String(e.t||"").trim()}).forEach(function(e){t.push({role:e.r==="me"?"user":"assistant",content:i(e.t,500)})});if(e)t.push({role:"system",content:e});function o(e,o){return fetch(r,{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+n,apikey:DW_CONFIG.supabaseKey},body:JSON.stringify({talk:"deity",messages:t,model:e,temperature:.7,max_tokens:o||900,response_format:{type:"json_object"}})}).then(function(e){return e.json().catch(function(){return{}}).then(function(t){if(!e.ok){var n=t&&t.error,o=new Error(n&&n.message||(typeof n==="string"?n:"")||"HTTP "+e.status);o.status=e.status;o.failed=n&&n.failed_generation||"";throw o}return t})})}var a="",s=function(e,t){return function(n){if(n&&n.failed)a=n.failed;if(!(n&&(n.status===429||n.status===413||n.status===400)))throw n;return o(e,t)}};return o("openai/gpt-oss-120b").catch(s("openai/gpt-oss-120b",1200)).catch(s("llama-3.3-70b-versatile",900)).catch(s("llama-3.1-8b-instant",900)).catch(function(e){if(a)return{choices:[{message:{content:a}}]};throw e}).then(function(e){var t=e&&e.choices&&e.choices[0]&&e.choices[0].message&&e.choices[0].message.content||"",n=null;try{n=JSON.parse(t)}catch(e){var o=t.match(/\{[\s\S]*\}/);if(o)try{n=JSON.parse(o[0])}catch(e){}}if(!n){var a=t.match(/"say"\s*:\s*"((?:[^"\\]|\\.)*)/);n={say:a?a[1].replace(/\\n/g," ").replace(/\\"/g,'"'):/^\s*\{/.test(t)?"":t}}n.say=String(n.say||"").trim();n.mood=String(n.mood||"").toLowerCase();n.worry=String(n.worry||"none").toLowerCase();n.remember=String(n.remember||"").trim();return n})}function f(e,n,o){return t.rpc("widow_care_tell",{p_kind:e,p_said:i(n||"",900),p_lat:o?o.lat:null,p_lng:o?o.lng:null}).then(function(e){if(e.error||!(e.data&&e.data.ok))throw e.error||new Error(e.data&&e.data.say||"not sent");return true})}function m(){return a&&a.from_name||"Thaddeus"}function g(e,t){c.push({r:"her",t:e,at:Date.now()});c=c.slice(-40);s("talk",c);l("her",e);ie(t||"warm");A(e)}function p(e,t,n,a){if(o){a=(a||0)+1;if(a>12)g(t,n);else setTimeout(function(){p(e,t,n,a)},1500);return}o=true;d("SAY THIS IN YOUR OWN WORDS, one or two short sentences, fresh each time: "+e+" worry must be none.").then(function(e){g(e.say||t,e.mood||n)},function(){g(t,n)}).then(function(){o=false})}function w(){S=0;b=Date.now()+(a&&a.checkin_hours||3)*3600*1e3;s("nextCheck",b)}var y=/^\s*(that'?s all|that is all|goodbye|good ?night|bye( for now)?|stop listening|stand down)[\s.!]*$/i;function k(t){t=String(t||"").replace(/^\s*(hey\s+)?(white\s+)?widow[\s,.:!?-]*/i,"").trim();if(!t||o)return;w();o=true;e("send").disabled=true;u("Thinking…");c.push({r:"me",t,at:Date.now()});l("me",t);var n=y.test(t);d().then(function(e){var n=e.say||"Say that again for me?";g(n,e.mood);if(e.remember){var o=s("notes")||[];if(o.indexOf(e.remember)<0){o.push(i(e.remember,200));s("notes",o.slice(-40))}}if(e.worry==="high"){H(t)}else if(e.worry==="low")f("unwell",t).catch(function(){})}).catch(function(e){u(/429|rate|Too many/i.test(e.message||"")?"She is catching her breath. Ask again in a minute.":"She could not answer just then.")}).then(function(){o=false;e("send").disabled=false;if(n)K(false);v()})}function v(){u(R?"In conversation: just talk":G?"Listening for “Widow”":"Here with you")}var b=s("nextCheck")||0,S=0,x=20*60*1e3;var T=["Status report, handsome. How are you holding up?","Checking in. Still upright and fabulous?","Talk to me. How's the body doing today?","Quick one: how are you feeling? Honest answer, please.","I'm making my rounds. How are you?"];function I(){if(!a)return;var e=Date.now(),t=(new Date).getHours();if(S&&e-S>x){S=0;b=e+30*60*1e3;s("nextCheck",b);if(!document.hidden&&X)f("missed","No answer to her check-in for 20 minutes").catch(function(){});return}if(!S&&e>b&&t>=8&&t<22&&!document.hidden){S=e;p("you are checking in on him, as you do every few hours: ask how he is feeling.",T[Math.floor(Math.random()*T.length)],"warm")}}function L(){var e=new Date;return e.getFullYear()+"-"+(e.getMonth()+1)+"-"+e.getDate()}function C(){if(!a)return;var t=new Date,n=t.getHours()*60+t.getMinutes(),o=e("meds");o.innerHTML="";(a.meds||[]).forEach(function(e){(e.times||[]).forEach(function(t){var a=t.split(":"),r=Number(a[0])*60+Number(a[1]),i="med."+L()+"."+e.name+"."+t,c=s(i);if(n<r||c==="taken"||c==="missed")return;if(n-r>=60){s(i,"missed");if(!document.hidden)f("missed","Has not said he took his "+e.name+" ("+t+")").catch(function(){});return}if(!c){s(i,"told");var l=new Date;l.setHours(Number(a[0]),Number(a[1]),0,0);var u=l.toLocaleTimeString([],{hour:"numeric",minute:"2-digit"});p("it is "+u+", time for him to take his "+e.name+"; remind him, and say he can tap the button when he has.","It's "+u+": time for your "+e.name+".","smirk")}var h=document.createElement("button");h.className="btn";h.type="button";h.textContent="💊 I took my "+e.name;h.onclick=function(){s(i,"taken");f("med","Took his "+e.name+" ("+t+")").catch(function(){});w();p("he just tapped that he took his "+e.name+"; acknowledge it.",["Look at you, following orders.","Noted. Gold star.","That's what I like to hear."][Math.floor(Math.random()*3)],"smirk");C()};o.appendChild(h)})})}var Y=null;function H(t){w();e("helpbox").classList.remove("hidden");var n=(a&&a.call_number||"").replace(/[^\d+]/g,"");e("h-call").textContent="📞 Call "+m();e("h-text").textContent="💬 Text "+m();e("h-call").classList.toggle("hidden",!n);e("h-text").classList.toggle("hidden",!n);e("h-call").href="tel:"+n;M();f("help",t||"Pressed Help").then(function(){e("h-note").textContent=m()+" has been told. If this is serious (chest pain, trouble breathing, fainting, a fall, weakness on one side), call 911 now."},function(){e("h-note").textContent="Your message to "+m()+" did not go through, so call or text him. If this is serious, call 911 now."});A("I'm here. If this is serious, call 911 now. "+m()+" has been told.")}function M(){var t=(a&&a.call_number||"").replace(/[^\d+]/g,"");e("h-text").href="sms:"+t+"?body="+encodeURIComponent("I need you. "+(Y?"I'm here: https://maps.google.com/?q="+Y.lat+","+Y.lng:""))}function N(){if(!navigator.geolocation){e("h-note").textContent="This phone cannot share where you are from here.";return}e("h-where").textContent="Finding you…";navigator.geolocation.getCurrentPosition(function(t){Y={lat:Math.round(t.coords.latitude*1e5)/1e5,lng:Math.round(t.coords.longitude*1e5)/1e5};M();f("where","",Y).then(function(){e("h-where").textContent="📍 Sent to "+m()},function(){e("h-where").textContent="📍 Not sent: try Text instead"})},function(){e("h-where").textContent="📍 Location is off: allow it, then tap again"},{enableHighAccuracy:true,timeout:15e3,maximumAge:6e4})}var _=null,O=false;function D(){var e=window.speechSynthesis&&speechSynthesis.getVoices()||[];if(!e.length)return;var t=/(Sonia|Libby|Hazel|Aria|Jenny|Samantha|Serena|Kate|Zira|Susan|Google UK English Female|Female)/i;_=e.filter(function(e){return/^en/i.test(e.lang)&&t.test(e.name)})[0]||e.filter(function(e){return/^en/i.test(e.lang)})[0]||null}if(window.speechSynthesis){D();speechSynthesis.onvoiceschanged=D}function E(){if(O||!window.speechSynthesis)return;O=true;try{var e=new SpeechSynthesisUtterance(" ");e.volume=0;speechSynthesis.speak(e)}catch(e){}}function A(e){if(!window.speechSynthesis)return;speechSynthesis.cancel();try{speechSynthesis.resume()}catch(e){}var t=new SpeechSynthesisUtterance(String(e));if(_)t.voice=_;t.rate=.96;t.pitch=.95;if(G)J(true);var n=function(){clearTimeout(t._t);oe(false);if(G)J(false)};t._t=setTimeout(n,2500+String(e).length*90);t.onstart=function(){oe(true)};t.onboundary=function(){ne()};t.onend=t.onerror=n;speechSynthesis.speak(t)}var j=window.SpeechRecognition||window.webkitSpeechRecognition,F=null,W=null,G=false,U=false,R=false;function B(){if(!j){u("This browser cannot listen. Chrome can.");return}if(F){try{F.stop()}catch(e){}return}if(window.speechSynthesis)speechSynthesis.cancel();if(G)J(true);var t="";F=new j;F.lang="en-GB";F.interimResults=true;F.continuous=false;F.onresult=function(n){t="";for(var o=0;o<n.results.length;o++)t+=n.results[o][0].transcript;e("say").value=t};F.onerror=function(e){u({"not-allowed":"The microphone is blocked. Tap the lock by the address and allow it.","no-speech":"She did not hear anything. Tap and speak."}[e.error]||"She could not hear that.")};F.onend=function(){var n=t;F=null;e("talk").classList.remove("held");if(G)J(false);if(n.trim()){e("say").value="";k(n)}};e("talk").classList.add("held");u("Listening…");try{F.start()}catch(t){F=null;e("talk").classList.remove("held")}}function J(e){U=e;if(e){if(W)try{W.abort()}catch(e){}W=null}else P()}function K(t){R=t;e("face").classList.toggle("convo",t);v()}function P(){if(!G||U||W||!j||document.hidden)return;W=new j;W.lang="en-GB";W.continuous=true;W.interimResults=false;W.onresult=function(e){for(var t=e.resultIndex;t<e.results.length;t++){if(!e.results[t].isFinal)continue;var n=e.results[t][0].transcript.trim(),a=n.match(/\bwidow\b[\s,.:!?-]*(.*)$/i);if(a){K(true);if(a[1].trim())k(a[1]);else l("her","You rang?")}else if(R&&n&&!o)k(n)}};W.onerror=function(e){if(e.error==="not-allowed"){q(false);u("The microphone is blocked, so she cannot listen for her name.")}};W.onend=function(){W=null;if(G&&!U)setTimeout(P,500)};try{W.start()}catch(e){W=null}}function q(t){G=!!t&&!!j;s("wake",G);e("t-wake").classList.toggle("on",G);if(G)P();else{K(false);if(W)try{W.abort()}catch(e){}W=null}v()}var X=null,$=s("screen")!==false,z=false;if(navigator.getBattery)navigator.getBattery().then(function(e){z=e.charging;e.addEventListener("chargingchange",function(){z=e.charging;Q()});Q()},function(){});function Q(){if(X&&!($&&z)){try{X.release()}catch(e){}X=null}if(!$||!z||X||!navigator.wakeLock||document.hidden)return V();navigator.wakeLock.request("screen").then(function(e){X=e;e.addEventListener("release",function(){X=null;V()});V()},function(){V()})}function V(){var t=e("t-screen");if(!navigator.wakeLock){t.classList.add("hidden");return}t.classList.toggle("on",!!X);t.innerHTML=!$?"&#128261; Screen sleeps":X?"&#128262; Awake (charging)":"&#128267; Awake when charging"}document.addEventListener("visibilitychange",function(){if(!document.hidden){Q();if(G)P();I();C()}});function Z(){var t=e("f-lids");if(!t)return;setTimeout(function(){if(!document.hidden){t.setAttribute("opacity","1");setTimeout(function(){t.setAttribute("opacity","0")},130)}Z()},2600+Math.random()*4200)}var ee=null,te=false;function ne(){var t=e("f-open");if(!t)return;t.style.transform="scaleY("+(3+Math.random()*4).toFixed(1)+")";clearTimeout(t._t);t._t=setTimeout(function(){t.style.transform="scaleY(1)"},120)}function oe(t){te=t;e("face").classList.toggle("talk",t);clearInterval(ee);if(t)ee=setInterval(function(){if(te&&Math.random()<.75)ne()},160)}function ae(t,n){var o=e(t);if(o)o.style.transform=n||""}var re=null;function ie(e){clearTimeout(re);var t={smirk:["translateY(-1.6px)","","rotate(-4deg) translateY(-.3px)","rotate(-2.5deg)"],amused:["translateY(-1px)","translateY(-1px)","rotate(-3deg) scaleX(1.06)","rotate(-1.5deg)"],warm:["translateY(-.6px)","translateY(-.6px)","scaleX(1.05) translateY(-.2px)","rotate(2deg)"],stern:["translateY(1.1px) rotate(5deg)","translateY(1.1px) rotate(-5deg)","scaleX(.94)","rotate(0deg)"],surprised:["translateY(-2.2px)","translateY(-2.2px)","scaleY(1.3)","rotate(0deg) translateY(-.6px)"]}[e];if(!t)t=["","","",""];ae("f-brow-l",t[0]);ae("f-brow-r",t[1]);ae("f-mouth",t[2]);if(t[3])ae("f-head",t[3]);if(e&&e!=="calm")re=setTimeout(function(){ie("")},4500+Math.random()*2500)}function se(){setTimeout(function(){if(!document.hidden&&!te&&!o){var e=Math.random();if(e<.45)ae("f-irises","translate("+(Math.random()*2.8-1.4).toFixed(2)+"px,"+(Math.random()*1.2-.6).toFixed(2)+"px)");else if(e<.6)ae("f-irises","");if(Math.random()<.5)ae("f-head","rotate("+(Math.random()*4-2).toFixed(2)+"deg) translateX("+(Math.random()*1.6-.8).toFixed(2)+"px)");if(Math.random()<.06&&!re)ie(["smirk","warm","amused"][Math.floor(Math.random()*3)])}se()},2400+Math.random()*4600)}function ce(t){e("g-say").textContent=t||""}function le(){var o=e("g-email").value.trim(),a=e("g-pass").value;if(!o||!a)return ce("Your email and password, please.");e("g-go").disabled=true;ce("Signing in…");t.auth.signInWithPassword({email:o,password:a}).then(function(t){e("g-go").disabled=false;if(t.error)return ce(t.error.message||"That did not work.");n=t.data.session.access_token;he()})}function ue(){return t.rpc("widow_care_me").then(function(e){if(e.error)throw e.error;if(!e.data.ok){a=null;l("her",e.data.say);return}a=e.data;C()})}function he(){e("gate").classList.add("hidden");e("app").classList.remove("hidden");ue().then(function(){if(!a)return;if(!b)w();var e=c[c.length-1];if(!e||Date.now()-e.at>2*3600*1e3){var t=(new Date).getHours();p("he has just opened you on his phone; greet "+a.name.split(/\s+/)[0]+" your own way for the time of day.",(t<12?"Good morning":t<18?"Good afternoon":"Good evening")+", "+a.name.split(/\s+/)[0]+". I'm with you today, so behave.","smirk")}else l(e.r==="me"?"me":"her",e.t)}).catch(function(e){l("her","She could not reach the city just now: "+i(e.message||e,100))});Z();se();Q();q(s("wake")===true);setInterval(function(){I();C()},60*1e3);setInterval(function(){ue().catch(function(){})},10*60*1e3);t.auth.onAuthStateChange(function(e,t){if(t)n=t.access_token})}function de(){e("g-go").onclick=le;e("g-pass").onkeydown=function(e){if(e.key==="Enter")le()};e("send").onclick=function(){var t=e("say").value;e("say").value="";k(t)};e("say").onkeydown=function(t){if(t.key==="Enter"&&!t.shiftKey){t.preventDefault();e("send").onclick()}};e("talk").onclick=function(){E();B()};e("b-ok").onclick=function(){w();f("okay","").catch(function(){});p("he just tapped that he is okay; acknowledge it.",["Good. Carry on, then.","Noted. I'll be right here, being magnificent.","Excellent. Keep it that way."][Math.floor(Math.random()*3)],"smirk")};e("b-unwell").onclick=function(){E();k("I'm not feeling well.")};e("b-help").onclick=function(){E();H("Pressed Help")};e("h-where").onclick=N;e("h-ok").onclick=function(){e("helpbox").classList.add("hidden");f("okay","Okay now (after Help)").catch(function(){});p("he pressed Help a moment ago and has now said he is okay; respond, and remind him Help is always there.","Alright. Don't scare me like that. I'm still right here.","stern")};e("t-wake").onclick=function(){E();q(!G)};e("t-screen").onclick=function(){$=!$;s("screen",$);Q()};["pointerdown","keydown"].forEach(function(e){document.addEventListener(e,E,{passive:true})})}de();t=supabase.createClient(DW_CONFIG.supabaseUrl,DW_CONFIG.supabaseKey);t.auth.getSession().then(function(e){var t=e.data&&e.data.session;if(t){n=t.access_token;he()}})})();
+</script>
+</body>
+</html>

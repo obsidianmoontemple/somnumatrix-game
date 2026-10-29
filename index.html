@@ -1898,6 +1898,9 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/392-375be50cc5.js"></script>
 
 
+<script src="assets/js/393-4927e95f87.js"></script>
+
+
 <script>
 var PBILL={msg:""};function pbillSafeUrl(t){t=String(t||"").trim();return/^https:\/\/[^\s"'<>]+$/i.test(t)?t:""}function pbillLink(t,e){var n=pbillSafeUrl(t);if(!n||!e)return n;var r="",i=n.indexOf("#");if(i>=0){r=n.slice(i);n=n.slice(0,i)}return n+(n.indexOf("?")>=0?"&":"?")+"ref="+encodeURIComponent(e)+"&utm_source=somnumatrix"+r}addEventListener("click",function(t){var e=t.target&&t.target.closest?t.target.closest("a[data-pref]"):null;if(!e)return;if(!(typeof signedIn==="function"&&signedIn())||typeof cityRpc!=="function")return;var n=pbillSafeUrl(e.getAttribute("href"));if(!n)return;t.preventDefault();t.stopPropagation();var r=null;try{r=window.open("about:blank","_blank");if(r)r.opener=null}catch(t){}var i=function(t){if(r)r.location.href=t;else window.open(t,"_blank","noopener")};var a=e.getAttribute("data-pref"),o=e.getAttribute("data-pitem")||"";cityRpc("partner_refer",{p_kind:a,p_item:o,p_url:a==="cinema"?n:null}).then(function(t){var e=t&&t.ok?pbillLink(t.url||n,t.code):n;i(e||n);if(t&&t.ok&&t.code&&typeof setStatus==="function")setStatus((a==="cinema"?"🎬 Off to book at ":"🛍️ Off to ")+esc(t.partner||"the partner")+". Referral code <b>"+esc(t.code)+"</b>.")},function(){i(n)})},true);
 </script>

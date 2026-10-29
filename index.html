@@ -1013,14 +1013,14 @@ body.pad-on #joy{display:none!important}
     <p class="hint" style="font-size:12px;color:var(--dim);line-height:1.55;margin:0 0 10px">An account is only so the Temple knows who you are and what you have bought. Each dream you record is sent, word for word, to the city&rsquo;s AI (the Temple&rsquo;s dream-parse service, which asks Groq) to be read and built. Your sealed journal stays on this device; a vault copy is locked here with a phrase only you know before it is sent, so nobody at the Temple can read it. The Atlas works fully without an account.</p>
     <input id="acc-email" type="email" placeholder="your email" autocomplete="email">
     <input id="acc-pass" type="password" placeholder="a password" autocomplete="current-password" style="margin-top:8px">
-    <label for="acc-dob" style="display:block;margin-top:8px;font-size:12px;color:var(--dim)">Date of birth (needed to create an account; 13 or over)</label>
+    <label for="acc-dob" style="display:block;margin-top:8px;font-size:12px;color:var(--dim)">Date of birth (needed to create an account; under 13 needs a sign-up code from a parent or teacher)</label>
     <input id="acc-dob" type="date" autocomplete="bday" style="margin-top:4px">
     <div class="row" style="margin-top:10px;gap:8px;flex-wrap:wrap">
       <button class="btn" id="acc-signin" type="button">Sign in</button>
       <button class="btn" id="acc-create" type="button">Create an account</button>
       <button class="btn" id="acc-forgot" type="button">Forgot it</button>
     </div>
-    <p class="hint" style="font-size:12px;color:var(--dim);line-height:1.55;margin:8px 0 0">Creating an account means you agree to the <a href="terms.html" target="_blank" rel="noopener" style="color:inherit">terms of use</a>. Somnucor, the shared city, is for ages 13 and over; real-money gold and the casino are for 18 and over. <a href="privacy.html" target="_blank" rel="noopener" style="color:inherit">Privacy</a>.</p>
+    <p class="hint" style="font-size:12px;color:var(--dim);line-height:1.55;margin:8px 0 0">Creating an account means you agree to the <a href="terms.html" target="_blank" rel="noopener" style="color:inherit">terms of use</a>. Somnucor, the shared city, is for ages 13 and over (under 13 when a parent or teacher signs them up); real-money gold and the casino are for 18 and over. <a href="privacy.html" target="_blank" rel="noopener" style="color:inherit">Privacy</a>.</p>
   </div>
   <div id="acc-in" style="display:none">
     <p class="hint" style="font-size:13px;color:var(--bone);margin:0 0 8px">Signed in as <b id="acc-who"></b>.</p>
@@ -1332,7 +1332,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script>
 "use strict";var DW_CLOUD={config:{},live:false};var CLOUDKEY="dreamwalker.cloudcfg";function cloudOn(){return typeof DW_CONFIG!=="undefined"&&!!DW_CONFIG.supabaseUrl&&/^sb_publishable_/.test(DW_CONFIG.supabaseKey||"")}function cloudHeaders(){return{apikey:DW_CONFIG.supabaseKey,Authorization:"Bearer "+DW_CONFIG.supabaseKey}}function loadCloudConfig(){try{var e=JSON.parse(localStorage.getItem(CLOUDKEY)||"null");if(e)DW_CLOUD.config=e}catch(e){}if(!cloudOn()||typeof fetch!=="function")return Promise.resolve(DW_CLOUD.config);return fetch(DW_CONFIG.supabaseUrl.replace(/\/+$/,"")+"/rest/v1/app_config?select=key,value",{headers:cloudHeaders()}).then(function(e){if(!e.ok)throw new Error(e.status);return e.json()}).then(function(e){var t={};e.forEach(function(e){t[e.key]=e.value});DW_CLOUD.config=t;DW_CLOUD.live=true;try{localStorage.setItem(CLOUDKEY,JSON.stringify(t))}catch(e){}applyCloud();return t}).catch(function(){return DW_CLOUD.config})}function cloudReleased(e){var t=DW_CLOUD.config.miller_released;return Array.isArray(t)&&t.indexOf(e)>-1}var DEVKEY="dreamwalker.device",APP_VERSION="15";function deviceId(e){var t=null;try{t=localStorage.getItem(DEVKEY)}catch(e){}if(!t&&e){t=typeof crypto!=="undefined"&&crypto.randomUUID?crypto.randomUUID():"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(e){var t=Math.random()*16|0;return(e==="x"?t:t&3|8).toString(16)});try{localStorage.setItem(DEVKEY,t)}catch(e){}}return t}function platformWord(){var e=typeof matchMedia==="function"&&matchMedia("(pointer:coarse)").matches;var t=Math.min(innerWidth||1e3,innerHeight||1e3)<600;return e?t?"phone":"tablet":"computer"}function rpc(e,t){return fetch(DW_CONFIG.supabaseUrl.replace(/\/+$/,"")+"/rest/v1/rpc/"+e,{method:"POST",headers:Object.assign({"Content-Type":"application/json"},cloudHeaders()),body:JSON.stringify(t)})}function checkin(){if(!cloudOn()||typeof fetch!=="function"||DW_TESTING)return;if(cfg().counted===false)return;if(navigator.webdriver||/^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname||"")||location.protocol==="file:")return;var e=deviceId(true);rpc("checkin",{p_id:e,p_platform:platformWord(),p_version:APP_VERSION}).catch(function(){})}function forgetDevice(){var e=deviceId(false);if(!e)return;try{localStorage.removeItem(DEVKEY)}catch(e){}if(cloudOn()&&typeof fetch==="function")rpc("forget_device",{p_id:e}).catch(function(){})}function applyCloud(){var e=DW_CLOUD.config.announcement;if(typeof e==="string"&&e.trim()&&typeof setStatus==="function")setStatus(esc(e.trim()))}
 </script>
-<script src="assets/js/080-f86c29c8fb.js"></script>
+<script src="assets/js/080-7c42224ff4.js"></script>
 <script src="assets/js/081-c1a7c2fa54.js"></script>
 <script src="assets/js/082-da488ddcba.js"></script>
 <script src="assets/js/083-0e84343df2.js"></script>
@@ -1522,7 +1522,7 @@ var CITY_CAR_MODELS={car:1,coupe:1,sportscar:1,roadster:1,taxicab:1,van:1,truck:
 var TGD={n:0};function tgdKeep(){if(!INT||!walkMode||!INT.lifts||!INT.lifts.length||!INT.W||!INT.D)return;if(INT.spec&&INT.spec.archetype&&INT.spec.archetype!=="somnucortower"&&!(typeof STOREYS!=="undefined"&&STOREYS[INT.spec.archetype]>3))return;var e=camera.position,t=INT.W/2-.35,r=INT.D/2-.35,i=e.x-INT.ox,n=e.z-INT.oz;if((INT.level||0)===0&&Math.abs(e.x-INT.exit.x)<1.6&&n>0)return;var T=Math.max(-t,Math.min(t,i)),a=Math.max(-r,Math.min(r,n));if(T!==i||a!==n){e.x=INT.ox+T;e.z=INT.oz+a;TGD.n++}}(function(){if(typeof interiorTick!=="function")return;var e=interiorTick;interiorTick=function(t){var r=e.apply(this,arguments);try{tgdKeep()}catch(e){}return r}})();
 </script>
 <script src="assets/js/225-084fa2ee8f.js"></script>
-<script src="assets/js/226-12ad0bcc62.js"></script>
+<script src="assets/js/226-5ff9dfbdf4.js"></script>
 <script src="assets/js/227-1daec32ca5.js"></script>
 <script src="assets/js/228-a3f92f91f2.js"></script>
 <script src="assets/js/229-1142f05ea9.js"></script>
@@ -1904,6 +1904,9 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script>
 var PBILL={msg:""};function pbillSafeUrl(t){t=String(t||"").trim();return/^https:\/\/[^\s"'<>]+$/i.test(t)?t:""}function pbillLink(t,e){var n=pbillSafeUrl(t);if(!n||!e)return n;var r="",i=n.indexOf("#");if(i>=0){r=n.slice(i);n=n.slice(0,i)}return n+(n.indexOf("?")>=0?"&":"?")+"ref="+encodeURIComponent(e)+"&utm_source=somnumatrix"+r}addEventListener("click",function(t){var e=t.target&&t.target.closest?t.target.closest("a[data-pref]"):null;if(!e)return;if(!(typeof signedIn==="function"&&signedIn())||typeof cityRpc!=="function")return;var n=pbillSafeUrl(e.getAttribute("href"));if(!n)return;t.preventDefault();t.stopPropagation();var r=null;try{r=window.open("about:blank","_blank");if(r)r.opener=null}catch(t){}var i=function(t){if(r)r.location.href=t;else window.open(t,"_blank","noopener")};var a=e.getAttribute("data-pref"),o=e.getAttribute("data-pitem")||"";cityRpc("partner_refer",{p_kind:a,p_item:o,p_url:a==="cinema"?n:null}).then(function(t){var e=t&&t.ok?pbillLink(t.url||n,t.code):n;i(e||n);if(t&&t.ok&&t.code&&typeof setStatus==="function")setStatus((a==="cinema"?"🎬 Off to book at ":"🛍️ Off to ")+esc(t.partner||"the partner")+". Referral code <b>"+esc(t.code)+"</b>.")},function(){i(n)})},true);
 </script>
+
+
+<script src="assets/js/395-e0995d7e54.js"></script>
 
 </body>
 </html>

@@ -1352,7 +1352,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 
 <script src="assets/js/095-46178f90d9.js"></script>
 
-<script src="assets/js/096-6b7278c524.js"></script>
+<script src="assets/js/096-b0b2f5b4f6.js"></script>
 
 <script src="assets/js/097-833e45011b.js"></script>
 
@@ -1408,7 +1408,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 "use strict";var NGLOW={pool:[],spots:{},at:0,n:0,made:false,night:0};function nightGlowN(){var t=typeof LITE!=="undefined"&&LITE,n=typeof LOOK_PHONE!=="undefined"?LOOK_PHONE:/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent||"");if(t)return 0;return n?4:10}function nightGlowSpot(t,n){if(n)NGLOW.spots[t]=n;else delete NGLOW.spots[t]}function nightGlowMake(){if(NGLOW.made||typeof scene==="undefined"||!scene)return;NGLOW.made=true;NGLOW.n=nightGlowN();for(var t=0;t<NGLOW.n;t++){var n=new THREE.PointLight(16761466,0,26,2);n.castShadow=false;n.userData.k=0;n.userData.want=0;scene.add(n);NGLOW.pool.push(n)}}function nightGlowPoles(t,n){if(typeof ATL_STREETS==="undefined"||typeof ATLC==="undefined"||!ATLC||typeof atlNearStair!=="function"||typeof atlClearLamp!=="function")return;var o=t.x-ATLC.x,a=t.z-ATLC.z,i=Math.hypot(o,a),r=Math.atan2(a,o),e=90;Object.keys(ATL_STREETS).forEach(function(o){ATL_STREETS[o].forEach(function(o){if(Math.abs(o-i)>e+10)return;var a=Math.round(o*2*Math.PI/32),f=e/o,c=Math.floor((r-f)/(Math.PI*2)*a),u=Math.ceil((r+f)/(Math.PI*2)*a);for(var s=c;s<=u;s++){var l=s/a*Math.PI*2;[-1,1].forEach(function(a){var i=o+a*7.6;if(atlNearStair(i,l)||!atlClearLamp(i,l))return;var r=ATLC.x+Math.cos(l)*i,f=ATLC.z+Math.sin(l)*i,c=Math.hypot(r-t.x,f-t.z);if(c<e)n.push({x:r,y:(typeof terrainY==="function"?terrainY(r,f):0)+5.4,z:f,d:c*1.05,col:16767392,k:1.2,r:20})})}})})}function nightGlowIsNight(){var t=typeof cityHourNow==="function"?cityHourNow():typeof dreamHour==="function"?dreamHour():12;if(t>=18.25||t<6)return 1;if(t>=17.25)return t-17.25;if(t<6.75)return(6.75-t)/.75;return 0}function nightGlowTick(t){if(!NGLOW.made)nightGlowMake();if(!NGLOW.pool.length)return;NGLOW.at-=t;var n=typeof careInCity==="function"&&careInCity();if(NGLOW.at<=0){NGLOW.at=.5;var o=n?nightGlowIsNight():0;NGLOW.night=o;var a=camera.position,i=[];if(o>0){var r=typeof cityHourNow==="function"?cityHourNow():22;var e=typeof lampList==="function"?lampList():[];for(var f=0;f<e.length;f++){var c=e[f],u=Math.hypot(c.x-a.x,c.z-a.z);if(u<140&&(typeof lampLitNow!=="function"||lampLitNow(c,r)))i.push({x:c.x,y:(typeof terrainY==="function"?terrainY(c.x,c.z):0)+c.top-.4,z:c.z,d:u,col:16761466,k:1.5,r:24})}nightGlowPoles(a,i);Object.keys(NGLOW.spots).forEach(function(t){var n=NGLOW.spots[t],o=Math.hypot(n.x-a.x,n.z-a.z);if(o<160)i.push({x:n.x,y:n.y,z:n.z,d:o*(n.pri||.8),col:n.col||16757338,k:n.k||1.4,r:n.r||22})});i.sort(function(t,n){return t.d-n.d})}NGLOW.pool.forEach(function(t,n){var a=i[n];if(!a){t.userData.want=0;return}var r=Math.hypot(t.position.x-a.x,t.position.z-a.z)>.5;if(r&&t.userData.k>.05){t.userData.want=0;t.userData.next=a;return}t.position.set(a.x,a.y,a.z);t.distance=a.r;if(t.userData.col!==a.col){t.userData.col=a.col;t.color.setHex(a.col)}t.userData.want=a.k*o;t.userData.next=null})}NGLOW.pool.forEach(function(n){var o=n.userData,a=o.k+(o.want-o.k)*Math.min(1,t*3);if(o.next&&a<.05){var i=o.next;n.position.set(i.x,i.y,i.z);n.distance=i.r;if(o.col!==i.col){o.col=i.col;n.color.setHex(i.col)}o.want=i.k*NGLOW.night;o.next=null}o.k=a;n.intensity=store&&store.inside?0:a;n.visible=true})}(function(){if(typeof transitTick!=="function")return;var t=transitTick;transitTick=function(n){t.apply(this,arguments);try{nightGlowTick(n)}catch(t){if(window.console&&!NGLOW.warned){NGLOW.warned=1;console.warn("night glow:",t)}}}})();
 </script>
 <script src="assets/js/135-873b7334a5.js"></script>
-<script src="assets/js/136-ce70ac4267.js"></script>
+<script src="assets/js/136-aa14f92b93.js"></script>
 <script src="assets/js/137-1b72ae2fd1.js"></script>
 <script src="assets/js/138-fce336cf97.js"></script>
 <script src="assets/js/139-9c1df722bd.js"></script>
@@ -1896,6 +1896,11 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 
 
 <script src="assets/js/392-375be50cc5.js"></script>
+
+
+<script>
+var PBILL={msg:""};function pbillSafeUrl(t){t=String(t||"").trim();return/^https:\/\/[^\s"'<>]+$/i.test(t)?t:""}function pbillLink(t,e){var n=pbillSafeUrl(t);if(!n||!e)return n;var r="",i=n.indexOf("#");if(i>=0){r=n.slice(i);n=n.slice(0,i)}return n+(n.indexOf("?")>=0?"&":"?")+"ref="+encodeURIComponent(e)+"&utm_source=somnumatrix"+r}addEventListener("click",function(t){var e=t.target&&t.target.closest?t.target.closest("a[data-pref]"):null;if(!e)return;if(!(typeof signedIn==="function"&&signedIn())||typeof cityRpc!=="function")return;var n=pbillSafeUrl(e.getAttribute("href"));if(!n)return;t.preventDefault();t.stopPropagation();var r=null;try{r=window.open("about:blank","_blank");if(r)r.opener=null}catch(t){}var i=function(t){if(r)r.location.href=t;else window.open(t,"_blank","noopener")};var a=e.getAttribute("data-pref"),o=e.getAttribute("data-pitem")||"";cityRpc("partner_refer",{p_kind:a,p_item:o,p_url:a==="cinema"?n:null}).then(function(t){var e=t&&t.ok?pbillLink(t.url||n,t.code):n;i(e||n);if(t&&t.ok&&t.code&&typeof setStatus==="function")setStatus((a==="cinema"?"🎬 Off to book at ":"🛍️ Off to ")+esc(t.partner||"the partner")+". Referral code <b>"+esc(t.code)+"</b>.")},function(){i(n)})},true);
+</script>
 
 </body>
 </html>

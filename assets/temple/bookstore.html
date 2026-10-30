@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<!-- The Book Store (the Grimoire Shelf): Thaddeus's own program from the old temple web pages (30 October 2026), played inside the Temple of the Obsidian Moon. Changes for the game are marked "temple:". -->
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>The Book Store</title>
+<style>html,body{margin:0;background:#0a0812;min-height:100%}</style></head><body>
+<!--
+  THE GRIMOIRE SHELF — Magic Library Widget
+  ---------------------------------------------------------------------
+  HOW TO ADD OR REMOVE BOOKS:
+  1. Scroll down to "MASTER BOOK LIBRARY" below.
+  2. Each book is enclosed in curly braces { ... }.
+  3. To DELETE a book: Highlight its block from { to }, including the comma, and delete it.
+  4. To ADD a book: Copy an existing block, paste it into the list, and edit the details.
+-->
+<div id="grimoire-root"></div>
+
+<style>
+  #grimoire-root {
+    --void: #0a0812;
+    --twilight: #160e26;
+    --twilight-light: #23163a;
+    --parchment: #f1edfa;
+    --parchment-dim: #b8b0cf;
+    
+    /* Neon & Gem Colors */
+    --emerald: #10b981;
+    --emerald-bright: #34d399;
+    --emerald-glow: rgba(16, 185, 129, 0.35);
+    
+    --amethyst: #a855f7;
+    --amethyst-bright: #c084fc;
+    --amethyst-glow: rgba(168, 85, 247, 0.35);
+
+    box-sizing: border-box;
+    background: radial-gradient(ellipse at top, var(--twilight) 0%, var(--void) 75%);
+    padding: 56px 24px 64px;
+    border-radius: 8px;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: var(--parchment);
+    position: relative;
+    overflow: hidden;
+    border: 1px solid rgba(168, 85, 247, 0.2);
+    box-shadow: inset 0 0 50px rgba(10, 8, 18, 0.8);
+  }
+  #grimoire-root *, #grimoire-root *::before, #grimoire-root *::after { box-sizing: border-box; }
+
+  /* Background Ambient Stardust */
+  #grimoire-root::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      radial-gradient(1px 1px at 15% 20%, rgba(52, 211, 153, 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 85% 15%, rgba(192, 132, 252, 0.5), transparent),
+      radial-gradient(1px 1px at 60% 70%, rgba(52, 211, 153, 0.3), transparent),
+      radial-gradient(1px 1px at 30% 85%, rgba(192, 132, 252, 0.4), transparent),
+      radial-gradient(1.5px 1.5px at 90% 65%, rgba(16, 185, 129, 0.4), transparent);
+  }
+
+  /* Header Styles */
+  .grimoire-header {
+    position: relative;
+    text-align: center;
+    margin-bottom: 48px;
+  }
+  .grimoire-eyebrow {
+    font-family: 'IM Fell English SC', 'EB Garamond', serif;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    font-size: 12px;
+    color: var(--emerald-bright);
+    opacity: 0.9;
+    margin: 0 0 10px;
+    text-shadow: 0 0 10px var(--emerald-glow);
+  }
+  .grimoire-title {
+    font-family: 'Cinzel Decorative', 'Cinzel', serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 44px);
+    margin: 0;
+    color: #ffffff;
+    text-shadow: 0 0 20px var(--amethyst-glow), 0 0 40px var(--emerald-glow);
+  }
+  .grimoire-sub {
+    font-style: italic;
+    color: var(--parchment-dim);
+    margin: 12px auto 0;
+    max-width: 500px;
+    font-size: 16px;
+  }
+  .grimoire-divider {
+    width: 140px;
+    height: 1px;
+    margin: 22px auto;
+    background: linear-gradient(90deg, transparent, var(--emerald), var(--amethyst), transparent);
+  }
+
+  /* Submit Button in Header */
+  .btn-submit-tome {
+    background: linear-gradient(135deg, rgba(16, 185, 129, 0.15), rgba(168, 85, 247, 0.15));
+    border: 1px solid var(--emerald);
+    color: var(--emerald-bright);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 12px rgba(16, 185, 129, 0.2);
+    margin-top: 10px;
+  }
+  .btn-submit-tome:hover {
+    background: linear-gradient(135deg, var(--emerald), var(--amethyst));
+    color: #0a0812;
+    font-weight: 600;
+    box-shadow: 0 0 20px var(--emerald-glow), 0 0 20px var(--amethyst-glow);
+    transform: translateY(-2px);
+  }
+
+  /* Shelf & Tome Card Grid */
+  .grimoire-shelf {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 32px 28px;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .tome {
+    position: relative;
+    background: linear-gradient(160deg, var(--twilight-light), var(--twilight));
+    border: 1px solid rgba(168, 85, 247, 0.3);
+    border-radius: 8px;
+    padding: 22px 20px 20px;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  }
+  .tome:hover {
+    transform: translateY(-6px);
+    border-color: var(--emerald-bright);
+    box-shadow: 0 18px 40px rgba(0,0,0,0.8), 0 0 25px var(--emerald-glow), 0 0 20px var(--amethyst-glow);
+  }
+
+  .tome-cover {
+    height: 190px;
+    border-radius: 4px;
+    margin-bottom: 16px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    box-shadow: inset 0 0 30px rgba(0,0,0,0.7);
+  }
+  .tome-cover img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+  .tome-cover.no-image {
+    background: linear-gradient(150deg, var(--twilight-light), var(--void));
+  }
+  .tome-rune {
+    font-family: 'Cinzel Decorative', serif;
+    font-size: 42px;
+    color: var(--emerald-bright);
+    text-shadow: 0 0 16px var(--emerald-glow);
+  }
+
+  .tome-badge {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--emerald-bright);
+    margin: 0 0 6px;
+    opacity: 0.95;
+  }
+  .tome-title {
+    font-family: 'Cormorant Garamond', 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0 0 4px;
+    color: #ffffff;
+    line-height: 1.25;
+  }
+  .tome-author {
+    font-size: 13px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--amethyst-bright);
+    margin: 0 0 10px;
+  }
+  .tome-desc {
+    font-size: 15px;
+    color: var(--parchment-dim);
+    line-height: 1.5;
+    margin: 0 0 18px;
+    flex-grow: 1;
+  }
+
+  /* Actions & Buttons */
+  .tome-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: auto;
+  }
+  .tome-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 10px 14px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 12.5px;
+    letter-spacing: 0.03em;
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+    width: 100%;
+    background: transparent;
+  }
+  .tome-btn:hover { transform: translateX(2px); }
+
+  .btn-signed {
+    background: linear-gradient(120deg, var(--emerald), #059669);
+    color: #062016;
+    font-weight: 600;
+    border-color: var(--emerald-bright);
+  }
+  .btn-signed:hover { box-shadow: 0 0 18px var(--emerald-glow); }
+
+  .btn-amazon {
+    background: transparent;
+    color: var(--parchment);
+    border-color: rgba(168, 85, 247, 0.4);
+  }
+  .btn-amazon:hover {
+    border-color: var(--amethyst-bright);
+    background: rgba(168, 85, 247, 0.15);
+    box-shadow: 0 0 15px var(--amethyst-glow);
+  }
+
+  .btn-price {
+    color: inherit;
+    opacity: 0.9;
+    font-weight: 600;
+  }
+
+  .tome-disclaimer {
+    font-size: 11.5px;
+    line-height: 1.4;
+    color: var(--parchment-dim);
+    font-style: italic;
+    margin: 8px 0 0;
+    opacity: 0.85;
+  }
+
+  .grimoire-footer {
+    position: relative;
+    text-align: center;
+    margin-top: 44px;
+    font-size: 13px;
+    letter-spacing: 0.06em;
+    color: var(--emerald-bright);
+    font-style: italic;
+    text-shadow: 0 0 8px var(--emerald-glow);
+  }
+
+  .grimoire-pricing-note {
+    position: relative;
+    text-align: center;
+    max-width: 640px;
+    margin: 14px auto 0;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--parchment-dim);
+    opacity: 0.75;
+  }
+
+  /* Overlay & Modal Styling - Absolute Placement Fix */
+  .grimoire-overlay {
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: rgba(5, 3, 10, 0.88);
+    backdrop-filter: blur(5px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 999999 !important;
+    padding: 40px 20px;
+    box-sizing: border-box;
+  }
+  .grimoire-modal {
+    background: var(--twilight);
+    border: 1px solid var(--emerald);
+    border-radius: 8px;
+    max-width: 460px;
+    width: 100%;
+    padding: 28px 26px 24px;
+    box-shadow: 0 24px 60px rgba(0,0,0,0.9), 0 0 40px var(--emerald-glow), 0 0 30px var(--amethyst-glow);
+    position: relative;
+    font-family: 'EB Garamond', Georgia, serif;
+    color: var(--parchment);
+    box-sizing: border-box;
+  }
+  .grimoire-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: var(--parchment-dim);
+    font-size: 20px;
+    line-height: 1;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .grimoire-modal-close:hover { color: var(--emerald-bright); }
+  .grimoire-modal-eyebrow {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10.5px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--emerald-bright);
+    margin: 0 0 6px;
+  }
+  .grimoire-modal-title {
+    font-family: 'Cormorant Garamond', 'EB Garamond', serif;
+    font-weight: 600;
+    font-size: 22px;
+    margin: 0 0 4px;
+    color: #ffffff;
+  }
+  .grimoire-modal-price {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 13px;
+    color: var(--amethyst-bright);
+    margin: 0 0 18px;
+  }
+  .grimoire-field { margin-bottom: 14px; }
+  .grimoire-field label {
+    display: block;
+    font-size: 12.5px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+    margin-bottom: 6px;
+  }
+  .grimoire-field input,
+  .grimoire-field select,
+  .grimoire-field textarea {
+    width: 100%;
+    background: var(--void);
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    border-radius: 4px;
+    padding: 9px 11px;
+    color: var(--parchment);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 15px;
+    outline: none;
+  }
+  .grimoire-field input:focus,
+  .grimoire-field select:focus,
+  .grimoire-field textarea:focus {
+    border-color: var(--emerald-bright);
+    box-shadow: 0 0 10px var(--emerald-glow);
+  }
+  .grimoire-field textarea { resize: vertical; min-height: 60px; }
+  .grimoire-modal-submit { margin-top: 10px; }
+  .grimoire-modal-status {
+    margin-top: 12px;
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: center;
+  }
+  .grimoire-modal-status.success { color: var(--emerald-bright); }
+  .grimoire-modal-status.error { color: #f87171; }
+  .grimoire-modal-status.pending { color: var(--amethyst-bright); font-style: italic; }
+
+  @media (max-width: 480px) {
+    #grimoire-root { padding: 40px 16px 48px; }
+    .grimoire-shelf { grid-template-columns: 1fr 1fr; gap: 20px 14px; }
+    .tome-cover { height: 150px; }
+  }
+  @media (max-width: 340px) {
+    .grimoire-shelf { grid-template-columns: 1fr; }
+  }
+</style>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700&family=Cinzel:wght@600&family=Cormorant+Garamond:wght@600&family=EB+Garamond:ital,wght@0,400;1,400&family=IM+Fell+English+SC&family=IBM+Plex+Mono:wght@500&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+<script>
+(function () {
+
+  /* =========================================================
+     ⚡ EMAILJS CONFIG & GLOBAL SETTINGS
+  ========================================================= */
+  const EMAILJS_PUBLIC_KEY  = "VQ7MpMcYN4uTkbGTD";
+  const EMAILJS_SERVICE_ID  = "service_r30ck6j";
+  const EMAILJS_TEMPLATE_ID = "template_ohuamym";
+  const SIGNED_ORDER_EMAIL  = "obsidianmoontemple@gmail.com";
+  const SIGNED_DISCLAIMER   = "Signed copies are hand-blessed and shipped directly from the Temple — please allow a couple of extra days for handling.";
+  
+  const TEMPLE_TITLE = "The Book Store";
+  const TEMPLE_SUB   = "Each tome hand-bound in intention. Choose a signed copy from our own hands, or summon one instantly through Amazon.";
+
+  /* =========================================================
+     📚 MASTER BOOK LIBRARY
+     Add, remove, or modify entries here safely.
+  ========================================================= */
+  const LIBRARY = [
+    // ---- Ritual Texts ----
+    {
+      title: "The Obsidian Chalice, Volume 1",
+      author: "Sebastian Nightwell",
+      badge: "Ritual Texts",
+      rune: "☾",
+      image: "https://static.wixstatic.com/media/d6c75e_5e3ed9d9d7654bc3872f14b43154aa53~mv2.jpg",
+      description: "A multi-faith collection of adult Pagan rites spanning the Left-Hand Path, Asatru, and beyond.",
+      signedPrice: "$29.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CXTB919Z",
+      signedUrl: "" 
+    },
+    {
+      title: "The Obsidian Hymnal",
+      author: "Sebastian Nightwell",
+      badge: "Ritual Texts",
+      rune: "✦",
+      image: "https://static.wixstatic.com/media/d6c75e_b32858c3c9394863863ec1099ad3a141~mv2.jpg",
+      description: "A hymnal and prayer book of chants, invocations, and devotions for the Left Hand Path.",
+      signedPrice: "$19.99",
+      amazonPrice: "$6.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CSYKT49K",
+      signedUrl: ""
+    },
+    {
+      title: "The Topaz Grimoire, Vol. 1: Secrets of the Dawn",
+      author: "Sebastian Nightwell",
+      badge: "Ritual Texts",
+      rune: "🜂",
+      image: "https://static.wixstatic.com/media/d6c75e_6bbab609918d4214b7af2ec2a001306f~mv2.jpg",
+      description: "Invocations and hymns for the primordial Titans of Greek myth.",
+      signedPrice: "$49.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CW1CW9ZW",
+      signedUrl: ""
+    },
+    {
+      title: "The Topaz Grimoire, Vol. 2: Olympian Whispers",
+      author: "Sebastian Nightwell",
+      badge: "Ritual Texts",
+      rune: "🜁",
+      image: "https://static.wixstatic.com/media/d6c75e_eac5aa4a5cbb4d9ea080882fcbe99ff1~mv2.jpg",
+      description: "Invocations and rites for the twelve Olympian gods and goddesses.",
+      signedPrice: "$39.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CZ1D99F5",
+      signedUrl: ""
+    },
+    {
+      title: "Through the Black Looking Glass",
+      author: "Sebastian Nightwell",
+      badge: "Ritual Texts",
+      rune: "◑",
+      image: "https://static.wixstatic.com/media/d6c75e_8fa7f8fe68604089a258f628183ff4e9~mv2.jpg",
+      description: "An introductory guide to shadow work and the ethics of black magic.",
+      signedPrice: "$32.85",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0D1YT8HZS",
+      signedUrl: ""
+    },
+    {
+      title: "The Black Looking Glass",
+      author: "Sebastian Nightwell",
+      badge: "Ritual Texts",
+      rune: "◐",
+      image: "https://static.wixstatic.com/media/d6c75e_09293510950242b68ef150731f8749da~mv2.jpg",
+      description: "A companion volume exploring the deeper mysteries of shadow and spell.",
+      signedPrice: "$27.50",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/gp/product/B0D2JMMN79",
+      signedUrl: ""
+    },
+    {
+      title: "The Rune Reader's Handbook",
+      author: "Sebastian & Lucius Nightwell",
+      badge: "Ritual Texts",
+      rune: "ᚠ",
+      image: "https://static.wixstatic.com/media/d6c75e_42898008ee5d4c28a0e5fd63b9b34d0b~mv2.jpg",
+      description: "A guide to casting, reading, and crafting with the Elder Futhark runes.",
+      signedPrice: "$39.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CYP7C3MC",
+      signedUrl: ""
+    },
+
+    // ---- Obsidian Veil University Curriculum ----
+    {
+      title: "The Enchanter's Lexicon",
+      author: "Sebastian & Lucius Nightwell",
+      badge: "Curriculum",
+      rune: "⚝",
+      image: "https://static.wixstatic.com/media/d6c75e_a7972b4f7d524013b8c1ec99bd15b832~mv2.jpg",
+      description: "A foundational glossary of magical terms and practice.",
+      signedPrice: "$39.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0D1287CWV",
+      signedUrl: ""
+    },
+    {
+      title: "The Crystal Compendium",
+      author: "Sebastian & Lucius Nightwell",
+      badge: "Curriculum",
+      rune: "◈",
+      image: "https://static.wixstatic.com/media/d6c75e_f82c11d7ef4542b38dd8159e9ff526d4~mv2.jpg",
+      description: "Properties, correspondences, and workings of crystal magic.",
+      signedPrice: "$42.37",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0D1PKF6G4",
+      signedUrl: ""
+    },
+    {
+      title: "Beyond Shadows and Light",
+      author: "Sebastian Nightwell",
+      badge: "Curriculum",
+      rune: "☽",
+      image: "https://static.wixstatic.com/media/d6c75e_5ac4615d8b7446c5aa8c75a3a2c89eb5~mv2.jpg",
+      description: "An exploration of the ethical use of magic.",
+      signedPrice: "$19.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CW1J2VXN",
+      signedUrl: ""
+    },
+    {
+      title: "Tales and Scales",
+      author: "Sebastian Nightwell",
+      badge: "Curriculum",
+      rune: "✵",
+      image: "https://static.wixstatic.com/media/d6c75e_5b0045af3f534abb907f9b3357cc9ee8~mv2.jpg",
+      description: "A bestiary unveiling the world's magical creatures.",
+      signedPrice: "$37.50",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0D4K11XNC",
+      signedUrl: ""
+    },
+    {
+      title: "The Green Codex",
+      author: "Sebastian Nightwell",
+      badge: "Curriculum",
+      rune: "❧",
+      image: "https://static.wixstatic.com/media/d6c75e_c9031ac1471449698e45ac897a6c23a2~mv2.jpg",
+      description: "A beginner's guide to herbal remedies, tinctures, and plant-based magic.",
+      signedPrice: "$29.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0D1F679G5",
+      signedUrl: ""
+    },
+    {
+      title: "Illuminating the Path",
+      author: "Sebastian & Lucius Nightwell",
+      badge: "Curriculum",
+      rune: "🕯",
+      image: "https://static.wixstatic.com/media/d6c75e_19dc6237156b47c1834f28f305a43b0f~mv2.jpg",
+      description: "A grimoire of candle magic and flame-based ritual work.",
+      signedPrice: "$29.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0D18K7LBG",
+      signedUrl: ""
+    },
+    {
+      title: "Awaken the Flow",
+      author: "Sebastian Nightwell",
+      badge: "Curriculum",
+      rune: "〰",
+      image: "https://static.wixstatic.com/media/d6c75e_1665f5c77f1f4a619d76b0c0de4088bd~mv2.jpg",
+      description: "A beginner's introduction to energy work and subtle-body practice.",
+      signedPrice: "$24.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CZTR3QF7",
+      signedUrl: ""
+    },
+    {
+      title: "The Spellbound Thread",
+      author: "Sebastian Nightwell",
+      badge: "Curriculum",
+      rune: "🧵",
+      image: "https://static.wixstatic.com/media/d6c75e_1266a993e29e4ae5b3133e3f260fb7ab~mv2.jpg",
+      description: "A history of magic's influence on art, science, and culture through the ages.",
+      signedPrice: "$26.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CZNWMC4F",
+      signedUrl: ""
+    },
+    {
+      title: "Secrets of the Silver Sphere",
+      author: "Sebastian Nightwell",
+      badge: "Curriculum",
+      rune: "☾",
+      image: "https://static.wixstatic.com/media/d6c75e_9562612b09714732aa5b25646f3389fb~mv2.jpg",
+      description: "A guide to moon magic, lunar ritual, and nighttime practice.",
+      signedPrice: "$20.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CZMS2TDL",
+      signedUrl: ""
+    },
+    {
+      title: "Brewing Magic",
+      author: "Sebastian Nightwell",
+      badge: "Curriculum",
+      rune: "⚗",
+      image: "https://static.wixstatic.com/media/d6c75e_ee34dbaadedc47e39aac392e317d3b56~mv2.jpg",
+      description: "The art and science of potion-making, from tinctures to elixirs.",
+      signedPrice: "$29.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0D12D4NZC",
+      signedUrl: ""
+    },
+    {
+      title: "The Magic Within Your Hands",
+      author: "Sebastian & Lucius Nightwell",
+      badge: "Curriculum",
+      rune: "✋",
+      image: "https://static.wixstatic.com/media/d6c75e_028fc221dfa4489b89c3d0bc3284dfbb~mv2.jpg",
+      description: "A guide to crafting and consecrating your own magical tools.",
+      signedPrice: "$24.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CZNX5FS5",
+      signedUrl: ""
+    },
+    {
+      title: "Obsidian Veil University Enrollment Brochure",
+      author: "Sebastian Nightwell",
+      badge: "Curriculum",
+      rune: "🎓",
+      image: "https://static.wixstatic.com/media/d6c75e_b503bb5bf8c04da4950a24eced5672f8~mv2.jpg",
+      description: "An introduction to the Temple's curriculum and course of study.",
+      signedPrice: "N/A",
+      amazonPrice: "$0.99",
+      amazonUrl: "https://www.amazon.com/dp/B0CZJV3WBY",
+      signedUrl: ""
+    },
+
+    // ---- Fiction ----
+    {
+      title: "Winter's Heart",
+      author: "Sebastian Nightwell",
+      badge: "Fiction",
+      rune: "❄",
+      image: "https://static.wixstatic.com/media/d6c75e_b850003ea0e64d22bae95dddb3c661f1~mv2.jpg",
+      description: "A Snow Queen tale — two cursed immortals, a shattered mirror, and a bond that won't stay broken.",
+      signedPrice: "$23.50",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0GB6VRZHR",
+      signedUrl: ""
+    },
+    {
+      title: "Heart of the Drakkyn",
+      author: "Sebastian Nightwell & Thaddeus Johnson",
+      badge: "Fiction",
+      rune: "🐉",
+      image: "https://static.wixstatic.com/media/d6c75e_dffc6cd63b4746638b16d69bf3def5cf~mv2.jpg",
+      description: "Book one of the Drakkyn Saga — a dragon-blooded outcast crosses into a realm at war.",
+      signedPrice: "$29.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/dp/B0FWD1KZ2J",
+      signedUrl: ""
+    },
+
+    // ---- Family & Children's ----
+    {
+      title: "Temple Time Adventures, Vol. 1",
+      author: "Sebastian Nightwell",
+      badge: "Family",
+      rune: "⭐",
+      image: "https://static.wixstatic.com/media/d6c75e_030bb8b7110b47cf8432891fe7c0803c~mv2.jpg",
+      description: "Where Faith and Fun Collide — a family-friendly title from the Temple.",
+      signedPrice: "$39.99",
+      amazonPrice: "$9.99",
+      amazonUrl: "https://www.amazon.com/Temple-Time-Adventures-Where-Collide/dp/B0CXF5K73S",
+      signedUrl: ""
+    }
+  ];
+
+  /* =========================================================
+     ⚙️ WIDGET ENGINE
+  ========================================================= */
+  const emailjsConfigured =
+    EMAILJS_PUBLIC_KEY !== "YOUR_PUBLIC_KEY" &&
+    EMAILJS_SERVICE_ID !== "YOUR_SERVICE_ID" &&
+    EMAILJS_TEMPLATE_ID !== "YOUR_TEMPLATE_ID";
+
+  if (emailjsConfigured && window.emailjs) {
+    emailjs.init({ publicKey: EMAILJS_PUBLIC_KEY });
+  }
+
+  function formatPrice(val) {
+    if (!val || val === "N/A") return "N/A";
+    val = val.trim();
+    return (val.startsWith("$") || val.startsWith("↗")) ? val : "$" + val;
+  }
+
+  function buildSignedMailto(book, formData) {
+    if (!SIGNED_ORDER_EMAIL) return "";
+    const subject = encodeURIComponent("Signed Copy Request: " + book.title);
+    const name = (formData && formData.name) || "";
+    const email = (formData && formData.email) || "";
+    const address = (formData && formData.address) || "";
+    const body = encodeURIComponent(
+      "Hello! I'd like to order a signed copy of \"" + book.title + "\".\n\n" +
+      "Name: " + name + "\n" +
+      "Email: " + email + "\n" +
+      "Shipping Address: " + address + "\n\n" +
+      "Thank you!"
+    );
+    return "mailto:" + SIGNED_ORDER_EMAIL + "?subject=" + subject + "&body=" + body;
+  }
+
+  const root = document.getElementById("grimoire-root");
+
+  // Render Header
+  const header = document.createElement("div");
+  header.className = "grimoire-header";
+  header.innerHTML =
+    '<p class="grimoire-eyebrow">Obsidian Moon Temple</p>' +
+    '<h2 class="grimoire-title">' + TEMPLE_TITLE + '</h2>' +
+    '<p class="grimoire-sub">' + TEMPLE_SUB + '</p>' +
+    '<div class="grimoire-divider"></div>' +
+    '<button type="button" class="btn-submit-tome" id="btn-open-submit">✦ Submit Your Tome ✦</button>';
+  root.appendChild(header);
+
+  // Render Shelf Grid
+  const shelf = document.createElement("div");
+  shelf.className = "grimoire-shelf";
+
+  LIBRARY.forEach(function (book, index) {
+    const card = document.createElement("div");
+    card.className = "tome";
+
+    const sPrice = formatPrice(book.signedPrice);
+    const aPrice = formatPrice(book.amazonPrice);
+
+    const coverHtml = book.image
+      ? '<div class="tome-cover"><img src="' + book.image + '" alt="' + book.title + ' cover"></div>'
+      : '<div class="tome-cover no-image"><span class="tome-rune">' + (book.rune || "✦") + '</span></div>';
+
+    const hasSignedOption = sPrice !== "N/A" && (!!SIGNED_ORDER_EMAIL || !!book.signedUrl);
+    const signedBtn = hasSignedOption
+      ? '<button type="button" class="tome-btn btn-signed" data-index="' + index + '">' +
+          '<span>Buy Signed Copy</span><span class="btn-price">' + sPrice + '</span></button>'
+      : '';
+
+    const amazonBtn = book.amazonUrl
+      ? '<a class="tome-btn btn-amazon" href="' + book.amazonUrl + '" target="_blank" rel="noopener">' +
+          '<span>Buy on Amazon</span><span class="btn-price">' + aPrice + '</span></a>'
+      : '';
+
+    const disclaimerHtml = signedBtn ? '<p class="tome-disclaimer">' + SIGNED_DISCLAIMER + '</p>' : '';
+
+    card.innerHTML =
+      coverHtml +
+      (book.badge ? '<p class="tome-badge">' + book.badge + '</p>' : '') +
+      '<h3 class="tome-title">' + book.title + '</h3>' +
+      '<p class="tome-author">' + (book.author || "") + '</p>' +
+      '<p class="tome-desc">' + (book.description || "") + '</p>' +
+      '<div class="tome-actions">' + signedBtn + amazonBtn + '</div>' +
+      disclaimerHtml;
+
+    shelf.appendChild(card);
+  });
+
+  root.appendChild(shelf);
+
+  // Render Footer
+  const footer = document.createElement("div");
+  footer.className = "grimoire-footer";
+  footer.textContent = "✧ Every signed copy is blessed before it leaves our hands ✧";
+  root.appendChild(footer);
+
+  const pricingNote = document.createElement("p");
+  pricingNote.className = "grimoire-pricing-note";
+  pricingNote.textContent = "Amazon prices shown above are for the Kindle (digital) editions. Paperback copies are also available through the same Amazon link. Signed copies are priced $5 above the paperback price on Amazon.";
+  root.appendChild(pricingNote);
+
+  /* Helper to align modal dynamically within iframe height */
+  function positionOverlayModal(overlay, triggerElement) {
+    const triggerRect = triggerElement ? triggerElement.getBoundingClientRect() : { top: 100 };
+    const currentScroll = window.pageYOffset || document.documentElement.scrollTop || 0;
+    // Calculate position so modal lands directly in user's view
+    const targetTop = Math.max(20, currentScroll + triggerRect.top - 50);
+    
+    overlay.style.paddingTop = targetTop + "px";
+  }
+
+  /* =========================================================
+     MODAL 1: BUY SIGNED COPY
+  ========================================================= */
+  shelf.addEventListener("click", function (e) {
+    const btn = e.target.closest(".btn-signed");
+    if (!btn) return;
+
+    const idx = btn.getAttribute("data-index");
+    const book = LIBRARY[idx];
+    if (!book) return;
+
+    if (book.signedUrl) {
+      window.open(book.signedUrl, "_blank", "noopener");
+      return;
+    }
+
+    openOrderModal(book, btn);
+  });
+
+  function openOrderModal(book, triggerBtn) {
+    const price = formatPrice(book.signedPrice);
+
+    const overlay = document.createElement("div");
+    overlay.className = "grimoire-overlay";
+    positionOverlayModal(overlay, triggerBtn);
+
+    const modal = document.createElement("div");
+    modal.className = "grimoire-modal";
+    modal.innerHTML =
+      '<button type="button" class="grimoire-modal-close" aria-label="Close">✕</button>' +
+      '<p class="grimoire-modal-eyebrow">Signed Copy Request</p>' +
+      '<h3 class="grimoire-modal-title">' + book.title + '</h3>' +
+      '<p class="grimoire-modal-price">' + price + '</p>' +
+      '<div class="grimoire-field">' +
+        '<label for="grimoire-name">Name</label>' +
+        '<input type="text" id="grimoire-name" required>' +
+      '</div>' +
+      '<div class="grimoire-field">' +
+        '<label for="grimoire-email">Email</label>' +
+        '<input type="email" id="grimoire-email" required>' +
+      '</div>' +
+      '<div class="grimoire-field">' +
+        '<label for="grimoire-address">Shipping Address</label>' +
+        '<textarea id="grimoire-address" required></textarea>' +
+      '</div>' +
+      '<button type="button" class="tome-btn btn-signed grimoire-modal-submit">' +
+        '<span>Send Order Request</span><span class="btn-price">→</span>' +
+      '</button>' +
+      '<p class="tome-disclaimer">' + SIGNED_DISCLAIMER + '</p>' +
+      '<div class="grimoire-modal-status"></div>';
+
+    overlay.appendChild(modal);
+    root.appendChild(overlay);
+
+    const closeBtn = modal.querySelector(".grimoire-modal-close");
+    const submitBtn = modal.querySelector(".grimoire-modal-submit");
+    const statusEl = modal.querySelector(".grimoire-modal-status");
+    const nameEl = modal.querySelector("#grimoire-name");
+    const emailEl = modal.querySelector("#grimoire-email");
+    const addressEl = modal.querySelector("#grimoire-address");
+
+    function closeModal() { overlay.remove(); }
+    closeBtn.addEventListener("click", closeModal);
+    overlay.addEventListener("click", function (e) { if (e.target === overlay) closeModal(); });
+
+    submitBtn.addEventListener("click", function () {
+      const formData = {
+        name: nameEl.value.trim(),
+        email: emailEl.value.trim(),
+        address: addressEl.value.trim()
+      };
+
+      if (!formData.name || !formData.email || !formData.address) {
+        statusEl.textContent = "Please fill in all three fields.";
+        statusEl.className = "grimoire-modal-status error";
+        return;
+      }
+
+      submitBtn.setAttribute("disabled", "true");
+      statusEl.textContent = "Sending your request...";
+      statusEl.className = "grimoire-modal-status pending";
+
+      if (emailjsConfigured && window.emailjs) {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          book_title: book.title,
+          price: price,
+          buyer_name: formData.name,
+          buyer_email: formData.email,
+          shipping_address: formData.address,
+          to_email: SIGNED_ORDER_EMAIL
+        }).then(function () {
+          statusEl.textContent = "✧ Request sent! We'll be in touch to confirm shipping and payment.";
+          statusEl.className = "grimoire-modal-status success";
+          submitBtn.style.display = "none";
+          setTimeout(closeModal, 3500);
+        }).catch(function () {
+          statusEl.textContent = "Couldn't send automatically — opening your email app as a backup.";
+          statusEl.className = "grimoire-modal-status error";
+          window.open(buildSignedMailto(book, formData), "_blank");
+          submitBtn.removeAttribute("disabled");
+        });
+      } else {
+        statusEl.textContent = "Opening your email app to complete the request...";
+        statusEl.className = "grimoire-modal-status pending";
+        window.open(buildSignedMailto(book, formData), "_blank");
+        submitBtn.removeAttribute("disabled");
+      }
+    });
+
+    nameEl.focus();
+  }
+
+  /* =========================================================
+     MODAL 2: MEMBER BOOK SUBMISSION FORM
+  ========================================================= */
+  document.getElementById("btn-open-submit").addEventListener("click", function (e) {
+    openSubmissionModal(e.currentTarget);
+  });
+
+  function openSubmissionModal(triggerBtn) {
+    const overlay = document.createElement("div");
+    overlay.className = "grimoire-overlay";
+    positionOverlayModal(overlay, triggerBtn);
+
+    const modal = document.createElement("div");
+    modal.className = "grimoire-modal";
+    modal.innerHTML =
+      '<button type="button" class="grimoire-modal-close" aria-label="Close">✕</button>' +
+      '<p class="grimoire-modal-eyebrow">Member Submission</p>' +
+      '<h3 class="grimoire-modal-title">Submit Your Tome</h3>' +
+      '<p class="tome-disclaimer" style="margin-bottom: 16px;">Submit your work to be featured in the Grimoire Shelf. Entries are reviewed before publication.</p>' +
+      
+      '<div class="grimoire-field">' +
+        '<label for="sub-title">Book Title</label>' +
+        '<input type="text" id="sub-title" placeholder="e.g. Shadows of the Moon" required>' +
+      '</div>' +
+      '<div class="grimoire-field">' +
+        '<label for="sub-author">Author Name(s)</label>' +
+        '<input type="text" id="sub-author" placeholder="e.g. Jane Doe" required>' +
+      '</div>' +
+      '<div class="grimoire-field">' +
+        '<label for="sub-badge">Category / Badge</label>' +
+        '<select id="sub-badge">' +
+          '<option value="Fiction">Fiction</option>' +
+          '<option value="Ritual Texts">Ritual Texts</option>' +
+          '<option value="Curriculum">Curriculum</option>' +
+          '<option value="Family">Family</option>' +
+        '</select>' +
+      '</div>' +
+      '<div class="grimoire-field">' +
+        '<label for="sub-desc">Short Description</label>' +
+        '<textarea id="sub-desc" placeholder="Brief summary of your tome..." required></textarea>' +
+      '</div>' +
+      '<div class="grimoire-field">' +
+        '<label for="sub-cover">Cover Image Link (URL)</label>' +
+        '<input type="url" id="sub-cover" placeholder="https://...">' +
+      '</div>' +
+      '<div class="grimoire-field">' +
+        '<label for="sub-signed-price">Signed Copy Price</label>' +
+        '<input type="text" id="sub-signed-price" placeholder="$29.99 or N/A">' +
+      '</div>' +
+      '<div class="grimoire-field">' +
+        '<label for="sub-amazon-price">Amazon Digital/Paperback Price</label>' +
+        '<input type="text" id="sub-amazon-price" placeholder="$9.99">' +
+      '</div>' +
+      '<div class="grimoire-field">' +
+        '<label for="sub-amazon-url">Amazon Purchase URL</label>' +
+        '<input type="url" id="sub-amazon-url" placeholder="https://www.amazon.com/dp/...">' +
+      '</div>' +
+
+      '<button type="button" class="tome-btn btn-signed grimoire-modal-submit">' +
+        '<span>Submit Tome for Review</span><span class="btn-price">→</span>' +
+      '</button>' +
+      '<div class="grimoire-modal-status"></div>';
+
+    overlay.appendChild(modal);
+    root.appendChild(overlay);
+
+    const closeBtn = modal.querySelector(".grimoire-modal-close");
+    const submitBtn = modal.querySelector(".grimoire-modal-submit");
+    const statusEl = modal.querySelector(".grimoire-modal-status");
+
+    function closeModal() { overlay.remove(); }
+    closeBtn.addEventListener("click", closeModal);
+    overlay.addEventListener("click", function (e) { if (e.target === overlay) closeModal(); });
+
+    submitBtn.addEventListener("click", function () {
+      const title = modal.querySelector("#sub-title").value.trim();
+      const author = modal.querySelector("#sub-author").value.trim();
+      const badge = modal.querySelector("#sub-badge").value;
+      const desc = modal.querySelector("#sub-desc").value.trim();
+      const cover = modal.querySelector("#sub-cover").value.trim();
+      const signedPrice = modal.querySelector("#sub-signed-price").value.trim() || "$29.99";
+      const amazonPrice = modal.querySelector("#sub-amazon-price").value.trim() || "$9.99";
+      const amazonUrl = modal.querySelector("#sub-amazon-url").value.trim();
+
+      if (!title || !author || !desc) {
+        statusEl.textContent = "Please fill in at least Title, Author, and Description.";
+        statusEl.className = "grimoire-modal-status error";
+        return;
+      }
+
+      // Pre-formatted code snippet sent directly to your email
+      const codeBlock = `{\n  title: "${title}",\n  author: "${author}",\n  badge: "${badge}",\n  rune: "✦",\n  image: "${cover}",\n  description: "${desc.replace(/"/g, '\\"')}",\n  signedPrice: "${signedPrice}",\n  amazonPrice: "${amazonPrice}",\n  amazonUrl: "${amazonUrl}",\n  signedUrl: ""\n},`;
+
+      submitBtn.setAttribute("disabled", "true");
+      statusEl.textContent = "Submitting your tome...";
+      statusEl.className = "grimoire-modal-status pending";
+
+      if (emailjsConfigured && window.emailjs) {
+        emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, {
+          book_title: "NEW MEMBER SUBMISSION: " + title,
+          price: "Signed: " + signedPrice + " | Amazon: " + amazonPrice,
+          buyer_name: author,
+          buyer_email: "Member Submission",
+          shipping_address: "CODE BLOCK TO COPY:\n\n" + codeBlock,
+          to_email: SIGNED_ORDER_EMAIL
+        }).then(function () {
+          statusEl.textContent = "✧ Submission received! We will review your tome shortly.";
+          statusEl.className = "grimoire-modal-status success";
+          submitBtn.style.display = "none";
+          setTimeout(closeModal, 3500);
+        }).catch(function () {
+          statusEl.textContent = "Couldn't send automatically — opening email client.";
+          statusEl.className = "grimoire-modal-status error";
+          const mailto = "mailto:" + SIGNED_ORDER_EMAIL + "?subject=" + encodeURIComponent("Book Submission: " + title) + "&body=" + encodeURIComponent(codeBlock);
+          window.open(mailto, "_blank");
+          submitBtn.removeAttribute("disabled");
+        });
+      } else {
+        const mailto = "mailto:" + SIGNED_ORDER_EMAIL + "?subject=" + encodeURIComponent("Book Submission: " + title) + "&body=" + encodeURIComponent(codeBlock);
+        window.open(mailto, "_blank");
+        submitBtn.removeAttribute("disabled");
+      }
+    });
+  }
+
+})();
+</script>
+
+
+
+
+
+
+
+</body></html>

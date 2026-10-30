@@ -1,0 +1,221 @@
+<!-- The Obsidian Mirror: Thaddeus's own program from the old temple web pages (30 October 2026), played inside the Temple of the Obsidian Moon. Changes for the game are marked "temple:". -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Cinzel&display=swap');
+
+  body {
+    margin: 0; padding: 0; min-height: 100vh;
+    display: flex; justify-content: center; align-items: flex-end;
+    background-color:#0a0612; background-image: url('https://static.wixstatic.com/media/d6c75e_dc79e19fbbf14e94888344ac050f59d1~mv2.png');
+    background-size: cover; background-position: center;
+    font-family: 'Cinzel', serif;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+
+  .container {
+    text-align: center; background: rgba(0, 0, 0, 0.5);
+    padding: 30px; border-radius: 20px;
+    border: 1px solid #4a306d;
+    backdrop-filter: blur(5px);
+    margin-bottom: 8vh;
+  }
+
+  #mirror-text {
+    font-size: 1.5rem; font-style: italic;
+    color: transparent;
+    background: linear-gradient(90deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    opacity: 0;
+    transition: opacity 3s ease-in;
+    min-height: 80px; max-width: 400px;
+  }
+
+  button {
+    background: rgba(42, 26, 74, 0.8); color: #c0a0ff;
+    border: 1px solid #7040b0; padding: 12px 30px;
+    cursor: pointer; text-transform: uppercase;
+    letter-spacing: 2px; transition: 0.3s;
+    margin-top: 20px;
+  }
+
+  button:hover { background: #402070; box-shadow: 0 0 15px #7040b0; }
+
+  button:focus-visible { outline: 2px solid #c0a0ff; outline-offset: 3px; }
+
+  /* Hidden Reset Trigger */
+  #reset-btn {
+    position: fixed; bottom: 5px; right: 5px;
+    width: 20px; height: 20px;
+    background: transparent; border: none; cursor: pointer;
+  }
+
+  .starburst {
+    position: absolute; color: #fff; font-size: 30px;
+    text-shadow: 0 0 10px #ff0, 0 0 20px #ff0;
+    pointer-events: none; z-index: 10;
+    animation: burst 1.5s ease-out forwards;
+  }
+
+  @keyframes burst {
+    0% { transform: scale(0) rotate(0deg); opacity: 1; }
+    100% { transform: scale(3) rotate(180deg); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="mirror-text">Consult the Obsidian Moon...</div>
+    <button id="btn" onclick="reveal()">Seek Reflection</button>
+  </div>
+
+  <!-- Hidden Reset Button -->
+  <button id="reset-btn" onclick="resetMirror()" title="Admin Reset" aria-label="Admin Reset"></button>
+
+  <script>
+    const reflections = [
+      "The darkness reveals what the light hides.",
+      "A path is only as clear as the shadow it casts.",
+      "The Old Gods look upon your intent.",
+      "You are the magic you seek.",
+      "Balance is found in the heart of the storm.",
+      "The mirror reflects the future you are forging.",
+      "What you resist quietly shapes you the most.",
+      "Patience is a spell that always works.",
+      "The question you keep avoiding holds your answer.",
+      "Small, honest steps outpace grand, hollow ones.",
+      "Not every door needs to be opened today.",
+      "The quiet voice is usually the true one.",
+      "What you water will grow, choose carefully.",
+      "Your instincts already know, your fear is just louder.",
+      "Rest is not the opposite of progress.",
+      "The version of you from a year ago would be proud.",
+      "Let go of what was never truly yours to carry.",
+      "A single honest word outweighs a hundred careful ones.",
+      "The storm you fear may be the one that clears the air.",
+      "You are allowed to outgrow what once fit you.",
+      "The mirror does not lie, but it does wait for courage.",
+      "Somewhere, a decision you made has already begun to bloom.",
+      "What feels like delay may simply be preparation.",
+      "The company you keep is a mirror of its own.",
+      "Today asks for presence, not perfection.",
+      "The thing you keep postponing is ready when you are.",
+      "Old wounds soften when finally spoken aloud.",
+      "You do not need permission to change your mind.",
+      "The path behind you was never wasted.",
+      "Trust the timing, even when it tests you."
+    ];
+
+    const STORAGE_KEY = 'otm_mirror_lastUsed'; // temple: its own name, so it can't meet another program's
+
+    function todayString() {
+      return new Date().toDateString();
+    }
+
+    // Uses Claude's artifact storage when this runs inside a Claude preview,
+    // and falls back to plain localStorage anywhere else (e.g. your live site).
+    async function storageGet(key) {
+      if (typeof window.storage !== 'undefined') {
+        try {
+          const result = await window.storage.get(key);
+          return result ? result.value : null;
+        } catch (e) {
+          return null;
+        }
+      }
+      try {
+        return localStorage.getItem(key);
+      } catch (e) {
+        return null;
+      }
+    }
+
+    async function storageSet(key, value) {
+      if (typeof window.storage !== 'undefined') {
+        try {
+          await window.storage.set(key, value);
+          return;
+        } catch (e) {
+          console.error('Could not save to artifact storage:', e);
+        }
+      }
+      try {
+        localStorage.setItem(key, value);
+      } catch (e) {
+        console.error('Could not save to localStorage:', e);
+      }
+    }
+
+    async function storageDelete(key) {
+      if (typeof window.storage !== 'undefined') {
+        try {
+          await window.storage.delete(key);
+          return;
+        } catch (e) {
+          console.error('Could not clear artifact storage:', e);
+        }
+      }
+      try {
+        localStorage.removeItem(key);
+      } catch (e) {
+        console.error('Could not clear localStorage:', e);
+      }
+    }
+
+    function showLockedMessage() {
+      document.getElementById('mirror-text').innerText = "The mirror has already revealed your truth for today.";
+      document.getElementById('mirror-text').style.opacity = "1";
+      document.getElementById('btn').style.display = 'none';
+    }
+
+    async function checkLock() {
+      const stored = await storageGet(STORAGE_KEY);
+      if (stored === todayString()) {
+        showLockedMessage();
+        return true;
+      }
+      return false;
+    }
+
+    async function reveal() {
+      const alreadyUsed = await checkLock();
+      if (alreadyUsed) return;
+
+      const text = document.getElementById('mirror-text');
+      text.innerText = reflections[Math.floor(Math.random() * reflections.length)];
+      text.style.opacity = "1";
+      document.getElementById('btn').style.display = 'none';
+
+      for(let i=0; i<8; i++) {
+        let star = document.createElement('div');
+        star.innerHTML = "✧";
+        star.className = 'starburst';
+        star.style.left = (45 + Math.random() * 10) + "%";
+        star.style.top = (45 + Math.random() * 10) + "%";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 1500);
+      }
+
+      await storageSet(STORAGE_KEY, todayString());
+    }
+
+    // Check the lock as soon as the page loads, not just on click
+    checkLock();
+
+    // temple: no passcode in the page. Only the Keeper (signed in, in the game) sees the reset, and it needs no word.
+    function templeKeeper(){ try{ return !!(window.parent && window.parent !== window && window.parent.isKeeperNow && window.parent.isKeeperNow()); }catch(e){ return false; } }
+    if(!templeKeeper()){ var rb=document.getElementById('reset-btn'); if(rb) rb.style.display='none'; }
+    async function resetMirror() {
+      if (!templeKeeper()) return;
+      await storageDelete(STORAGE_KEY);
+      location.reload();
+    }
+  </script>
+</body>
+</html>

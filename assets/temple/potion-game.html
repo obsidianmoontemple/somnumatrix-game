@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Thaddeus's own Potion Game from the Temple of the Obsidian Moon's web pages, brought into the game temple's
+     Apothecary on 30 October 2026, as he wrote it. One change: the furnace no longer brightens when it flares (no strobe). -->
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>The Obsidian Moon Potion Game</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=IM+Fell+English:ital@0;1&family=Special+Elite&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&display=swap');
+
+:root{
+  --bg-deepest:#08050c;
+  --bg-panel:#120b1b;
+  --wood-hi:#231435;
+  --parchment:#1a1326;
+  --parchment-dark:#110b1a;
+  --parchment-shadow:#3a2752;
+  --gold:#d000ff;
+  --gold-bright:#39ff14;
+  --acid-green:#39ff14;
+  --acid-neon:#00ff66;
+  --verdigris:#00ffcc;
+  --verdigris-dark:#008866;
+  --wax-red:#9900ff;
+  --ink:#e2d6ff;
+  --ink-soft:#a68fc2;
+  --font-display:'Cinzel Decorative', serif;
+  --font-body:'IM Fell English', serif;
+  --font-ui:'Special Elite', monospace;
+  --font-elegant:'Cormorant Garamond', serif;
+}
+
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;touch-action:manipulation;}
+
+body{
+  background:
+    radial-gradient(ellipse at 30% 0%, rgba(208,0,255,0.12), transparent 60%),
+    radial-gradient(ellipse at 80% 100%, rgba(57,255,20,0.08), transparent 55%),
+    var(--bg-deepest);
+  color:var(--ink);
+  font-family:var(--font-elegant);
+  min-height:100vh;
+  padding:16px 12px 40px;
+  overflow-x:hidden;
+}
+
+.wrap{max-width:1220px;margin:0 auto;}
+
+.temple-header{text-align:center;margin-bottom:24px;position:relative;}
+.temple-eyebrow{font-family:var(--font-ui);letter-spacing:0.35em;font-size:11px;color:var(--acid-green);opacity:0.9;text-transform:uppercase;text-shadow:0 0 8px rgba(57,255,20,0.4);}
+.temple-title{font-family:var(--font-display);font-size:clamp(26px,5vw,48px);color:var(--gold);margin:6px 0 4px;text-shadow:0 0 22px rgba(208,0,255,0.6), 0 2px 0 rgba(0,0,0,0.8);letter-spacing:0.03em;}
+.temple-sub{font-family:var(--font-body);font-style:italic;color:var(--ink-soft);font-size:15px;max-width:660px;margin:0 auto;line-height:1.4;}
+.temple-rule{width:180px;height:1px;margin:14px auto 0;background:linear-gradient(90deg,transparent,var(--acid-green),transparent);opacity:0.6;}
+
+.stage{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:20px;align-items:start;}
+@media(max-width:900px){.stage{grid-template-columns:1fr;}}
+
+.book-frame{background:linear-gradient(180deg,var(--wood-hi),var(--bg-panel));border-radius:14px;padding:16px;box-shadow:0 15px 35px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(208,0,255,0.3);position:sticky;top:12px;}
+.book{background:var(--parchment);border-radius:6px;min-height:500px;position:relative;box-shadow:inset 0 0 50px rgba(0,0,0,0.8), 0 8px 20px rgba(0,0,0,0.6);padding:18px 18px 16px;border:1px solid rgba(153,0,255,0.3);color:var(--ink);overflow:hidden;}
+.book::before{content:"";position:absolute;left:0;top:0;bottom:0;width:20px;background:linear-gradient(90deg, rgba(0,0,0,0.6), transparent);}
+
+.tab-bar{display:flex;gap:8px;margin-bottom:12px;}
+.tab-btn{flex:1;font-family:var(--font-ui);font-size:11px;letter-spacing:0.08em;padding:9px;border:1px solid var(--parchment-shadow);background:transparent;color:var(--ink-soft);cursor:pointer;border-radius:4px;text-transform:uppercase;transition:all .15s ease;}
+.tab-btn:hover{background:rgba(208,0,255,0.15);color:var(--ink);}
+.tab-btn.active{background:var(--wax-red);color:#fff;box-shadow:0 0 12px rgba(153,0,255,0.5);}
+
+.level-pills{display:flex;gap:6px;margin-bottom:12px;flex-wrap:wrap;}
+.level-pill{font-family:var(--font-ui);font-size:10px;padding:6px 10px;border-radius:20px;border:1px solid var(--parchment-shadow);background:transparent;color:var(--ink-soft);cursor:pointer;transition:all .15s ease;}
+.level-pill:hover:not(.locked){border-color:var(--acid-green);color:var(--acid-green);}
+.level-pill.active{background:var(--acid-green);border-color:var(--acid-green);color:#000;font-weight:bold;box-shadow:0 0 10px rgba(57,255,20,0.4);}
+.level-pill.locked{opacity:0.35;cursor:not-allowed;}
+.level-pill-frac{opacity:0.75;font-size:9px;}
+
+.book-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.book-nav-btn{background:none;border:1px solid var(--parchment-shadow);color:var(--ink-soft);font-family:var(--font-ui);font-size:11px;letter-spacing:0.08em;padding:5px 10px;border-radius:3px;cursor:pointer;transition:all .15s ease;}
+.book-nav-btn:hover:not(:disabled){background:var(--parchment-shadow);color:var(--ink);}
+.book-nav-btn:disabled{opacity:0.3;cursor:default;}
+.book-page-num{font-family:var(--font-ui);font-size:11px;color:var(--parchment-shadow);}
+
+.page-title{font-family:var(--font-display);font-size:19px;color:var(--gold);margin:2px 0 4px;line-height:1.25;display:flex;align-items:center;gap:8px;flex-wrap:wrap;text-shadow:0 0 8px rgba(208,0,255,0.3);}
+.page-title .done-tag{font-family:var(--font-ui);font-size:9.5px;color:var(--acid-green);border:1px solid var(--acid-green);padding:2px 5px;border-radius:3px;}
+.page-desc{font-family:var(--font-body);font-style:italic;font-size:14px;line-height:1.45;color:var(--ink-soft);margin-bottom:10px;border-left:2px solid var(--wax-red);padding-left:10px;}
+
+.ingredient-list-title{font-family:var(--font-ui);font-size:10.5px;letter-spacing:0.1em;color:var(--acid-green);text-transform:uppercase;margin-bottom:4px;}
+.ingredient-list{list-style:none;padding:0;margin:0 0 12px;}
+.ingredient-list li{font-family:var(--font-body);font-size:14px;padding:3px 0 3px 20px;position:relative;}
+.ingredient-list li::before{content:"\2726";position:absolute;left:0;color:var(--gold);font-size:10px;top:6px;}
+.ingredient-list li.have::before{content:"\2714";color:var(--acid-green);}
+.ingredient-list li.unknown{color:var(--ink-soft);font-style:italic;}
+.ingredient-list li .prep-tag{font-family:var(--font-ui);font-size:9px;color:var(--ink-soft);margin-left:5px;}
+
+.instr-toggle{font-family:var(--font-ui);font-size:10.5px;letter-spacing:0.06em;background:none;border:1px dashed var(--parchment-shadow);color:var(--ink-soft);padding:5px 9px;border-radius:3px;cursor:pointer;margin-bottom:10px;}
+.instr-toggle:hover{border-color:var(--gold);color:var(--gold);}
+
+.riddle-box{font-family:var(--font-body);font-style:italic;font-size:13.5px;line-height:1.5;color:var(--ink);background:rgba(153,0,255,0.1);border:1px solid rgba(153,0,255,0.3);padding:9px 11px;border-radius:4px;margin-bottom:12px;}
+.riddle-box.plain{background:rgba(57,255,20,0.08);border-color:rgba(57,255,20,0.3);color:var(--acid-green);font-style:normal;font-family:var(--font-ui);font-size:11px;letter-spacing:0.02em;}
+
+.select-recipe-btn{width:100%;font-family:var(--font-ui);font-size:11.5px;letter-spacing:0.1em;padding:10px;border-radius:4px;border:1px solid var(--gold);background:var(--wax-red);color:#fff;cursor:pointer;text-transform:uppercase;transition:all .15s ease;box-shadow:0 0 10px rgba(153,0,255,0.3);}
+.select-recipe-btn:hover{background:#b300ff;box-shadow:0 0 15px rgba(208,0,255,0.6);}
+.select-recipe-btn.active{background:var(--verdigris-dark);border-color:var(--acid-green);color:var(--acid-green);}
+
+.reset-link{display:block;text-align:center;margin-top:12px;font-family:var(--font-ui);font-size:9px;color:var(--ink-soft);background:none;border:none;cursor:pointer;text-decoration:underline;opacity:0.6;}
+.reset-link:hover{opacity:1;color:var(--acid-green);}
+
+.materia-panel{display:none;}
+.materia-panel.active{display:block;}
+.recipes-panel.hidden{display:none;}
+.materia-intro{font-family:var(--font-body);font-style:italic;font-size:13px;color:var(--ink-soft);margin-bottom:6px;}
+.materia-count{font-family:var(--font-ui);font-size:9px;color:var(--acid-green);margin-bottom:10px;letter-spacing:0.02em;line-height:1.4;}
+.materia-list{max-height:420px;overflow-y:auto;padding-right:4px;}
+.materia-item{border-bottom:1px solid rgba(153,0,255,0.2);padding:8px 2px;}
+.materia-item-head{display:flex;align-items:center;gap:8px;cursor:pointer;}
+.materia-item-head svg{width:20px;height:20px;flex-shrink:0;}
+.materia-item-name{font-family:var(--font-body);font-size:14.5px;color:var(--ink);}
+.materia-item-cat{font-family:var(--font-ui);font-size:8.5px;color:var(--ink-soft);margin-left:auto;text-transform:uppercase;white-space:nowrap;}
+.materia-item-body{max-height:0;overflow:hidden;transition:max-height .35s ease-out;}
+.materia-item.expanded .materia-item-body{max-height:300px;}
+.materia-item-body-inner{font-family:var(--font-body);font-style:italic;font-size:13px;color:var(--ink-soft);padding:6px 0 2px 0;}
+.materia-effect{font-family:var(--font-ui);font-size:9px;color:var(--acid-green);margin-top:4px;letter-spacing:0.03em;text-transform:uppercase;}
+.materia-caution{font-family:var(--font-ui);font-size:9px;color:var(--gold);margin-top:2px;text-transform:uppercase;}
+.materia-item.locked-item .materia-item-head{opacity:0.4;cursor:default;}
+.materia-item.locked-item svg{color:#4a3763 !important;}
+.locked-note{font-family:var(--font-ui);font-size:9px;color:var(--ink-soft);font-style:italic;margin:2px 0 4px 28px;}
+
+.scratch-hint{font-family:var(--font-ui);font-size:9px;color:var(--acid-green);margin:2px 0 4px;letter-spacing:0.02em;text-transform:uppercase;}
+.scratch-wrap{position:relative;border-radius:6px;overflow:hidden;min-height:105px;background:var(--parchment-dark);border:1px stroke var(--parchment-shadow);touch-action:none;}
+.scratch-content{padding:8px 10px;user-select:none;}
+.scratch-canvas{position:absolute;inset:0;touch-action:none;cursor:crosshair;width:100%;height:100%;z-index:2;}
+
+/* ---------- LAB ---------- */
+.lab{background:linear-gradient(180deg,var(--wood-hi),var(--bg-panel));border-radius:14px;padding:20px;box-shadow:0 15px 35px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(57,255,20,0.2);}
+.lab-top{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px;flex-wrap:wrap;gap:6px;}
+.lab-title{font-family:var(--font-display);font-size:18px;color:var(--gold);text-shadow:0 0 10px rgba(208,0,255,0.4);}
+.active-recipe-tag{font-family:var(--font-ui);font-size:10.5px;color:var(--acid-green);}
+.shelf-hint{font-family:var(--font-ui);font-size:9.5px;color:var(--ink-soft);margin-bottom:12px;letter-spacing:0.01em;line-height:1.4;}
+
+.shelf{display:grid;grid-template-columns:repeat(auto-fill,minmax(82px,1fr));gap:9px;margin-bottom:16px;max-height:240px;overflow-y:auto;padding-right:4px;}
+.shelf-empty{font-family:var(--font-body);font-style:italic;font-size:13.5px;color:var(--ink-soft);padding:12px 4px;}
+.jar{background:linear-gradient(180deg, rgba(153,0,255,0.15), rgba(0,0,0,0.4));border:1px solid rgba(208,0,255,0.3);border-radius:8px;padding:8px 4px 6px;text-align:center;cursor:grab;transition:transform .12s ease, border-color .12s ease, background .12s ease, opacity .12s ease;position:relative;touch-action:none;user-select:none;}
+.jar:hover{transform:translateY(-2px);border-color:var(--acid-green);background:rgba(57,255,20,0.1);box-shadow:0 0 10px rgba(57,255,20,0.2);}
+.jar:focus-visible{outline:2px solid var(--acid-green);outline-offset:2px;}
+.jar svg{width:22px;height:22px;margin-bottom:2px;pointer-events:none;}
+.jar-name{font-family:var(--font-ui);font-size:8px;letter-spacing:0.01em;color:var(--ink);line-height:1.2;display:block;pointer-events:none;}
+.jar-count{position:absolute;top:3px;right:5px;font-family:var(--font-ui);font-size:9.5px;color:var(--acid-green);}
+.jar.caution{border-color:rgba(208,0,255,0.6);}
+.jar.caution:hover{border-color:var(--gold);}
+.jar.dragging{opacity:0.25;}
+.jar.shake{animation:shakejar .35s ease;}
+.jar.in-station{opacity:0.5;}
+@keyframes shakejar{0%,100%{transform:translateX(0);}25%{transform:translateX(-4px);}75%{transform:translateX(4px);}}
+
+.jar-tool{display:flex;align-items:center;justify-content:center;gap:2px;margin-top:3px;pointer-events:none;}
+.jar-tool svg{width:9px;height:9px;margin:0;color:var(--acid-green);}
+.jar-tool-label{font-family:var(--font-ui);font-size:6.8px;color:var(--acid-green);letter-spacing:0;pointer-events:none;}
+
+.jar.cat-herb{border-radius:6px 6px 14px 14px;}
+.jar.cat-flower{border-radius:50% 50% 8px 8px/60% 60% 8px 8px;}
+.jar.cat-liquid{border-radius:40% 40% 6px 6px/55% 55% 6px 6px;}
+.jar.cat-root{border-radius:4px 4px 18px 18px;}
+.jar.cat-resin{border-radius:55% 45% 35% 65% / 50% 55% 45% 50%;}
+.jar.cat-mineral{border-radius:2px;}
+.jar.cat-berry{border-radius:8px 8px 50% 50%;}
+.jar.cat-creature{border-radius:6px;}
+.jar.cat-fungus{border-radius:4px 4px 50% 50%;}
+.jar.cat-sweet{border-radius:8px;}
+.jar.cat-metal{border-radius:3px;background-image:linear-gradient(135deg, rgba(255,255,255,0.14), transparent 45%);box-shadow:inset 0 0 0 1px rgba(208,0,255,0.35);}
+
+.drag-ghost{position:fixed;pointer-events:none;z-index:9999;width:52px;height:52px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:rgba(18,11,27,0.95);border:1px solid var(--acid-green);border-radius:10px;transform:translate(-50%,-50%);box-shadow:0 0 18px rgba(57,255,20,0.6);}
+.drag-ghost svg{width:22px;height:22px;color:var(--acid-green);}
+
+/* prep stations */
+.stations{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:18px;}
+.station{background:rgba(0,0,0,0.4);border:1px solid rgba(153,0,255,0.3);border-radius:8px;padding:9px;text-align:center;position:relative;transition:border-color .15s ease, box-shadow .15s ease;touch-action:none;}
+.station.drop-hover{border-color:var(--acid-green);box-shadow:0 0 15px rgba(57,255,20,0.4);}
+.station.reject{animation:shakejar .35s ease;}
+.station-label{font-family:var(--font-ui);font-size:9px;letter-spacing:0.05em;color:var(--gold);text-transform:uppercase;margin-bottom:2px;}
+.station-scene{position:relative;height:65px;margin-bottom:2px;cursor:pointer;touch-action:manipulation;}
+.station-scene svg{width:100%;height:100%;overflow:visible;}
+.pestle-group,.knife-group,.rack-hand,.furnace-flame{transform-box:fill-box;transform-origin:center;}
+@keyframes poundMortar{0%{transform:translateY(0) rotate(0deg);}40%{transform:translateY(7px) rotate(-8deg);}100%{transform:translateY(0) rotate(0deg);}}
+.pestle-group.pound{animation:poundMortar .22s ease;}
+@keyframes chopKnife{0%{transform:translateY(0) rotate(0deg);}35%{transform:translateY(12px) rotate(-5deg);}100%{transform:translateY(0) rotate(0deg);}}
+.knife-group.chop{animation:chopKnife .2s ease;}
+@keyframes pullRack{0%{transform:translateY(0);}40%{transform:translateY(10px);}100%{transform:translateY(0);}}
+.rack-hand.pull{animation:pullRack .22s ease;}
+@keyframes flareFurnace{0%{transform:scale(1);}40%{transform:scale(1.25);}100%{transform:scale(1);}}
+.furnace-flame.flare{animation:flareFurnace .22s ease;}
+.ripple{fill:none;stroke:rgba(57,255,20,0.6);stroke-width:2;opacity:0;}
+.station-scene.steeping .ripple{animation:rippleAnim 1.8s ease-out infinite;}
+.station-scene.steeping .ripple2{animation-delay:.9s;}
+@keyframes rippleAnim{0%{r:5;opacity:0.8;}100%{r:24;opacity:0;}}
+
+.station-slot{position:absolute;left:50%;bottom:2px;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;cursor:default;pointer-events:none;touch-action:none;}
+.station-slot.ready{cursor:grab;pointer-events:auto;}
+.station-slot svg{width:18px;height:18px;filter:drop-shadow(0 2px 3px rgba(0,0,0,0.8));}
+.station-slot-label{font-family:var(--font-ui);font-size:7px;color:var(--acid-green);margin-top:1px;background:rgba(0,0,0,0.85);padding:1px 4px;border-radius:3px;white-space:nowrap;border:1px solid rgba(57,255,20,0.3);}
+.station-slot.ready .station-slot-label{color:var(--acid-green);box-shadow:0 0 6px rgba(57,255,20,0.4);}
+.station-status{font-family:var(--font-ui);font-size:8px;color:var(--ink-soft);letter-spacing:0.01em;line-height:1.3;min-height:20px;}
+.station-clear{position:absolute;top:2px;right:4px;background:none;border:none;color:var(--ink-soft);cursor:pointer;font-family:var(--font-ui);font-size:12px;line-height:1;padding:2px 5px;display:none;z-index:3;}
+.station-clear:hover{color:var(--acid-green);}
+
+/* cauldron */
+.bench{display:grid;grid-template-columns:1fr 210px;gap:20px;align-items:start;}
+@media(max-width:640px){.bench{grid-template-columns:1fr;}}
+.cauldron-zone{display:flex;flex-direction:column;align-items:center;}
+.cauldron-wrap{position:relative;width:210px;height:210px;margin-bottom:8px;}
+.steam{position:absolute;bottom:78%;left:50%;width:50px;height:100px;transform:translateX(-50%);pointer-events:none;}
+.steam span{position:absolute;bottom:0;width:12px;height:12px;border-radius:50%;background:radial-gradient(circle, rgba(208,0,255,0.4), transparent 70%);animation:rise 3.2s ease-in infinite;opacity:0;}
+.steam span:nth-child(1){left:4px;animation-delay:0s;}
+.steam span:nth-child(2){left:20px;animation-delay:1.0s;}
+.steam span:nth-child(3){left:34px;animation-delay:2.0s;}
+@keyframes rise{0%{transform:translateY(0) scale(0.6);opacity:0;}15%{opacity:0.6;}100%{transform:translateY(-80px) scale(1.5);opacity:0;}}
+
+.cauldron{position:relative;width:100%;height:100%;border-radius:50%;cursor:grab;touch-action:none;user-select:none;}
+.cauldron:active{cursor:grabbing;}
+.cauldron-pot{position:absolute;inset:0;border-radius:50%;background:radial-gradient(circle at 35% 30%, #231435, #08050c 65%);box-shadow:inset 0 -12px 22px rgba(0,0,0,0.9), inset 0 8px 16px rgba(0,0,0,0.7), 0 12px 22px rgba(0,0,0,0.8);border:3px solid #1a0f28;transition:box-shadow .15s ease;}
+.cauldron.drop-hover .cauldron-pot{box-shadow:0 0 20px var(--acid-green), inset 0 -12px 22px rgba(0,0,0,0.9);}
+.liquid{position:absolute;left:9%;right:9%;top:12%;bottom:12%;border-radius:50%;background:var(--liquid-color, #1a0033);overflow:hidden;transition:background-color .5s ease;box-shadow:inset 0 6px 14px rgba(0,0,0,0.6);}
+.liquid::before,.liquid::after{content:"";position:absolute;border-radius:50%;background:rgba(57,255,20,0.25);animation:bubble 4s ease-in-out infinite;}
+.liquid::before{width:30%;height:30%;left:12%;top:48%;animation-delay:0s;}
+.liquid::after{width:20%;height:20%;left:58%;top:22%;animation-delay:1.4s;}
+@keyframes bubble{0%,100%{transform:translateY(4px) scale(0.9);opacity:0.5;}50%{transform:translateY(-4px) scale(1.05);opacity:0.85;}}
+.liquid-glow{position:absolute;inset:0;border-radius:50%;box-shadow:0 0 26px 5px var(--liquid-color, #9900ff);opacity:0.5;pointer-events:none;}
+.stir-ring{position:absolute;left:50%;top:50%;width:8px;height:8px;border-radius:50%;background:var(--acid-green);box-shadow:0 0 10px var(--acid-green);transform:translate(-50%,-50%) rotate(0deg) translateX(60px);pointer-events:none;opacity:0;transition:opacity .2s ease;}
+.stir-ring.show{opacity:1;}
+
+.tokens-in-pot{position:absolute;inset:0;pointer-events:none;}
+.token-chip{position:absolute;font-size:14px;animation:bob 2.6s ease-in-out infinite;filter:drop-shadow(0 0 4px rgba(0,0,0,0.9));}
+.token-chip.pop{animation:popin .35s ease, bob 2.6s ease-in-out infinite .35s;}
+@keyframes popin{0%{transform:scale(0);}60%{transform:scale(1.3);}100%{transform:scale(1);}}
+@keyframes bob{0%,100%{transform:translateY(0);}50%{transform:translateY(-4px);}}
+
+.cauldron-hint{font-family:var(--font-ui);font-size:9.5px;color:var(--ink-soft);text-align:center;letter-spacing:0.03em;margin-bottom:3px;min-height:13px;}
+.stir-counter{font-family:var(--font-ui);font-size:11px;color:var(--acid-green);margin-bottom:12px;letter-spacing:0.04em;}
+
+.controls{display:flex;flex-direction:column;gap:12px;}
+.control-block{background:rgba(0,0,0,0.4);border:1px solid rgba(153,0,255,0.25);border-radius:8px;padding:10px 12px;}
+.control-label{font-family:var(--font-ui);font-size:9.5px;letter-spacing:0.08em;color:var(--gold);text-transform:uppercase;margin-bottom:6px;display:block;}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;border-radius:3px;background:linear-gradient(90deg, #110b1a, var(--acid-green));outline:none;touch-action:none;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;appearance:none;width:18px;height:18px;border-radius:50%;background:var(--acid-green);border:2px solid #08050c;cursor:pointer;box-shadow:0 0 8px rgba(57,255,20,0.8);}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:var(--acid-green);border:2px solid #08050c;cursor:pointer;}
+.heat-readout{font-family:var(--font-ui);font-size:10.5px;color:var(--ink-soft);margin-top:5px;}
+
+.added-list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:3px;min-height:18px;}
+.added-list li{font-family:var(--font-ui);font-size:10px;color:var(--ink);display:flex;justify-content:space-between;}
+.added-empty{font-family:var(--font-ui);font-size:10px;color:var(--ink-soft);font-style:italic;}
+
+.btn-row{display:flex;gap:8px;}
+.btn{flex:1;font-family:var(--font-ui);font-size:11px;letter-spacing:0.06em;padding:10px 6px;border-radius:5px;cursor:pointer;text-transform:uppercase;transition:all .15s ease;border:1px solid transparent;}
+.btn-brew{background:var(--wax-red);color:#fff;border-color:var(--gold);box-shadow:0 0 10px rgba(153,0,255,0.4);}
+.btn-brew:hover:not(:disabled){background:#b300ff;box-shadow:0 0 15px rgba(208,0,255,0.7);}
+.btn-brew:disabled{background:#1a1326;color:#53436b;border-color:transparent;box-shadow:none;cursor:not-allowed;}
+.btn-clear{background:transparent;color:var(--ink-soft);border-color:rgba(153,0,255,0.3);}
+.btn-clear:hover{border-color:var(--acid-green);color:var(--acid-green);}
+
+.result{margin-top:14px;padding:12px 14px;border-radius:8px;font-family:var(--font-body);font-size:15px;line-height:1.45;border:1px solid;display:none;}
+.result.show{display:block;animation:fadein .4s ease;}
+@keyframes fadein{from{opacity:0;transform:translateY(5px);}to{opacity:1;transform:translateY(0);}}
+.result-grade{font-family:var(--font-display);font-size:16px;display:block;margin-bottom:3px;}
+.result-unlock{display:block;margin-top:6px;font-family:var(--font-ui);font-size:10.5px;color:var(--acid-green);}
+.result.perfect{background:rgba(57,255,20,0.1);border-color:var(--acid-green);color:#d0ffd0;}
+.result.fine{background:rgba(208,0,255,0.1);border-color:var(--gold);color:var(--ink);}
+.result.unstable{background:rgba(180,130,50,0.1);border-color:#b48232;color:var(--ink);}
+.result.ruined{background:rgba(153,0,255,0.2);border-color:var(--wax-red);color:#e8c6c6;}
+
+@media (prefers-reduced-motion: reduce){*{animation-duration:0.001ms !important;animation-iteration-count:1 !important;transition-duration:0.001ms !important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header class="temple-header">
+    <div class="temple-eyebrow">The Obsidian Moon</div>
+    <h1 class="temple-title">Potion Game</h1>
+    <p class="temple-sub">A working bench of old alchemy. Study the book, uncover what it asks for, prepare each thing at its proper station, and drag it into the pot with your own hand.</p>
+    <div class="temple-rule"></div>
+  </header>
+
+  <div class="stage">
+
+    <section class="book-frame" aria-label="Grimoire">
+      <div class="book">
+
+        <div class="tab-bar">
+          <button class="tab-btn active" id="tabRecipes">Recipes</button>
+          <button class="tab-btn" id="tabMateria">Materia Magica</button>
+        </div>
+
+        <div class="recipes-panel" id="recipesPanel">
+          <div class="level-pills" id="levelPills"></div>
+
+          <div class="book-nav">
+            <button class="book-nav-btn" id="prevPage">&#8592; Prior</button>
+            <span class="book-page-num" id="pageNum"></span>
+            <button class="book-nav-btn" id="nextPage">Next &#8594;</button>
+          </div>
+
+          <h2 class="page-title" id="pageTitle"></h2>
+          <p class="page-desc" id="pageDesc"></p>
+
+          <div class="ingredient-list-title">Called for</div>
+          <ul class="ingredient-list" id="pageIngredients"></ul>
+
+          <button class="instr-toggle" id="toggleInstr">&#128270; Translate the instructions</button>
+          <div class="riddle-box" id="pageRiddle"></div>
+
+          <button class="select-recipe-btn" id="selectRecipe">Set as Working Recipe</button>
+          <button class="reset-link" id="resetProgress">reset all progress</button>
+        </div>
+
+        <div class="materia-panel" id="materiaPanel">
+          <p class="materia-intro">Every ingredient known to this temple. Specimens only become known to you once your studies have reached them, and even then, the dust must be wiped away by hand.</p>
+          <div class="materia-count" id="materiaCount"></div>
+          <div class="materia-list" id="materiaList"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="lab" aria-label="Brewing bench">
+      <div class="lab-top">
+        <span class="lab-title">The Brewing Bench</span>
+        <span class="active-recipe-tag" id="activeRecipeTag">No recipe set — free experimentation</span>
+      </div>
+      <div class="shelf-hint">only identified ingredients appear here &middot; drag each one to its station &middot; work the station, then drag the finished piece into the cauldron</div>
+
+      <div class="shelf" id="shelf"></div>
+
+      <div class="stations">
+        <div class="station" id="stationGrind">
+          <button class="station-clear" id="grindClear" title="Clear station">&#10005;</button>
+          <div class="station-label">Mortar &amp; Pestle</div>
+          <div class="station-scene" id="grindScene">
+            <svg viewBox="0 0 120 90" id="grindSvg">
+              <ellipse cx="60" cy="66" rx="34" ry="14" fill="#08050c" stroke="#d000ff" stroke-width="2"/>
+              <ellipse cx="60" cy="62" rx="26" ry="9" fill="#000000"/>
+              <g class="pestle-group" id="grindHand">
+                <rect x="68" y="10" width="9" height="38" rx="4" fill="#3a2752"/>
+                <ellipse cx="72" cy="49" rx="9" ry="6" fill="#231435"/>
+              </g>
+            </svg>
+            <div class="station-slot" id="grindSlot"></div>
+          </div>
+          <div class="station-status" id="grindStatus">empty — drag a root, resin, or mineral here</div>
+        </div>
+
+        <div class="station" id="stationChop">
+          <button class="station-clear" id="chopClear" title="Clear station">&#10005;</button>
+          <div class="station-label">Knife &amp; Board</div>
+          <div class="station-scene" id="chopScene">
+            <svg viewBox="0 0 120 90" id="chopSvg">
+              <rect x="14" y="62" width="92" height="12" rx="4" fill="#231435" stroke="#d000ff" stroke-width="1.5"/>
+              <g class="knife-group" id="chopHand">
+                <path d="M38 12 L84 12 L58 44 Z" fill="#39ff14"/>
+                <rect x="28" y="8" width="13" height="24" rx="3" fill="#08050c"/>
+              </g>
+            </svg>
+            <div class="station-slot" id="chopSlot"></div>
+          </div>
+          <div class="station-status" id="chopStatus">empty — drag a leaf or berry here</div>
+        </div>
+
+        <div class="station" id="stationPluck">
+          <button class="station-clear" id="pluckClear" title="Clear station">&#10005;</button>
+          <div class="station-label">Gathering Rack</div>
+          <div class="station-scene" id="pluckScene">
+            <svg viewBox="0 0 120 90" id="pluckSvg">
+              <line x1="16" y1="16" x2="104" y2="16" stroke="#3a2752" stroke-width="4" stroke-linecap="round"/>
+              <circle cx="30" cy="16" r="3" fill="#39ff14"/>
+              <circle cx="90" cy="16" r="3" fill="#39ff14"/>
+              <g class="rack-hand" id="pluckHand">
+                <path d="M52 22c-4 0-7 3-7 7v9c0 3 2 5 5 5h20c3 0 5-2 5-5v-9c0-4-3-7-7-7z" fill="#d000ff" opacity="0.9"/>
+                <path d="M60 22v-6" stroke="#d000ff" stroke-width="3" stroke-linecap="round"/>
+              </g>
+            </svg>
+            <div class="station-slot" id="pluckSlot"></div>
+          </div>
+          <div class="station-status" id="pluckStatus">empty — drag a bloom or feather here</div>
+        </div>
+
+        <div class="station" id="stationSteep">
+          <button class="station-clear" id="steepClear" title="Clear station">&#10005;</button>
+          <div class="station-label">Water Basin</div>
+          <div class="station-scene" id="steepScene">
+            <svg viewBox="0 0 120 90" id="steepSvg">
+              <ellipse cx="60" cy="58" rx="42" ry="16" fill="#08050c" stroke="#d000ff" stroke-width="2"/>
+              <ellipse cx="60" cy="53" rx="34" ry="10" fill="#120b1b"/>
+              <g>
+                <circle class="ripple" cx="60" cy="53" r="6"/>
+                <circle class="ripple ripple2" cx="60" cy="53" r="6"/>
+              </g>
+            </svg>
+            <div class="station-slot" id="steepSlot"></div>
+          </div>
+          <div class="station-status" id="steepStatus">empty — drag something to steep here</div>
+        </div>
+
+        <div class="station" id="stationMelt">
+          <button class="station-clear" id="meltClear" title="Clear station">&#10005;</button>
+          <div class="station-label">Furnace &amp; Crucible</div>
+          <div class="station-scene" id="meltScene">
+            <svg viewBox="0 0 120 90" id="meltSvg">
+              <ellipse cx="60" cy="62" rx="32" ry="13" fill="#08050c" stroke="#d000ff" stroke-width="2"/>
+              <ellipse cx="60" cy="58" rx="24" ry="8" fill="#231435"/>
+              <g class="furnace-flame" id="meltHand">
+                <path d="M52 52c-3-6 0-11 4-14-1 5 2 6 3 3 2 5 0 9-3 12-2 2-3 1-4-1z" fill="#39ff14"/>
+                <path d="M61 52c-2-5 1-9 3-11 0 4 2 4 3 2 1 4-1 7-3 9-1 1-2 1-3 0z" fill="#00ff66"/>
+              </g>
+            </svg>
+            <div class="station-slot" id="meltSlot"></div>
+          </div>
+          <div class="station-status" id="meltStatus">empty — drag a metal here</div>
+        </div>
+      </div>
+
+      <div class="bench">
+        <div class="cauldron-zone">
+          <div class="cauldron-wrap">
+            <div class="steam"><span></span><span></span><span></span></div>
+            <div class="cauldron" id="cauldron" role="button" tabindex="0" aria-label="Cauldron. Click and drag in a circle to stir.">
+              <div class="cauldron-pot"></div>
+              <div class="liquid-glow" id="liquidGlow"></div>
+              <div class="liquid" id="liquid">
+                <div class="tokens-in-pot" id="tokensInPot"></div>
+              </div>
+              <div class="stir-ring" id="stirRing"></div>
+            </div>
+          </div>
+          <div class="cauldron-hint">touch/click &amp; drag around the pot to stir</div>
+          <div class="stir-counter" id="stirCounter">Stirred: 0 &nbsp;&middot;&nbsp; direction: —</div>
+        </div>
+
+        <div class="controls">
+          <div class="control-block">
+            <label class="control-label" for="heat">Flame</label>
+            <input type="range" id="heat" min="0" max="10" value="0" step="1">
+            <div class="heat-readout" id="heatReadout">Unlit</div>
+          </div>
+
+          <div class="control-block">
+            <span class="control-label">In the pot</span>
+            <ul class="added-list" id="addedList"><li class="added-empty">nothing yet</li></ul>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-brew" id="brewBtn" disabled>Brew</button>
+            <button class="btn btn-clear" id="clearBtn">Clear</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="result" id="result">
+        <span class="result-grade" id="resultGrade"></span>
+        <span id="resultText"></span>
+        <span class="result-unlock" id="resultUnlock"></span>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+(function(){
+
+  var ICONS = {
+    leaf: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 32C8 14 22 6 34 6c0 16-10 28-26 26z"/><path d="M10 30C16 22 22 14 33 7"/></svg>',
+    flowerLight: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><circle cx="20" cy="20" r="4"/><circle cx="20" cy="9" r="5"/><circle cx="31" cy="20" r="5"/><circle cx="20" cy="31" r="5"/><circle cx="9" cy="20" r="5"/></svg>',
+    flowerDark: '<svg viewBox="0 0 40 40" fill="currentColor" stroke="currentColor" stroke-width="1.5"><circle cx="20" cy="20" r="3.5"/><path d="M20 20C20 12 16 7 12 4c-2 6 1 12 8 16z"/><path d="M20 20C28 20 33 16 36 12c-6-2-12 1-16 8z"/><path d="M20 20C20 28 24 33 28 36c2-6-1-12-8-16z"/><path d="M20 20C12 20 7 24 4 28c6 2 12-1 16-8z"/></svg>',
+    root: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6c3 6-2 8 1 13"/><path d="M20 6c2 5 6 6 7 11"/><path d="M21 19c1 5-3 8-1 14"/><path d="M21 19c2 4 5 5 4 12"/><path d="M20 19c-2 4-6 4-6 12"/><circle cx="20" cy="8" r="3"/></svg>',
+    feather: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><path d="M30 6C18 10 8 22 8 34l22-6C34 20 34 12 30 6z"/><path d="M8 34L30 6"/></svg>',
+    crystal: '<svg viewBox="0 0 40 40" fill="currentColor"><path d="M20 4l9 9-9 23-9-23z"/></svg>',
+    droplet: '<svg viewBox="0 0 40 40" fill="currentColor"><path d="M20 5c7 10 11 16 11 22a11 11 0 1 1-22 0c0-6 4-12 11-22z"/></svg>',
+    mushroom: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 18c0-8 6-12 14-12s14 4 14 12H6z"/><path d="M17 18v14a3 3 0 0 0 6 0V18"/></svg>',
+    hex: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 4l14 8v16l-14 8-14-8V12z"/><circle cx="20" cy="20" r="2" fill="currentColor" stroke="none"/><circle cx="14" cy="16" r="2" fill="currentColor" stroke="none"/><circle cx="26" cy="24" r="2" fill="currentColor" stroke="none"/></svg>',
+    berry: '<svg viewBox="0 0 40 40" fill="currentColor"><circle cx="15" cy="24" r="7"/><circle cx="25" cy="24" r="7"/><circle cx="20" cy="14" r="7"/><path d="M20 7c3-4 8-4 10-2" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+    bone: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><path d="M12 28L28 12"/><circle cx="10" cy="30" r="4" fill="currentColor" stroke="none"/><circle cx="14" cy="26" r="3.5" fill="currentColor" stroke="none"/><circle cx="26" cy="14" r="3.5" fill="currentColor" stroke="none"/><circle cx="30" cy="10" r="4" fill="currentColor" stroke="none"/></svg>',
+    skin: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 30C10 18 14 30 20 20S30 10 36 12"/><path d="M6 26C11 17 15 27 20 19S29 12 34 14" opacity="0.5"/></svg>',
+    q: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="20" cy="20" r="15"/><path d="M15 15a5 5 0 0 1 9-3c1.5 2-1 4-3 6" stroke-linecap="round"/><circle cx="20" cy="28" r="0.8" fill="currentColor"/></svg>',
+    lock: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="10" y="18" width="20" height="16" rx="3"/><path d="M14 18v-4a6 6 0 0 1 12 0v4" stroke-linecap="round"/><circle cx="20" cy="26" r="2" fill="currentColor" stroke="none"/></svg>',
+    ingot: '<svg viewBox="0 0 40 40" fill="currentColor"><path d="M9 27l4-13h14l4 13-4 6H13z"/><path d="M13 23h14" stroke="#000" stroke-opacity="0.18" stroke-width="1.5" fill="none"/></svg>'
+  };
+  var TOOL_ICONS = {
+    grind: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 22a12 9 0 0 0 24 0"/><path d="M6 22h28"/><path d="M14 22c0-7 3-12 6-12"/><path d="M18 10L30 8"/><circle cx="31" cy="7" r="2" fill="currentColor" stroke="none"/></svg>',
+    chop: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M8 32L23 17"/><path d="M23 17L33 7c2 2 2 5 0 7L23 24"/></svg>',
+    pluck: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 6v12"/><path d="M14 12l6 6 6-6"/><path d="M10 30c6 4 14 4 20 0"/></svg>',
+    steep: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 20a14 10 0 0 0 28 0"/><path d="M9 20c2-2.5 4-2.5 6 0s4 2.5 6 0s4-2.5 6 0s4 2.5 6 0" stroke-width="1.5"/></svg>',
+    melt: '<svg viewBox="0 0 40 40" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6c-6 8-10 12-10 18a10 10 0 0 0 20 0c0-4-2-6-4-8c0 4-2 5-3 3c1-6-1-10-3-13z"/></svg>'
+  };
+
+  var STATION_META = {
+    grind: {name:"mortar", label:"Mortar & Pestle", empty:"drag a root, resin, or mineral here", verb:"grind", activation:"tap"},
+    chop:  {name:"knife",  label:"Knife & Board",   empty:"drag a leaf or berry here",            verb:"chop",  activation:"tap"},
+    pluck: {name:"rack",   label:"Gathering Rack",  empty:"drag a bloom or feather here",           verb:"pluck", activation:"tap"},
+    steep: {name:"basin",  label:"Water Basin",     empty:"drag something to steep here",           verb:"steep", activation:"timer"},
+    melt:  {name:"furnace",label:"Furnace & Crucible", empty:"drag a metal here",                    verb:"melt",  activation:"tap"}
+  };
+  var TOOLS = ["grind","chop","pluck","steep","melt"];
+
+  var INGREDIENTS = [
+    {id:"sage", name:"Silverleaf Sage", category:"Herb", icon:"leaf", color:"#39ff14", caution:false, prepType:"chop", prepAmount:2,
+      lore:"Grown at the temple's north wall, its underside catches moonlight like a coin. Elders chew a single leaf before difficult conversations.", effect:"Calming, Clarity"},
+    {id:"moon", name:"Moonpetal", category:"Flower", icon:"flowerLight", color:"#d000ff", caution:false, prepType:"pluck", prepAmount:1,
+      lore:"Blooms only between dusk and the first bell of night, then closes tight till the next dark. Pickers work by touch alone.", effect:"Lunar, Insight"},
+    {id:"water", name:"Spring Water", category:"Liquid", icon:"droplet", color:"#00ffcc", caution:false, prepType:"steep", prepAmount:2,
+      lore:"Drawn from the well beneath the temple floor, said to have never once run dry or run foul. Left briefly under open sky before use.", effect:"Base, Neutral"},
+    {id:"mugwort", name:"Mugwort", category:"Herb", icon:"leaf", color:"#00ff66", caution:false, prepType:"chop", prepAmount:2,
+      lore:"Burned in doorways before a working, worn in the hem of a traveling cloak. Bitter enough to wake a dreamer mid-dream.", effect:"Visions, Warding"},
+    {id:"raven", name:"Raven Feather", category:"Creature", icon:"feather", color:"#a68fc2", caution:false, prepType:"pluck", prepAmount:1,
+      lore:"Never taken by force, only gathered from beneath the roost after the bird has moulted of its own will.", effect:"Omen, Binding"},
+    {id:"mandrake", name:"Mandrake Root", category:"Root", icon:"root", color:"#8a6a45", caution:false, prepType:"grind", prepAmount:4,
+      lore:"Shaped uncannily like a small, twisted person. Old instruction says to tie the stem to a dog's collar and let the dog do the pulling, then grind it well.", effect:"Vitality, Grounding"},
+    {id:"dragon", name:"Dragon's Blood Resin", category:"Resin", icon:"crystal", color:"#9900ff", caution:false, prepType:"grind", prepAmount:2,
+      lore:"Not from any dragon. The name is older than the argument about where it truly comes from. Burns bright red and smells of amber.", effect:"Fire, Courage"},
+    {id:"wolf", name:"Wolfsbane", category:"Flower", icon:"flowerDark", color:"#b300ff", caution:true, prepType:"chop", prepAmount:3,
+      lore:"Every part of this plant is meant to be treated with respect. Gloves on, always, and never taste it to check.", effect:"Transformation, Poison"},
+    {id:"chamomile", name:"Chamomile", category:"Herb", icon:"leaf", color:"#39ff14", caution:false, prepType:"steep", prepAmount:2,
+      lore:"The gentlest herb in the cabinet. A pinch in warm water has ended more sleepless nights than any working of magic.", effect:"Peace, Rest"},
+    {id:"honeycomb", name:"Honeycomb", category:"Sweet", icon:"hex", color:"#d000ff", caution:false, prepType:"steep", prepAmount:2,
+      lore:"Kept in a jar on the sunniest shelf. Softened near a low flame until it turns to liquid gold.", effect:"Binding, Sweetness"},
+    {id:"blacksalt", name:"Black Salt", category:"Mineral", icon:"crystal", color:"#3a2752", caution:false, prepType:"grind", prepAmount:2,
+      lore:"Made by burning ordinary salt with ash and iron shavings until it goes the colour of a moonless night.", effect:"Warding, Banishing"},
+    {id:"ironfilings", name:"Iron Filings", category:"Mineral", icon:"crystal", color:"#00ffcc", caution:false, prepType:"pluck", prepAmount:1,
+      lore:"Swept from the temple forge floor. Fae folk are said to want nothing to do with it, and neither does rust.", effect:"Grounding, Protection"},
+    {id:"juniper", name:"Juniper Berries", category:"Berry", icon:"berry", color:"#00ff66", caution:false, prepType:"chop", prepAmount:2,
+      lore:"Sharp and resinous, closer to a spice than a fruit. Burned in the temple censers on cleansing days.", effect:"Purification"},
+    {id:"crowsfoot", name:"Crow's Foot", category:"Herb", icon:"leaf", color:"#39ff14", caution:false, prepType:"pluck", prepAmount:1,
+      lore:"Named for the shape of its five-fingered leaf. Tucked into a pocket before a gamble, a journey, or a difficult ask.", effect:"Luck, Fortune"},
+    {id:"rosequartz", name:"Rose Quartz Dust", category:"Mineral", icon:"crystal", color:"#d000ff", caution:false, prepType:"grind", prepAmount:3,
+      lore:"Ground fine between two stones until it catches the light like sugar. Warms slightly in a closed hand.", effect:"Healing, Affection"},
+    {id:"owlpellet", name:"Owl Pellet", category:"Creature", icon:"bone", color:"#a68fc2", caution:false, prepType:"chop", prepAmount:2,
+      lore:"Not for the squeamish, but the old texts insist on it. Whatever the owl could not use, the brew apparently can.", effect:"Wisdom, Insight"},
+    {id:"moonstone", name:"Powdered Moonstone", category:"Mineral", icon:"crystal", color:"#00ffcc", caution:false, prepType:"steep", prepAmount:4,
+      lore:"A whole stone will do nothing at all. It must be submerged in moonlit water until it hums before its pull can be released.", effect:"Divination, Foresight"},
+    {id:"salamander", name:"Salamander Ash", category:"Creature", icon:"bone", color:"#39ff14", caution:false, prepType:"pluck", prepAmount:1,
+      lore:"Collected, never harmed for. The creatures shed a fine ash naturally near warm stones, cool to the touch despite its name.", effect:"Fire Resistance, Endurance"},
+    {id:"belladonna", name:"Belladonna Berries", category:"Berry", icon:"berry", color:"#9900ff", caution:true, prepType:"chop", prepAmount:4,
+      lore:"Deceptively sweet-looking, genuinely dangerous. This cabinet's oldest rule: never left unlabeled, never left unlocked.", effect:"Deep Sleep"},
+    {id:"nightcap", name:"Nightcap Mushroom", category:"Fungus", icon:"mushroom", color:"#b300ff", caution:true, prepType:"chop", prepAmount:3,
+      lore:"Grows only in the temple's lightless cellar. Handle by the stem, the cap leaves a stain that doesn't wash out easily.", effect:"Dreaming, Sedation"},
+    {id:"hawthorn", name:"Hawthorn Berries", category:"Berry", icon:"berry", color:"#00ff66", caution:false, prepType:"chop", prepAmount:2,
+      lore:"Picked from the hedge that borders the temple grounds, said to have grown from a walking stick left too long in one place.", effect:"Protection, Heart"},
+    {id:"snakeskin", name:"Snake Skin", category:"Creature", icon:"skin", color:"#39ff14", caution:false, prepType:"chop", prepAmount:3,
+      lore:"Shed whole and left behind, taken as a gift rather than a hunt. Cut into strips before it's brittle enough to crumble.", effect:"Renewal, Letting Go"},
+    {id:"phoenixdown", name:"Phoenix Down", category:"Creature", icon:"feather", color:"#d000ff", caution:false, prepType:"pluck", prepAmount:2,
+      lore:"Molted, never plucked by force. The temple's aviary keeper collects only what falls on its own after a molting flare.", effect:"Rebirth, Vitality"},
+    {id:"basilisk", name:"Basilisk Scale", category:"Creature", icon:"bone", color:"#00ffcc", caution:true, prepType:"grind", prepAmount:3,
+      lore:"Ground carefully, and never looked at directly during the work. An old habit, and an older warning.", effect:"Petrification Ward, Potency"},
+    {id:"mothwing", name:"Moth Wing Dust", category:"Creature", icon:"feather", color:"#a68fc2", caution:false, prepType:"steep", prepAmount:3,
+      lore:"Collected from moths drawn to the temple's night-candles, wings brushed clean without harming them.", effect:"Dreaming, Subtlety"},
+    {id:"gold", name:"Gold (Au)", category:"Metal", icon:"ingot", color:"#39ff14", caution:false, prepType:"melt", prepAmount:3,
+      lore:"Never tarnishes and never lies, the old texts say. Melts slowly, and only for someone patient enough to wait it out. Correspondent metal of the Sun.", effect:"Radiance, Vitality"},
+    {id:"silver", name:"Silver (Ag)", category:"Metal", icon:"ingot", color:"#00ffcc", caution:false, prepType:"melt", prepAmount:3,
+      lore:"Answers to the moon the way gold answers to the sun. Turns liquid faster than any of the seven, and cools just as quickly. Correspondent metal of the Moon.", effect:"Clarity, Warding"},
+    {id:"mercury", name:"Mercury (Hg)", category:"Metal", icon:"ingot", color:"#d000ff", caution:true, prepType:"melt", prepAmount:2,
+      lore:"The only one of the seven that refuses to hold still, not even in the crucible. Old alchemists called it the messenger and handled it with real fear. Correspondent metal of Mercury.", effect:"Swiftness, Transformation"},
+    {id:"copper", name:"Copper (Cu)", category:"Metal", icon:"ingot", color:"#00ff66", caution:false, prepType:"melt", prepAmount:3,
+      lore:"Warms to a rose-gold glow long before it fully melts. Old love charms called for exactly that glow. Correspondent metal of Venus.", effect:"Affection, Conductivity"},
+    {id:"iron", name:"Iron (Fe)", category:"Metal", icon:"ingot", color:"#3a2752", caution:false, prepType:"melt", prepAmount:4,
+      lore:"Stubborn in the furnace, stubborn everywhere else. Every old ward against fae comes back to iron eventually. Correspondent metal of Mars.", effect:"Strength, Protection"},
+    {id:"tin", name:"Tin (Sn)", category:"Metal", icon:"ingot", color:"#a68fc2", caution:false, prepType:"melt", prepAmount:3,
+      lore:"Cries out faintly when bent, a sound smiths call tin cry. Melts easier than its reputation suggests. Correspondent metal of Jupiter.", effect:"Abundance, Fortune"},
+    {id:"lead", name:"Lead (Pb)", category:"Metal", icon:"ingot", color:"#9900ff", caution:true, prepType:"melt", prepAmount:4,
+      lore:"The heaviest and slowest of the seven, and the one to be most careful breathing near. Old texts call it the beginning every other metal is measured against. Correspondent metal of Saturn.", effect:"Binding, Endurance"}
+  ];
+  var ING_BY_ID = {};
+  INGREDIENTS.forEach(function(i){ ING_BY_ID[i.id] = i; });
+  var STARTER_KIT = ["sage","moon","water"];
+
+  var LEVELS = [
+    {n:1, name:"Novice"},
+    {n:2, name:"Journeyman"},
+    {n:3, name:"Adept"},
+    {n:4, name:"Master"},
+    {n:5, name:"Grand Alchemist"}
+  ];
+
+  var RECIPES = [
+    {id:"stillwater", level:1, name:"Draught of Still Waters",
+      desc:"A calming brew for a restless mind, drawn cold from moonlit wells. The gentlest working in this book, a fair place to begin.",
+      order:["sage","moon","water"], stir:{dir:"ccw", count:4}, heat:[2,4], resultColor:"#00ffcc",
+      riddle:"Sage before the pale petal, water last of all. Turn the ladle against the sun's path, four full circles. Keep the flame low and patient.",
+      plain:"Add in order: Silverleaf Sage (chopped), Moonpetal (plucked), Spring Water (steeped). Stir counter-clockwise, 4 full turns. Heat between 2 and 4."},
+    {id:"secondsight", level:1, name:"Tincture of Second Sight",
+      desc:"Sharpens the inner eye. Old texts warn it tastes of soil and regret, but the visions are said to be true.",
+      order:["mugwort","moon","raven"], stir:{dir:"cw", count:6}, heat:[4,6], resultColor:"#d000ff",
+      riddle:"Bitter herb first, then the pale petal, then the black plume laid to rest atop. Stir with the sun, six turns. A middling fire, no more.",
+      plain:"Add in order: Mugwort (chopped), Moonpetal (plucked), Raven Feather (plucked). Stir clockwise, 6 full turns. Heat between 4 and 6."},
+    {id:"chamomilecalm", level:1, name:"Chamomile Calm",
+      desc:"The mildest sleep-aid this book teaches, sweet enough that even reluctant patients drink it without complaint.",
+      order:["chamomile","honeycomb","water"], stir:{dir:"ccw", count:3}, heat:[1,3], resultColor:"#39ff14",
+      riddle:"Gold-eyed bloom, steeped soft, then the sun-kept sweetness, then water to carry it down. Turn against the sun, three slow circles. The barest flame will do.",
+      plain:"Add in order: Chamomile (steeped), Honeycomb (steeped), Spring Water (steeped). Stir counter-clockwise, 3 full turns. Heat between 1 and 3."},
+
+    {id:"emberheart", level:2, name:"Ember Heart Elixir",
+      desc:"A fortifying brew for cold nerves before difficult work. Runs hot, mind your fingers and your flame. The root must be ground before it will yield anything.",
+      order:["dragon","mandrake","water"], stir:{dir:"cw", count:8}, heat:[7,9], resultColor:"#9900ff",
+      riddle:"Resin of the dragon, ground fine, goes first, the twisted root second, water to cool what follows. Stir with the sun, eight turns, and let the flame run high.",
+      plain:"Add in order: Dragon's Blood Resin (ground), Mandrake Root (ground), Spring Water (steeped). Stir clockwise, 8 full turns. Heat between 7 and 9."},
+    {id:"wardblacksalt", level:2, name:"Ward of Black Salt",
+      desc:"Poured across a threshold rather than drunk, a working meant to keep something out, not let something in. Four ingredients now, and each must be handled its own way.",
+      order:["mugwort","blacksalt","ironfilings","juniper"], stir:{dir:"ccw", count:6}, heat:[3,6], resultColor:"#00ff66",
+      riddle:"Bitter herb first to open the ward, salt burned black next, iron swept from the forge floor, and the sharp berry last to seal it. Against the sun, six turns. A middling fire.",
+      plain:"Add in order: Mugwort (chopped), Black Salt (ground), Iron Filings (plucked), Juniper Berries (chopped). Stir counter-clockwise, 6 full turns. Heat between 3 and 6."},
+    {id:"luckcrow", level:2, name:"Luck of the Crow",
+      desc:"Carried rather than drunk by some, a dab on the wrist before a gamble, a journey, or an ask you're not sure will be granted.",
+      order:["crowsfoot","honeycomb","rosequartz"], stir:{dir:"cw", count:5}, heat:[2,4], resultColor:"#d000ff",
+      riddle:"Five-fingered leaf first, sweetness second, and the warmed dust, ground fine, to close it. With the sun, five turns. A gentle flame.",
+      plain:"Add in order: Crow's Foot (plucked), Honeycomb (steeped), Rose Quartz Dust (ground). Stir clockwise, 5 full turns. Heat between 2 and 4."},
+
+    {id:"nightshade", level:3, name:"Nightshade's Repose",
+      desc:"The deepest sleep this book teaches so far, and the least forgiving. Wolfsbane does not pardon a careless hand, read twice before you begin.",
+      order:["wolf","mandrake","mugwort","moon"], stir:{dir:"ccw", count:7}, heat:[5,7], resultColor:"#b300ff",
+      riddle:"The purple bane, chopped with respect, goes first. Then the ground root, then the bitter herb, and the pale petal to close the working. Against the sun, seven turns. A middling fire, watched closely.",
+      plain:"Add in order: Wolfsbane (chopped), Mandrake Root (ground), Mugwort (chopped), Moonpetal (plucked). Stir counter-clockwise, 7 full turns. Heat between 5 and 7."},
+    {id:"owlwisdom", level:3, name:"Owl's Wisdom Draught",
+      desc:"Not a pleasant brew to prepare, but the texts are firm on its accuracy. The moonstone does the real work, steeped until it hums.",
+      order:["owlpellet","moonstone","raven"], stir:{dir:"cw", count:9}, heat:[4,6], resultColor:"#00ffcc",
+      riddle:"What the owl left behind, chopped apart, then the moon's dust, steeped till it hums, then the black plume to finish. With the sun, nine turns. A middling fire.",
+      plain:"Add in order: Owl Pellet (chopped), Powdered Moonstone (steeped), Raven Feather (plucked). Stir clockwise, 9 full turns. Heat between 4 and 6."},
+    {id:"salamanderveil", level:3, name:"Salamander's Veil",
+      desc:"Worn like a second skin against heat and flame. Runs hotter than almost anything else in this book, brew it with the windows open.",
+      order:["salamander","dragon","blacksalt"], stir:{dir:"cw", count:7}, heat:[8,10], resultColor:"#39ff14",
+      riddle:"Ash of the salamander, gathered clean, resin of the dragon ground fine, salt burned black to bind them. With the sun, seven turns. Let the flame run near to its limit.",
+      plain:"Add in order: Salamander Ash (plucked), Dragon's Blood Resin (ground), Black Salt (ground). Stir clockwise, 7 full turns. Heat between 8 and 10."},
+    {id:"basiliskward", level:3, name:"Basilisk's Ward",
+      desc:"A working few attempt twice. The scale doesn't want to grind, and for good reason, so the old texts say to keep your eyes elsewhere while you work.",
+      order:["basilisk","ironfilings","juniper","blacksalt"], stir:{dir:"cw", count:10}, heat:[6,8], resultColor:"#00ff66",
+      riddle:"Basilisk scale, ground with the eyes averted, goes first. Iron filings plucked second, sharp berry chopped third, salt burned black ground last. With the sun, ten turns. A strong, watchful flame.",
+      plain:"Add in order: Basilisk Scale (ground), Iron Filings (plucked), Juniper Berries (chopped), Black Salt (ground). Stir clockwise, 10 full turns. Heat between 6 and 8."},
+
+    {id:"belladonnasleep", level:4, name:"Belladonna's Long Sleep",
+      desc:"The deepest sleep in this entire book, and the least forgiving of a careless hand. Measure twice. Ask someone to watch over whoever drinks it.",
+      order:["belladonna","nightcap","chamomile","moon"], stir:{dir:"ccw", count:10}, heat:[3,5], resultColor:"#9900ff",
+      riddle:"The sweet dark berry, chopped with the greatest care, first. The cellar mushroom second, chopped as well. Then the gold bloom steeped soft, then the pale petal to close it gently. Against the sun, ten turns. A low, patient flame.",
+      plain:"Add in order: Belladonna Berries (chopped), Nightcap Mushroom (chopped), Chamomile (steeped), Moonpetal (plucked). Stir counter-clockwise, 10 full turns. Heat between 3 and 5."},
+    {id:"serpentrenewal", level:4, name:"Serpent's Renewal",
+      desc:"Brewed for letting go of what no longer serves, a hard year, an old grief, a name you don't answer to anymore.",
+      order:["snakeskin","hawthorn","water","honeycomb"], stir:{dir:"cw", count:8}, heat:[5,7], resultColor:"#39ff14",
+      riddle:"The shed skin, cut fine, goes first. Then the red berry chopped, then water steeped, then sweetness steeped to finish it kindly. With the sun, eight turns. A steady fire.",
+      plain:"Add in order: Snake Skin (chopped), Hawthorn Berries (chopped), Spring Water (steeped), Honeycomb (steeped). Stir clockwise, 8 full turns. Heat between 5 and 7."},
+    {id:"grandelixir", level:4, name:"Grand Elixir of Second Life",
+      desc:"The final page of this grimoire, and the reason the rest exist. Every technique in this book, asked for at once. Few brew it on the first attempt.",
+      order:["dragon","mandrake","moonstone","belladonna"], stir:{dir:"ccw", count:12}, heat:[6,8], resultColor:"#d000ff",
+      riddle:"Resin of the dragon ground fine, the twisted root ground down, the moon's dust steeped till it hums, and the dark berry chopped last of all. Against the sun, twelve turns, patience above all. A high, steady fire.",
+      plain:"Add in order: Dragon's Blood Resin (ground), Mandrake Root (ground), Powdered Moonstone (steeped), Belladonna Berries (chopped). Stir counter-clockwise, 12 full turns. Heat between 6 and 8."},
+    {id:"phoenixember", level:4, name:"Phoenix Ember Draught",
+      desc:"Said to ease the worst kind of grief, the kind that follows losing something that was supposed to be permanent.",
+      order:["phoenixdown","mothwing","dragon","honeycomb"], stir:{dir:"ccw", count:11}, heat:[5,6], resultColor:"#b300ff",
+      riddle:"Down that fell on its own, plucked gently, goes first. Moth-wing dust steeped soft second. Dragon's resin ground third, sweetness steeped last to close the wound kindly. Against the sun, eleven turns. A middling, gentle flame.",
+      plain:"Add in order: Phoenix Down (plucked), Moth Wing Dust (steeped), Dragon's Blood Resin (ground), Honeycomb (steeped). Stir counter-clockwise, 11 full turns. Heat between 5 and 6."},
+
+    {id:"solgolden", level:5, name:"Sol's Golden Draught",
+      desc:"A working built around gold itself, warmth without recklessness. The most ingredient-hungry brew this side of the Great Work.",
+      order:["gold","dragon","honeycomb","moon","chamomile"], stir:{dir:"cw", count:14}, heat:[7,8], resultColor:"#39ff14",
+      riddle:"Gold, coaxed molten in the crucible, goes first. The dragon's resin, ground fine, follows. Sweetness steeped soft is third, the pale petal plucked is fourth, and chamomile steeped closes it. With the sun, fourteen turns. A high, unwavering flame.",
+      plain:"Add in order: Gold (melted), Dragon's Blood Resin (ground), Honeycomb (steeped), Moonpetal (plucked), Chamomile (steeped). Stir clockwise, 14 full turns. Heat between 7 and 8."},
+    {id:"lunamercury", level:5, name:"Luna's Mercury Tide",
+      desc:"Silver answers the moon, quicksilver answers nothing at all. This working asks for a very steady hand and an exact flame.",
+      order:["silver","mercury","water","moonstone"], stir:{dir:"ccw", count:13}, heat:[2,3], resultColor:"#00ffcc",
+      riddle:"Silver, melted under a watching moon, goes first. Quicksilver molten beside it second, treated with real care. Water steeped third, moon-dust steeped till it hums fourth. Against the sun, thirteen turns. A low, exact flame, barely above ember.",
+      plain:"Add in order: Silver (melted), Mercury (melted, handle with care), Spring Water (steeped), Powdered Moonstone (steeped). Stir counter-clockwise, 13 full turns. Heat between 2 and 3."},
+    {id:"ironmars", level:5, name:"Iron Will of Mars",
+      desc:"A fortifying working for battles that haven't happened yet. Iron does not want to melt, and the furnace knows it.",
+      order:["iron","tin","dragon","blacksalt"], stir:{dir:"cw", count:15}, heat:[8,9], resultColor:"#9900ff",
+      riddle:"Iron, stubborn in the crucible, goes first and takes the longest. Tin follows, easier by far. Dragon's resin ground third, black salt ground last to bind it. With the sun, fifteen turns. A high, roaring flame.",
+      plain:"Add in order: Iron (melted), Tin (melted), Dragon's Blood Resin (ground), Black Salt (ground). Stir clockwise, 15 full turns. Heat between 8 and 9."},
+    {id:"greatwork", level:5, name:"The Great Work",
+      desc:"The final page in this grimoire, or the only one that matters, depending who you ask. Every station in this room, every technique this book has taught, at once.",
+      order:["lead","mandrake","belladonna","moon","moonstone"], stir:{dir:"ccw", count:16}, heat:[6,7], resultColor:"#d000ff",
+      riddle:"Lead, heaviest and slowest, melted first with real caution. The twisted root ground second. The dark berry chopped third, treated with the greatest care. The pale petal plucked fourth. The moon's dust steeped last, till it hums. Against the sun, sixteen turns, patience above all else. A high, steady flame, and nothing short of exact will do.",
+      plain:"Add in order: Lead (melted, handle with care), Mandrake Root (ground), Belladonna Berries (chopped, handle with care), Moonpetal (plucked), Powdered Moonstone (steeped). Stir counter-clockwise, 16 full turns. Heat between 6 and 7."}
+  ];
+
+  var TOKEN_GLYPH = {sage:"leaf",moon:"flower",water:"drop",mugwort:"leaf",raven:"feather",mandrake:"root",dragon:"gem",wolf:"flower",
+    chamomile:"leaf",honeycomb:"hex",blacksalt:"salt",ironfilings:"salt",juniper:"berry",crowsfoot:"leaf",rosequartz:"gem",
+    owlpellet:"bone",moonstone:"gem",salamander:"bone",belladonna:"berry",nightcap:"mush",hawthorn:"berry",snakeskin:"skin",
+    phoenixdown:"feather",basilisk:"bone",mothwing:"feather",gold:"gem",silver:"gem",mercury:"gem",copper:"gem",iron:"gem",tin:"gem",lead:"gem"};
+  var GLYPH_SYMBOL = {leaf:"\u2766",flower:"\u2740",drop:"\u2022",feather:"\u2726",root:"\u2022",gem:"\u25C6",hex:"\u2B21",salt:"\u2022",berry:"\u25CF",bone:"\u2022",mush:"\u2022",skin:"~"};
+
+  var CAT_CLASS = {Herb:"cat-herb",Flower:"cat-flower",Liquid:"cat-liquid",Root:"cat-root",Resin:"cat-resin",Mineral:"cat-mineral",Berry:"cat-berry",Creature:"cat-creature",Fungus:"cat-fungus",Sweet:"cat-sweet",Metal:"cat-metal"};
+
+  function computeIngredientLevels(){
+    var map = {};
+    INGREDIENTS.forEach(function(ing){ map[ing.id] = 99; });
+    RECIPES.forEach(function(rec){
+      rec.order.forEach(function(id){
+        if(rec.level < map[id]) map[id] = rec.level;
+      });
+    });
+    return map;
+  }
+  var ING_LEVEL = computeIngredientLevels();
+
+  // ---------- STATE / PERSISTENCE ----------
+  var STORAGE_KEY = "witchlab_progress_v8";
+  var progress = {unlockedLevels:{1:true,2:false,3:false,4:false,5:false}, completedRecipes:[], discovered: STARTER_KIT.slice()};
+  try{
+    var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
+    if(saved && saved.unlockedLevels){ progress = saved; }
+  }catch(e){}
+  function saveProgress(){ try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){} }
+  function isDiscovered(id){ return progress.discovered.indexOf(id) !== -1; }
+  // In the temple's Apothecary the bench only holds what you carried from the jar shelves (the satchel).
+  // Opened on its own, outside the temple, the game plays exactly as before.
+  var IN_TEMPLE = (function(){ try{ return window.parent !== window && !!window.parent.OTM; }catch(e){ return false; } })();
+  var SATCHEL_KEY = "otm_satchel_v1";
+  function satchel(){ try{ return JSON.parse(localStorage.getItem(SATCHEL_KEY)||"{}")||{}; }catch(e){ return {}; } }
+  function satCount(id){ return IN_TEMPLE ? (satchel()[id]||0) : 99; }
+  function satAdd(id, n){
+    if(!IN_TEMPLE) return true;
+    var b = satchel(), c = (b[id]||0) + n;
+    if(c < 0) return false;
+    if(c) b[id] = c; else delete b[id];
+    try{ localStorage.setItem(SATCHEL_KEY, JSON.stringify(b)); }catch(e){}
+    return true;
+  }
+  function isCompleted(id){ return progress.completedRecipes.indexOf(id) !== -1; }
+  function isLevelUnlocked(n){ return !!progress.unlockedLevels[n]; }
+
+  var currentTab = "recipes";
+  var currentLevel = 1;
+  var recipesInLevel = [];
+  var pageIdx = 0;
+  var activeRecipeId = null;
+  var showPlain = false;
+  var addedIngredients = [];
+  var stationState = {grind:{ingId:null,step:0,startTime:null}, chop:{ingId:null,step:0,startTime:null}, pluck:{ingId:null,step:0,startTime:null}, steep:{ingId:null,step:0,startTime:null}, melt:{ingId:null,step:0,startTime:null}};
+  var stirCount = 0;
+  var stirDirection = null;
+  var heatVal = 0;
+
+  function $(id){ return document.getElementById(id); }
+  var shelfEl = $("shelf");
+  var pageTitle = $("pageTitle");
+  var pageDesc = $("pageDesc");
+  var pageIngredientsEl = $("pageIngredients");
+  var pageRiddle = $("pageRiddle");
+  var pageNum = $("pageNum");
+  var selectRecipeBtn = $("selectRecipe");
+  var activeRecipeTag = $("activeRecipeTag");
+  var addedListEl = $("addedList");
+  var brewBtn = $("brewBtn");
+  var clearBtn = $("clearBtn");
+  var resultEl = $("result");
+  var resultGrade = $("resultGrade");
+  var resultText = $("resultText");
+  var resultUnlock = $("resultUnlock");
+  var liquidEl = $("liquid");
+  var liquidGlow = $("liquidGlow");
+  var tokensInPot = $("tokensInPot");
+  var stirCounterEl = $("stirCounter");
+  var heatInput = $("heat");
+  var heatReadout = $("heatReadout");
+  var cauldronEl = $("cauldron");
+  var stirRing = $("stirRing");
+  var levelPillsEl = $("levelPills");
+  var materiaListEl = $("materiaList");
+  var materiaCountEl = $("materiaCount");
+
+  $("tabRecipes").addEventListener("click", function(){ switchTab("recipes"); });
+  $("tabMateria").addEventListener("click", function(){ switchTab("materia"); });
+  function switchTab(tab){
+    currentTab = tab;
+    $("tabRecipes").classList.toggle("active", tab === "recipes");
+    $("tabMateria").classList.toggle("active", tab === "materia");
+    $("recipesPanel").classList.toggle("hidden", tab !== "recipes");
+    $("materiaPanel").classList.toggle("active", tab === "materia");
+  }
+
+  function levelComplete(n){
+    var recs = RECIPES.filter(function(r){ return r.level === n; });
+    return recs.every(function(r){ return isCompleted(r.id); });
+  }
+
+  function renderLevelPills(){
+    levelPillsEl.innerHTML = "";
+    LEVELS.forEach(function(lvl){
+      var unlocked = isLevelUnlocked(lvl.n);
+      var total = RECIPES.filter(function(r){ return r.level === lvl.n; }).length;
+      var done = RECIPES.filter(function(r){ return r.level === lvl.n && isCompleted(r.id); }).length;
+      var btn = document.createElement("button");
+      btn.className = "level-pill" + (lvl.n === currentLevel ? " active" : "") + (unlocked ? "" : " locked");
+      var label = (unlocked ? "" : "\uD83D\uDD12 ") + lvl.name;
+      if(unlocked){ label += ' <span class="level-pill-frac">(' + done + "/" + total + ")</span>"; }
+      btn.innerHTML = label;
+      btn.disabled = !unlocked;
+      btn.addEventListener("click", function(){
+        currentLevel = lvl.n; pageIdx = 0;
+        rebuildLevelRecipes(); renderLevelPills(); renderPage();
+      });
+      levelPillsEl.appendChild(btn);
+    });
+  }
+  function rebuildLevelRecipes(){ recipesInLevel = RECIPES.filter(function(r){ return r.level === currentLevel; }); }
+
+  function renderPage(){
+    var rec = recipesInLevel[pageIdx];
+    if(!rec) return;
+    pageNum.textContent = "Page " + (pageIdx+1) + " of " + recipesInLevel.length;
+    $("prevPage").disabled = pageIdx === 0;
+    $("nextPage").disabled = pageIdx === recipesInLevel.length - 1;
+
+    pageTitle.innerHTML = rec.name + (isCompleted(rec.id) ? '<span class="done-tag">brewed</span>' : "");
+    pageDesc.textContent = rec.desc;
+
+    pageIngredientsEl.innerHTML = "";
+    rec.order.forEach(function(id){
+      var ing = ING_BY_ID[id];
+      var known = isDiscovered(id);
+      var have = addedIngredients.indexOf(id) !== -1;
+      var li = document.createElement("li");
+      li.dataset.id = id;
+      if(!known){
+        li.className = "unknown";
+        li.innerHTML = "Unidentified " + ing.category + '<span class="prep-tag">study in Materia index</span>';
+      } else {
+        li.className = have ? "have" : "";
+        li.innerHTML = ing.name + '<span class="prep-tag">(' + STATION_META[ing.prepType].verb + ")</span>";
+      }
+      pageIngredientsEl.appendChild(li);
+    });
+
+    showPlain = false;
+    renderRiddle();
+    selectRecipeBtn.textContent = activeRecipeId === rec.id ? "Working Recipe \u2713" : "Set as Working Recipe";
+    selectRecipeBtn.classList.toggle("active", activeRecipeId === rec.id);
+  }
+
+  function renderRiddle(){
+    var rec = recipesInLevel[pageIdx];
+    pageRiddle.textContent = showPlain ? rec.plain : rec.riddle;
+    pageRiddle.classList.toggle("plain", showPlain);
+    $("toggleInstr").textContent = showPlain ? "\uD83D\uDCD6 Read it as riddle again" : "\uD83D\uDD0D Translate the instructions";
+  }
+
+  $("prevPage").addEventListener("click", function(){ if(pageIdx>0){ pageIdx--; renderPage(); } });
+  $("nextPage").addEventListener("click", function(){ if(pageIdx<recipesInLevel.length-1){ pageIdx++; renderPage(); } });
+  $("toggleInstr").addEventListener("click", function(){ showPlain = !showPlain; renderRiddle(); });
+  selectRecipeBtn.addEventListener("click", function(){
+    var rec = recipesInLevel[pageIdx];
+    activeRecipeId = (activeRecipeId === rec.id) ? null : rec.id;
+    activeRecipeTag.textContent = activeRecipeId ? ("Working recipe: " + rec.name) : "No recipe set — free experimentation";
+    renderPage();
+  });
+  $("resetProgress").addEventListener("click", function(){
+    if(!confirm("Reset all unlocked levels, discovered ingredients, and completed recipes?")) return;
+    progress = {unlockedLevels:{1:true,2:false,3:false,4:false,5:false}, completedRecipes:[], discovered: STARTER_KIT.slice()};
+    saveProgress();
+    currentLevel = 1; pageIdx = 0; activeRecipeId = null;
+    activeRecipeTag.textContent = "No recipe set — free experimentation";
+    rebuildLevelRecipes(); renderLevelPills(); renderPage(); renderMateria(); renderShelf();
+  });
+
+  // ---------- MATERIA (SLOWER Scratch-to-Reveal) ----------
+  function updateMateriaCount(){
+    var identified=0, available=0, locked=0;
+    INGREDIENTS.forEach(function(ing){
+      if(isDiscovered(ing.id)) identified++;
+      else if(isLevelUnlocked(ING_LEVEL[ing.id])) available++;
+      else locked++;
+    });
+    materiaCountEl.textContent = "Identified " + identified + " of " + INGREDIENTS.length + "  \u00B7  " + available + " await discovery  \u00B7  " + locked + " locked";
+  }
+
+  function renderMateria(){
+    materiaListEl.innerHTML = "";
+    updateMateriaCount();
+    INGREDIENTS.forEach(function(ing){
+      var known = isDiscovered(ing.id);
+      var reqLevel = ING_LEVEL[ing.id] || 1;
+      var levelOk = isLevelUnlocked(reqLevel);
+      var item = document.createElement("div");
+      item.dataset.id = ing.id;
+
+      if(known){
+        item.className = "materia-item";
+        var head = document.createElement("div");
+        head.className = "materia-item-head";
+        head.innerHTML = '<span style="color:'+ing.color+'">'+ICONS[ing.icon]+'</span>' +
+          '<span class="materia-item-name">'+ing.name+'</span>' +
+          '<span class="materia-item-cat">'+ing.category+'</span>';
+        head.addEventListener("click", function(){ item.classList.toggle("expanded"); });
+        item.appendChild(head);
+        var body = document.createElement("div");
+        body.className = "materia-item-body";
+        var prepLine = '<div class="materia-caution">Prepared at: ' + STATION_META[ing.prepType].label + " (" + ing.prepAmount + (ing.prepType==="steep" ? "s" : ing.prepType==="pluck" ? " tap" : " taps") + ")</div>";
+        var cautionLine = ing.caution ? '<div class="materia-caution">Handle with care</div>' : "";
+        body.innerHTML = '<div class="materia-item-body-inner">'+ing.lore+'<div class="materia-effect">'+ing.effect+'</div>'+prepLine+cautionLine+'</div>';
+        item.appendChild(body);
+
+      } else if(levelOk){
+        item.className = "materia-item";
+        var head2 = document.createElement("div");
+        head2.className = "materia-item-head";
+        head2.innerHTML = '<span style="color:#a68fc2">'+ICONS.q+'</span>' +
+          '<span class="materia-item-name">Unidentified ' + ing.category + '</span>' +
+          '<span class="materia-item-cat">'+ing.category+'</span>';
+        head2.addEventListener("click", function(){
+          item.classList.toggle("expanded");
+          if(item.classList.contains("expanded") && item.dataset.scratchInit !== "1"){
+            item.dataset.scratchInit = "1";
+            setupScratch(item.querySelector(".materia-item-body"), ing);
+          }
+        });
+        item.appendChild(head2);
+        var body2 = document.createElement("div");
+        body2.className = "materia-item-body";
+        item.appendChild(body2);
+
+      } else {
+        item.className = "materia-item locked-item";
+        var head3 = document.createElement("div");
+        head3.className = "materia-item-head";
+        head3.innerHTML = '<span style="color:#3a2752">'+ICONS.lock+'</span>' +
+          '<span class="materia-item-name">??? Specimen</span>' +
+          '<span class="materia-item-cat">Locked</span>';
+        item.appendChild(head3);
+        var note = document.createElement("div");
+        note.className = "locked-note";
+        note.textContent = "Reachable once you unlock " + (LEVELS[reqLevel-1] ? LEVELS[reqLevel-1].name : "a later level") + " recipes.";
+        item.appendChild(note);
+      }
+      materiaListEl.appendChild(item);
+    });
+  }
+
+  function setupScratch(container, ing){
+    var meta = STATION_META[ing.prepType];
+    var prepLine = "Prepared at: " + meta.label + " (" + ing.prepAmount + (ing.prepType==="steep" ? "s" : ing.prepType==="pluck" ? " tap" : " taps") + ")";
+    var cautionLine = ing.caution ? '<div class="materia-caution">Handle with care</div>' : "";
+    container.innerHTML =
+      '<div class="scratch-hint">Thoroughly wipe away the ash &amp; dust to study</div>' +
+      '<div class="scratch-wrap">' +
+        '<div class="scratch-content"><div class="materia-item-body-inner">'+ing.lore+'<div class="materia-effect">'+ing.effect+'</div><div class="materia-caution">'+prepLine+'</div>'+cautionLine+'</div></div>' +
+        '<canvas class="scratch-canvas"></canvas>' +
+      '</div>';
+
+    var wrap = container.querySelector(".scratch-wrap");
+    var canvas = container.querySelector(".scratch-canvas");
+
+    requestAnimationFrame(function(){
+      var w = wrap.clientWidth || 280, h = Math.max(wrap.clientHeight, 105);
+      canvas.width = w; canvas.height = h;
+      var ctx = canvas.getContext("2d");
+      drawFog(ctx, w, h);
+
+      var scratching = false, lastPt = null, clearedPixels = 0;
+      var stampR = 8; // Small radius requires much more deliberate rubbing
+      var totalArea = w * h;
+      var neededCleared = totalArea * 0.85; // Raised threshold to 85% reveal
+      var revealed = false;
+
+      function stamp(x,y){
+        ctx.globalCompositeOperation = "destination-out";
+        ctx.beginPath(); ctx.arc(x,y,stampR,0,Math.PI*2); ctx.fill();
+      }
+
+      function checkProgress(){
+        if(revealed) return;
+        try{
+          var imgData = ctx.getImageData(0,0,w,h).data;
+          var emptyCount = 0;
+          for(var i=3; i<imgData.length; i+=16){
+            if(imgData[i] < 128) emptyCount+=4;
+          }
+          if(emptyCount * 4 >= neededCleared){ reveal(); }
+        }catch(err){
+          clearedPixels += Math.PI * stampR * stampR;
+          if(clearedPixels >= neededCleared) reveal();
+        }
+      }
+
+      function pt(e){
+        var r = canvas.getBoundingClientRect();
+        return {x:e.clientX-r.left, y:e.clientY-r.top};
+      }
+
+      function reveal(){
+        revealed = true;
+        canvas.style.transition = "opacity .6s ease";
+        canvas.style.opacity = "0";
+        setTimeout(function(){
+          progress.discovered.push(ing.id);
+          saveProgress();
+          renderMateria();
+          renderShelf();
+          renderPage();
+          var newItem = materiaListEl.querySelector('.materia-item[data-id="'+ing.id+'"]');
+          if(newItem){ newItem.classList.add("expanded"); newItem.scrollIntoView({block:"center", behavior:"smooth"}); }
+        }, 600);
+      }
+
+      canvas.addEventListener("pointerdown", function(e){
+        scratching = true;
+        try{ canvas.setPointerCapture(e.pointerId); }catch(err){}
+        var p = pt(e); lastPt = p; stamp(p.x,p.y);
+        checkProgress();
+      });
+
+      canvas.addEventListener("pointermove", function(e){
+        if(!scratching || revealed) return;
+        var p = pt(e);
+        if(lastPt){
+          var dx=p.x-lastPt.x, dy=p.y-lastPt.y;
+          var dist = Math.sqrt(dx*dx+dy*dy);
+          var steps = Math.max(1, Math.floor(dist/4));
+          for(var i=1;i<=steps;i++){
+            stamp(lastPt.x+dx*(i/steps), lastPt.y+dy*(i/steps));
+          }
+        } else {
+          stamp(p.x,p.y);
+        }
+        lastPt = p;
+        checkProgress();
+      });
+
+      var stopScratch = function(e){ scratching = false; lastPt = null; };
+      canvas.addEventListener("pointerup", stopScratch);
+      canvas.addEventListener("pointercancel", stopScratch);
+    });
+  }
+
+  function drawFog(ctx,w,h){
+    ctx.fillStyle = "#08050c";
+    ctx.fillRect(0,0,w,h);
+    ctx.fillStyle = "rgba(35,20,53,0.9)";
+    for(var i=0;i<180;i++){
+      var rx=Math.random()*w, ry=Math.random()*h, rr=4+Math.random()*10;
+      ctx.beginPath(); ctx.arc(rx,ry,rr,0,Math.PI*2); ctx.fill();
+    }
+    ctx.fillStyle = "rgba(153,0,255,0.2)";
+    for(var j=0;j<80;j++){
+      var rx2=Math.random()*w, ry2=Math.random()*h, rr2=3+Math.random()*6;
+      ctx.beginPath(); ctx.arc(rx2,ry2,rr2,0,Math.PI*2); ctx.fill();
+    }
+  }
+
+  function openMateriaFor(id){
+    switchTab("materia");
+    var target = materiaListEl.querySelector('.materia-item[data-id="'+id+'"]');
+    if(!target) return;
+    if(target.classList.contains("locked-item")){ target.scrollIntoView({block:"center", behavior:"smooth"}); return; }
+    if(!target.classList.contains("expanded")){
+      target.classList.add("expanded");
+      if(target.dataset.scratchInit !== "1" && !isDiscovered(id)){
+        target.dataset.scratchInit = "1";
+        setupScratch(target.querySelector(".materia-item-body"), ING_BY_ID[id]);
+      }
+    }
+    target.scrollIntoView({block:"center", behavior:"smooth"});
+  }
+
+  // ---------- SHELF ----------
+  function renderShelf(){
+    shelfEl.innerHTML = "";
+    var known = INGREDIENTS.filter(function(i){ return isDiscovered(i.id) && (!IN_TEMPLE || satCount(i.id) > 0 || stationState[i.prepType].ingId === i.id); });
+    if(known.length === 0 && IN_TEMPLE){
+      shelfEl.innerHTML = '<div class="shelf-empty">Your satchel is empty. Walk to the Apothecary\u2019s jar shelves and gather what you have identified, then come back to the bench.</div>';
+      return;
+    }
+    if(known.length === 0){
+      shelfEl.innerHTML = '<div class="shelf-empty">Nothing identified yet. Visit Materia Magica to study your first ingredients.</div>';
+      return;
+    }
+    known.forEach(function(ing){
+      var inStation = stationState[ing.prepType].ingId === ing.id;
+      var meta = STATION_META[ing.prepType];
+      var div = document.createElement("div");
+      div.className = "jar " + (CAT_CLASS[ing.category]||"") + (ing.caution ? " caution" : "") + (inStation ? " in-station" : "");
+      div.tabIndex = 0;
+      div.dataset.id = ing.id;
+      div.style.color = ing.color;
+      var countInPot = addedIngredients.filter(function(i){ return i===ing.id; }).length;
+
+      var toolHtml;
+      if(inStation){
+        var s = stationState[ing.prepType];
+        var ready = s.step >= ing.prepAmount;
+        var label = ready ? ("in " + meta.name + ", ready") : (ing.prepType==="steep" ? ("in " + meta.name + "...") : ("in " + meta.name + " " + Math.floor(s.step) + "/" + ing.prepAmount));
+        toolHtml = '<div class="jar-tool">'+TOOL_ICONS[ing.prepType]+'<span class="jar-tool-label">'+label+'</span></div>';
+      } else {
+        toolHtml = '<div class="jar-tool">'+TOOL_ICONS[ing.prepType]+'<span class="jar-tool-label">use '+meta.name+'</span></div>';
+      }
+
+      div.innerHTML = ICONS[ing.icon] + '<span class="jar-name">' + ing.name + '</span>' + toolHtml +
+        (countInPot ? '<span class="jar-count">\u00D7'+countInPot+'</span>' : '') +
+        (IN_TEMPLE ? '<span class="jar-tool-label" style="display:block">in satchel: '+satCount(ing.id)+'</span>' : '');
+
+      div.setAttribute("aria-label", ing.name);
+      attachJarInteractions(div, ing);
+      shelfEl.appendChild(div);
+    });
+  }
+
+  function attachJarInteractions(el, ing){
+    el.addEventListener("keydown", function(e){
+      if(e.key !== "Enter" && e.key !== " ") return;
+      e.preventDefault();
+      openMateriaFor(ing.id);
+    });
+
+    el.addEventListener("pointerdown", function(e){
+      if(e.button !== undefined && e.button !== 0) return;
+      var startX = e.clientX, startY = e.clientY;
+      var moved = false, dragging = false, ghost = null;
+      try{ el.setPointerCapture(e.pointerId); }catch(err){}
+
+      function onMove(ev){
+        var dx = ev.clientX - startX, dy = ev.clientY - startY;
+        if(!moved && Math.sqrt(dx*dx+dy*dy) > 7){
+          moved = true; dragging = true;
+          el.classList.add("dragging");
+          ghost = document.createElement("div");
+          ghost.className = "drag-ghost";
+          ghost.innerHTML = ICONS[ing.icon];
+          ghost.style.color = ing.color;
+          document.body.appendChild(ghost);
+        }
+        if(dragging && ghost){
+          ghost.style.left = ev.clientX + "px";
+          ghost.style.top = ev.clientY + "px";
+          updateDropHighlights(ev.clientX, ev.clientY);
+        }
+      }
+      function onUp(ev){
+        el.removeEventListener("pointermove", onMove);
+        el.removeEventListener("pointerup", onUp);
+        el.removeEventListener("pointercancel", onUp);
+        el.classList.remove("dragging");
+        clearDropHighlights();
+        if(dragging){
+          if(ghost) ghost.remove();
+          var hit = hitTest(ev.clientX, ev.clientY);
+          handleDrop(ing, hit, el);
+        } else if(!moved){
+          openMateriaFor(ing.id);
+        }
+      }
+      el.addEventListener("pointermove", onMove);
+      el.addEventListener("pointerup", onUp);
+      el.addEventListener("pointercancel", onUp);
+    });
+  }
+
+  function shakeEl(el){
+    el.classList.remove("shake"); void el.offsetWidth; el.classList.add("shake");
+    setTimeout(function(){ el.classList.remove("shake"); }, 350);
+  }
+  function flashStation(tool){
+    var stEl = $("station" + tool.charAt(0).toUpperCase() + tool.slice(1));
+    stEl.classList.remove("reject"); void stEl.offsetWidth; stEl.classList.add("reject");
+    setTimeout(function(){ stEl.classList.remove("reject"); }, 400);
+  }
+
+  function isOverEl(el,x,y){
+    var r = el.getBoundingClientRect();
+    return x>=r.left && x<=r.right && y>=r.top && y<=r.bottom;
+  }
+  function hitTest(x,y){
+    if(isOverEl(cauldronEl,x,y)) return {type:"cauldron"};
+    for(var i=0;i<TOOLS.length;i++){
+      var tool = TOOLS[i];
+      var el = $("station" + tool.charAt(0).toUpperCase() + tool.slice(1));
+      if(isOverEl(el,x,y)) return {type:"station", tool:tool};
+    }
+    return null;
+  }
+  function updateDropHighlights(x,y){
+    cauldronEl.classList.toggle("drop-hover", isOverEl(cauldronEl,x,y));
+    TOOLS.forEach(function(tool){
+      var el = $("station" + tool.charAt(0).toUpperCase() + tool.slice(1));
+      el.classList.toggle("drop-hover", isOverEl(el,x,y));
+    });
+  }
+  function clearDropHighlights(){
+    cauldronEl.classList.remove("drop-hover");
+    TOOLS.forEach(function(tool){
+      $("station" + tool.charAt(0).toUpperCase() + tool.slice(1)).classList.remove("drop-hover");
+    });
+  }
+
+  function handleDrop(ing, hit, jarEl){
+    if(!hit) return;
+    if(hit.type === "cauldron"){
+      shakeEl(jarEl);
+    } else if(hit.type === "station"){
+      if(hit.tool !== ing.prepType){ flashStation(hit.tool); shakeEl(jarEl); }
+      else { loadStation(hit.tool, ing.id); }
+    }
+  }
+
+  // ---------- STATIONS ----------
+  function loadStation(tool, ingId){
+    var st = stationState[tool];
+    if(st.ingId && st.ingId !== ingId){ flashStation(tool); return; }
+    if(IN_TEMPLE && st.ingId === ingId) return;
+    if(!satAdd(ingId, -1)){ flashStation(tool); return; }
+    st.ingId = ingId; st.step = 0;
+    st.startTime = (STATION_META[tool].activation === "timer") ? Date.now() : null;
+    renderStations(); renderShelf();
+  }
+  function tapStation(tool){
+    if(STATION_META[tool].activation !== "tap") return;
+    var st = stationState[tool];
+    if(!st.ingId) return;
+    var ing = ING_BY_ID[st.ingId];
+    if(st.step >= ing.prepAmount) return;
+    st.step++;
+    var group = $(tool + "Hand");
+    var cls = tool === "grind" ? "pound" : tool === "chop" ? "chop" : tool === "pluck" ? "pull" : "flare";
+    group.classList.remove(cls); void group.offsetWidth; group.classList.add(cls);
+    renderStations(); renderShelf();
+  }
+  function clearStation(tool){
+    if(stationState[tool].ingId) satAdd(stationState[tool].ingId, 1);
+    stationState[tool] = {ingId:null, step:0, startTime:null};
+    renderStations(); renderShelf();
+  }
+  TOOLS.forEach(function(tool){
+    $(tool + "Scene").addEventListener("click", function(){ tapStation(tool); });
+    $(tool + "Clear").addEventListener("click", function(){ clearStation(tool); });
+  });
+
+  function renderStations(){
+    TOOLS.forEach(function(tool){
+      var meta = STATION_META[tool];
+      var st = stationState[tool];
+      var slotEl = $(tool + "Slot");
+      var statusEl = $(tool + "Status");
+      var clearBtnEl = $(tool + "Clear");
+      var sceneEl = $(tool + "Scene");
+      if(!st.ingId){
+        slotEl.innerHTML = "";
+        slotEl.classList.remove("ready");
+        statusEl.textContent = "empty \u2014 " + meta.empty;
+        clearBtnEl.style.display = "none";
+        sceneEl.classList.remove("steeping");
+        return;
+      }
+      var ing = ING_BY_ID[st.ingId];
+      var ready = st.step >= ing.prepAmount;
+      slotEl.classList.toggle("ready", ready);
+      slotEl.innerHTML = '<span style="color:'+ing.color+'">'+ICONS[ing.icon]+'</span><span class="station-slot-label">'+(ready ? "ready" : (meta.activation==="timer" ? "steeping" : (Math.floor(st.step)+"/"+ing.prepAmount)))+'</span>';
+      if(meta.activation === "tap"){
+        statusEl.textContent = ready ? (ing.name + " is ready \u2014 drag it to cauldron") : ("tap station to " + meta.verb + " " + ing.name);
+      } else {
+        if(ready){
+          statusEl.textContent = ing.name + " is ready \u2014 drag it to cauldron";
+        } else {
+          var elapsed = (Date.now() - st.startTime) / 1000;
+          var remaining = Math.max(0, ing.prepAmount - elapsed);
+          statusEl.textContent = ing.name + " is steeping\u2026 " + remaining.toFixed(1) + "s left";
+        }
+      }
+      sceneEl.classList.toggle("steeping", meta.activation === "timer" && !ready);
+      clearBtnEl.style.display = "inline-block";
+    });
+  }
+
+  function setupStationSlotDrag(tool){
+    var el = $(tool + "Slot");
+    el.addEventListener("pointerdown", function(e){
+      if(e.button !== undefined && e.button !== 0) return;
+      var st = stationState[tool];
+      if(!st.ingId) return;
+      var ing = ING_BY_ID[st.ingId];
+      if(st.step < ing.prepAmount) return;
+      var startX = e.clientX, startY = e.clientY, moved = false, dragging = false, ghost = null;
+      try{ el.setPointerCapture(e.pointerId); }catch(err){}
+      function onMove(ev){
+        var dx = ev.clientX-startX, dy = ev.clientY-startY;
+        if(!moved && Math.sqrt(dx*dx+dy*dy) > 7){
+          moved = true; dragging = true;
+          ghost = document.createElement("div");
+          ghost.className = "drag-ghost";
+          ghost.innerHTML = ICONS[ing.icon];
+          ghost.style.color = ing.color;
+          document.body.appendChild(ghost);
+        }
+        if(dragging && ghost){
+          ghost.style.left = ev.clientX+"px"; ghost.style.top = ev.clientY+"px";
+          cauldronEl.classList.toggle("drop-hover", isOverEl(cauldronEl, ev.clientX, ev.clientY));
+        }
+      }
+      function onUp(ev){
+        el.removeEventListener("pointermove", onMove);
+        el.removeEventListener("pointerup", onUp);
+        el.removeEventListener("pointercancel", onUp);
+        cauldronEl.classList.remove("drop-hover");
+        if(ghost) ghost.remove();
+        if(dragging && isOverEl(cauldronEl, ev.clientX, ev.clientY)){
+          addIngredient(ing.id);
+          stationState[tool] = {ingId:null, step:0, startTime:null};
+          renderStations();
+        } else if(!moved){
+          openMateriaFor(ing.id);
+        }
+      }
+      el.addEventListener("pointermove", onMove);
+      el.addEventListener("pointerup", onUp);
+      el.addEventListener("pointercancel", onUp);
+    });
+  }
+  TOOLS.forEach(function(tool){ setupStationSlotDrag(tool); });
+
+  // steep ticking (Water Basin only)
+  setInterval(function(){
+    var st = stationState.steep;
+    if(!st.ingId) return;
+    var ing = ING_BY_ID[st.ingId];
+    if(st.step >= ing.prepAmount) return;
+    var elapsed = (Date.now() - st.startTime) / 1000;
+    st.step = elapsed;
+    if(elapsed >= ing.prepAmount){
+      st.step = ing.prepAmount;
+      renderStations(); renderShelf();
+    } else {
+      var statusEl = $("steepStatus");
+      if(statusEl){ statusEl.textContent = ing.name + " is steeping\u2026 " + Math.max(0, ing.prepAmount-elapsed).toFixed(1) + "s left"; }
+    }
+  }, 150);
+
+  function addIngredient(id){
+    if(addedIngredients.length >= 6) return;
+    addedIngredients.push(id);
+    renderShelf(); renderAddedList(); renderTokens(true); updateBrewAvailability(); renderPage();
+  }
+
+  function renderAddedList(){
+    if(addedIngredients.length === 0){ addedListEl.innerHTML = '<li class="added-empty">nothing yet</li>'; return; }
+    addedListEl.innerHTML = addedIngredients.map(function(id, i){
+      var ing = ING_BY_ID[id];
+      return "<li><span>" + (i+1) + ". " + ing.name + "</span></li>";
+    }).join("");
+  }
+
+  function renderTokens(justAdded){
+    tokensInPot.innerHTML = "";
+    addedIngredients.forEach(function(id, i){
+      var ing = ING_BY_ID[id];
+      var span = document.createElement("div");
+      var key = TOKEN_GLYPH[id] || "leaf";
+      span.className = "token-chip" + (justAdded && i === addedIngredients.length-1 ? " pop" : "");
+      span.textContent = GLYPH_SYMBOL[key] || "\u2022";
+      span.style.color = ing.color;
+      var angle = (i / Math.max(addedIngredients.length,1)) * Math.PI * 2;
+      var r = 24;
+      span.style.left = (50 + Math.cos(angle)*r) + "%";
+      span.style.top = (50 + Math.sin(angle)*r) + "%";
+      span.style.animationDelay = (i*0.3) + "s";
+      tokensInPot.appendChild(span);
+    });
+    if(addedIngredients.length){
+      var colors = addedIngredients.map(function(id){ return ING_BY_ID[id].color; });
+      setLiquidColor(blendColors(colors));
+    } else { setLiquidColor("#1a0033"); }
+  }
+
+  function blendColors(hexArr){
+    var r=0,g=0,b=0;
+    hexArr.forEach(function(h){ var c = hexToRgb(h); r+=c.r; g+=c.g; b+=c.b; });
+    var n = hexArr.length;
+    return rgbToHex(Math.round(r/n),Math.round(g/n),Math.round(b/n));
+  }
+  function hexToRgb(hex){
+    var v = hex.replace("#","");
+    return {r:parseInt(v.substr(0,2),16), g:parseInt(v.substr(2,2),16), b:parseInt(v.substr(4,2),16)};
+  }
+  function rgbToHex(r,g,b){ return "#"+[r,g,b].map(function(x){ return x.toString(16).padStart(2,"0"); }).join(""); }
+  function setLiquidColor(hex){ liquidEl.style.setProperty("--liquid-color", hex); liquidGlow.style.setProperty("--liquid-color", hex); }
+
+  heatInput.addEventListener("input", function(e){
+    heatVal = parseInt(e.target.value,10);
+    var labels = ["Unlit","Ember","Low","Low","Gentle","Steady","Steady","Strong","Strong","Roaring","Blazing"];
+    heatReadout.textContent = labels[heatVal] + " (" + heatVal + "/10)";
+  });
+
+  // Smooth Stirring via Pointer Events
+  var stirring = false, lastAngle = null, accum = 0;
+  function angleFromCenter(x,y){
+    var rect = cauldronEl.getBoundingClientRect();
+    var cx = rect.left+rect.width/2, cy = rect.top+rect.height/2;
+    return Math.atan2(y-cy, x-cx);
+  }
+  function getPoint(e){
+    return {x:e.clientX, y:e.clientY};
+  }
+  function stirDown(e){
+    if(e.button !== undefined && e.button !== 0) return;
+    stirring = true;
+    try{ cauldronEl.setPointerCapture(e.pointerId); }catch(err){}
+    var p = getPoint(e);
+    lastAngle = angleFromCenter(p.x,p.y);
+    accum = 0;
+    stirRing.classList.add("show");
+  }
+  function stirMove(e){
+    if(!stirring) return;
+    var p = getPoint(e);
+    var ang = angleFromCenter(p.x,p.y);
+    var delta = ang - lastAngle;
+    if(delta > Math.PI) delta -= Math.PI*2;
+    if(delta < -Math.PI) delta += Math.PI*2;
+    accum += delta; lastAngle = ang;
+    var deg = ang * 180/Math.PI;
+    stirRing.style.transform = "translate(-50%,-50%) rotate("+deg+"deg) translateX(60px)";
+    if(Math.abs(accum) >= Math.PI*2){
+      var dir = accum > 0 ? "cw" : "ccw";
+      if(stirDirection === null) stirDirection = dir;
+      if(dir === stirDirection){ stirCount++; } else { stirDirection = dir; stirCount = 1; }
+      accum = 0;
+      updateStirDisplay();
+    }
+  }
+  function stirUp(e){ stirring = false; stirRing.classList.remove("show"); }
+
+  cauldronEl.addEventListener("pointerdown", stirDown);
+  cauldronEl.addEventListener("pointermove", stirMove);
+  cauldronEl.addEventListener("pointerup", stirUp);
+  cauldronEl.addEventListener("pointercancel", stirUp);
+
+  function updateStirDisplay(){
+    var dirLabel = stirDirection === "cw" ? "clockwise (with sun)" : stirDirection === "ccw" ? "counter-clockwise (against sun)" : "—";
+    stirCounterEl.textContent = "Stirred: " + stirCount + "  \u00B7  dir: " + dirLabel;
+  }
+
+  function updateBrewAvailability(){ brewBtn.disabled = addedIngredients.length === 0; }
+
+  clearBtn.addEventListener("click", resetBench);
+  function resetBench(){
+    TOOLS.forEach(function(t){ if(stationState[t] && stationState[t].ingId) satAdd(stationState[t].ingId, 1); });
+    addedIngredients = [];
+    stirCount = 0; stirDirection = null; heatVal = 0;
+    heatInput.value = 0; heatReadout.textContent = "Unlit";
+    stationState = {grind:{ingId:null,step:0,startTime:null}, chop:{ingId:null,step:0,startTime:null}, pluck:{ingId:null,step:0,startTime:null}, steep:{ingId:null,step:0,startTime:null}, melt:{ingId:null,step:0,startTime:null}};
+    renderShelf(); renderAddedList(); renderTokens(false); renderStations();
+    updateStirDisplay(); updateBrewAvailability(); renderPage();
+    resultEl.classList.remove("show");
+  }
+
+  brewBtn.addEventListener("click", brew);
+
+  function brew(){
+    var rec = null;
+    RECIPES.forEach(function(r){ if(r.id === activeRecipeId) rec = r; });
+    if(!rec){ freeExperimentResult(); return; }
+
+    var orderScore = 0;
+    var sameSet = sameMultiset(addedIngredients, rec.order);
+    if(sameSet && arraysEqual(addedIngredients, rec.order)) orderScore = 2;
+    else if(sameSet) orderScore = 1;
+
+    var stirScore = 0;
+    if(stirDirection === rec.stir.dir && stirCount === rec.stir.count) stirScore = 2;
+    else if(stirDirection === rec.stir.dir && Math.abs(stirCount - rec.stir.count) <= 2) stirScore = 1;
+
+    var heatScore = 0;
+    var lo = rec.heat[0], hi = rec.heat[1];
+    if(heatVal >= lo && heatVal <= hi) heatScore = 2;
+    else if(heatVal >= lo-1 && heatVal <= hi+1) heatScore = 1;
+
+    var total = orderScore + stirScore + heatScore;
+    if(orderScore === 0){ total = Math.min(total, 3); }
+    showResult(total, rec);
+  }
+
+  function sameMultiset(a,b){
+    if(a.length !== b.length) return false;
+    var sa = a.slice().sort(), sb = b.slice().sort();
+    return sa.every(function(v,i){ return v===sb[i]; });
+  }
+  function arraysEqual(a,b){ return a.length===b.length && a.every(function(v,i){ return v===b[i]; }); }
+
+  function showResult(total, rec){
+    resultEl.classList.remove("perfect","fine","unstable","ruined");
+    resultUnlock.textContent = "";
+    var grade, text, cls, color;
+    if(total >= 6){
+      grade = "A Perfect Working"; cls="perfect"; color = rec.resultColor;
+      var namePrefixed = /^the /i.test(rec.name) ? rec.name : "The " + rec.name;
+      text = namePrefixed + " settles into a clean, even hue. The book's ink glows faintly on this page, you have it exactly right.";
+    } else if(total >= 4){
+      grade = "A Fine Brew"; cls="fine"; color = rec.resultColor;
+      text = "It holds together, close enough to work, though a careful eye would spot where the hand wavered.";
+    } else if(total >= 2){
+      grade = "Unstable"; cls="unstable"; color = shiftColor(rec.resultColor, -30);
+      text = "The liquid churns and won't settle. Something in the ingredients, the stir, or the flame was off. Worth trying again.";
+    } else {
+      grade = "Ruined"; cls="ruined"; color = "#1a1326";
+      text = "A bitter smoke rises and the pot goes murky. Best to clear the cauldron and start fresh, check the page again.";
+    }
+    resultEl.classList.add(cls,"show");
+    resultGrade.textContent = grade;
+    resultText.textContent = text;
+    setLiquidColor(color);
+    liquidGlow.style.opacity = (total>=4) ? "0.75" : "0.2";
+
+    if(total >= 4){
+      var wasCompleted = isCompleted(rec.id);
+      if(!wasCompleted){ progress.completedRecipes.push(rec.id); }
+      var justCompletedLevel = levelComplete(rec.level);
+      saveProgress();
+      renderLevelPills();
+      renderPage();
+      renderMateria();
+      if(justCompletedLevel && rec.level < 5 && !progress.unlockedLevels[rec.level+1]){
+        progress.unlockedLevels[rec.level+1] = true;
+        saveProgress();
+        renderLevelPills();
+        renderMateria();
+        var nextName = LEVELS[rec.level].name;
+        resultUnlock.textContent = "\uD83D\uDD13 " + LEVELS[rec.level-1].name + " mastered! New level unlocked: " + nextName + ". New specimens may now be studied.";
+      } else if(!wasCompleted){
+        resultUnlock.textContent = "This recipe is now marked complete in your grimoire.";
+      }
+    }
+  }
+
+  function freeExperimentResult(){
+    var colors = addedIngredients.length ? addedIngredients.map(function(id){ return ING_BY_ID[id].color; }) : ["#1a0033"];
+    var color = blendColors(colors);
+    var hasCaution = addedIngredients.some(function(id){ return ING_BY_ID[id].caution; });
+    resultEl.classList.remove("perfect","fine","unstable","ruined");
+    resultUnlock.textContent = "";
+    resultEl.classList.add(hasCaution ? "unstable" : "fine","show");
+    resultGrade.textContent = "An Unnamed Brew";
+    resultText.textContent = hasCaution
+      ? "Nothing in the grimoire matches this combination, and one of these ingredients is not meant to be handled loosely. Set a working recipe from the book for a true reading."
+      : "Nothing in the grimoire matches this combination exactly. It may still be sound, set a working recipe from the book if you want it graded properly.";
+    setLiquidColor(color);
+  }
+
+  function shiftColor(hex, amt){
+    var c = hexToRgb(hex);
+    return rgbToHex(Math.max(0,Math.min(255,c.r+amt)), Math.max(0,Math.min(255,c.g+amt)), Math.max(0,Math.min(255,c.b+amt)));
+  }
+
+  // ---------- INIT ----------
+  rebuildLevelRecipes();
+  renderLevelPills();
+  renderPage();
+  renderMateria();
+  renderShelf();
+  renderStations();
+  renderAddedList();
+  renderTokens(false);
+  updateStirDisplay();
+  updateBrewAvailability();
+
+})();
+</script>
+</body>
+</html>

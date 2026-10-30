@@ -1344,7 +1344,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/089-129f7bfb3d.js"></script>
 <script src="assets/js/090-8d6db33ec7.js"></script>
 <script src="assets/js/091-2ef8b18558.js"></script>
-<script src="assets/js/092-6d1c81e3cf.js"></script>
+<script src="assets/js/092-11aafbcb53.js"></script>
 
 <script src="assets/js/093-f9ddb8dbd4.js"></script>
 
@@ -1525,7 +1525,7 @@ var TGD={n:0};function tgdKeep(){if(!INT||!walkMode||!INT.lifts||!INT.lifts.leng
 <script src="assets/js/226-5ff9dfbdf4.js"></script>
 <script src="assets/js/227-1daec32ca5.js"></script>
 <script src="assets/js/228-a3f92f91f2.js"></script>
-<script src="assets/js/229-1142f05ea9.js"></script>
+<script src="assets/js/229-c55f7ae7c9.js"></script>
 <script>
 "use strict";(function(){if(typeof THREE==="undefined"||!THREE.Skeleton||!THREE.SkinnedMesh||THREE.Skeleton.prototype.skinOrigin)return;var e=new THREE.Vector3,t=new THREE.Matrix4,n=new THREE.Matrix4,r=new THREE.Matrix4;THREE.Skeleton.prototype.skinOrigin=e;THREE.Skeleton.prototype.update=function(){var r=this.bones,i=this.boneInverses,o=this.boneMatrices,a=t.elements;for(var s=0,d=r.length;s<d;s++){t.multiplyMatrices(r[s]?r[s].matrixWorld:n,i[s]);a[12]-=e.x;a[13]-=e.y;a[14]-=e.z;t.toArray(o,s*16)}if(this.boneTexture)this.boneTexture.needsUpdate=true};var i=THREE.SkinnedMesh.prototype.updateMatrixWorld;THREE.SkinnedMesh.prototype.updateMatrixWorld=function(t){i.call(this,t);if(this.bindMode==="attached")this.bindMatrixInverse.multiply(r.makeTranslation(e.x,e.y,e.z))};function o(t){if(!t||t.skinOrigin)return;t.skinOrigin=1;var n=t.render;t.render=function(t,r){if(r&&typeof camera!=="undefined"&&r===camera){var i=r.position;if(Math.abs(i.x-e.x)>200||Math.abs(i.y-e.y)>200||Math.abs(i.z-e.z)>200)e.set(Math.round(i.x),Math.round(i.y),Math.round(i.z))}return n.apply(this,arguments)}}if(typeof renderer!=="undefined"&&renderer)o(renderer);else if(typeof initWorld==="function"){var a=initWorld;initWorld=function(){var e=a.apply(this,arguments);try{o(renderer)}catch(e){}return e}}})();
 </script>

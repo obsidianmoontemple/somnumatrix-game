@@ -1770,7 +1770,7 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/350-0bb48feaf3.js"></script>
 
 
-<script src="assets/js/351-01ddff9b82.js"></script>
+<script src="assets/js/351-8a0074bca7.js"></script>
 
 
 <script src="assets/js/352-d07727a7ce.js"></script>
@@ -1788,10 +1788,10 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/356-8cbf0b6415.js"></script>
 
 
-<script src="assets/js/357-0e27cb9b4b.js"></script>
+<script src="assets/js/357-1d1e845e18.js"></script>
 
 
-<script src="assets/js/358-b9855ecf54.js"></script>
+<script src="assets/js/358-f28c0d2193.js"></script>
 
 
 <script src="assets/js/359-83438327ec.js"></script>
@@ -1889,7 +1889,7 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/389-047be8b305.js"></script>
 
 
-<script src="assets/js/390-3208d0bfb5.js"></script>
+<script src="assets/js/390-a8e469ee91.js"></script>
 
 
 <script src="assets/js/391-4740790cc6.js"></script>
@@ -1915,7 +1915,7 @@ var PBILL={msg:""};function pbillSafeUrl(t){t=String(t||"").trim();return/^https
 <script src="assets/js/397-e8732030d1.js"></script>
 
 
-<script src="assets/js/398-c414ba9dc9.js"></script>
+<script src="assets/js/398-dfdabdad5c.js"></script>
 
 
 <script src="assets/js/399-d54737acfa.js"></script>
@@ -1965,6 +1965,11 @@ var PBILL={msg:""};function pbillSafeUrl(t){t=String(t||"").trim();return/^https
 
 <script>
 "use strict";var FPK={list:null,at:0,busy:false,missing:false,last:null,lastAt:0,using:false};function fpkSigned(){return typeof signedIn==="function"&&signedIn()}function fpkLoad(t){if(FPK.busy||!fpkSigned()||typeof cityRpc!=="function")return;if(!t&&FPK.list&&Date.now()-FPK.at<2e4)return;FPK.busy=true;cityRpc("my_food_pack",{}).then(function(t){FPK.busy=false;FPK.missing=false;FPK.list=Array.isArray(t)?t:[];FPK.at=Date.now();if(typeof BKP!=="undefined"&&BKP.open&&typeof bkpPaint==="function")bkpPaint()}).catch(function(t){FPK.busy=false;FPK.list=null;if(typeof rpcMissing==="function"&&rpcMissing(t))FPK.missing=true})}function fpkVerb(t){return t.heal>0||t.cures||t.eases?"Use":t.food>0?"Eat":"Drink"}function fpkWhat(t){var n=[];if(t.food)n.push("food +"+t.food);if(t.drink)n.push("drink +"+t.drink);if(t.heal)n.push("health +"+t.heal+", vigour +"+t.heal*2);if(t.cures)n.push("a remedy");else if(t.eases)n.push("eases it");return n.join(" · ")}function fpkHtml(){if(!fpkSigned()||FPK.missing||!FPK.list)return"";var t=bkpHead("Food, drink and remedies");if(!FPK.list.length)return t+bkpDim("Nothing to eat. Food, drink and healing salve you buy or find wait here until you need them.");FPK.list.forEach(function(n){t+=bkpRow(esc(n.name)+(n.n>1?" <b>×"+n.n+"</b>":"")+"<br>"+bkpDim(esc(fpkWhat(n))),'<button class="btn" data-bkfood="'+esc(n.item)+'">'+fpkVerb(n)+"</button>")});return t}function fpkUse(t){if(FPK.using||typeof cityRpc!=="function")return;var n=(FPK.list||[]).filter(function(n){return n.item===t})[0];var e=typeof DGR!=="undefined"&&DGR&&DGR.hp<DGR.max&&!DGR.downT;FPK.using=true;cityRpc("eat_food",{p_item:t,p_force:!!(n&&n.heal>0&&e)}).then(function(t){FPK.using=false;if(!t)return;var e=esc(t.say||"");if(t.ok!==false){if(typeof needsGot==="function")try{needsGot(t)}catch(t){}if(+t.heal>0&&typeof DGR!=="undefined"&&DGR&&DGR.hp<DGR.max&&!DGR.downT){DGR.hp=Math.min(DGR.max,DGR.hp+ +t.heal*2);DGR.hurt=Math.max(0,DGR.hurt-.3);e+=" Vigour "+Math.round(DGR.hp)+" of "+DGR.max+"."}}setStatus(e);if(n&&typeof t.have==="number"){n.n=t.have;if(n.n<=0)FPK.list=FPK.list.filter(function(t){return t!==n})}if(typeof BKP!=="undefined"&&BKP.open&&typeof bkpPaint==="function")bkpPaint();fpkLoad(true)}).catch(function(t){FPK.using=false;setStatus(esc(t&&t.message||String(t)))})}function foodPackFind(t){if(!fpkSigned()){setStatus("Sign in first.");return}cityRpc("food_pack_find",{p_spot:t}).then(function(t){setStatus(esc(t&&t.say||""));if(t&&t.ok){FPK.at=0;fpkLoad(true)}}).catch(function(t){setStatus(typeof rpcMissing==="function"&&rpcMissing(t)?"Empty. Someone got here first.":esc(t&&t.message||String(t)))})}(function(){if(typeof bkpOpen==="function"){var t=bkpOpen;bkpOpen=function(){var n=t.apply(this,arguments);fpkLoad(true);return n}}if(typeof bkpHtml==="function"){var n=bkpHtml;bkpHtml=function(){var t=n.apply(this,arguments);try{t+=fpkHtml()}catch(t){}return t}}document.addEventListener("click",function(t){var n=t.target&&t.target.closest?t.target.closest("[data-bkfood]"):null;if(!n)return;t.stopPropagation();fpkUse(n.getAttribute("data-bkfood"))},true)})();(function(){if(typeof needsGot==="function"){var t=needsGot;needsGot=function(n){if(n&&n.packed){FPK.last=n.item;FPK.lastAt=Date.now();FPK.at=0}return t.apply(this,arguments)}}if(typeof needsMenu==="function"){var n=needsMenu;needsMenu=function(t,e){if(e&&FPK.last&&Date.now()-FPK.lastAt<4e3&&typeof worldBtn==="function")e+="<div style='margin-top:4px'>"+worldBtn("fpknow:"+FPK.last,"🍽️ Have it now","or keep it in your 🎒 Backpack for later")+"</div>";return n.call(this,t,e)}}if(typeof needsMenuFns==="function"){var e=needsMenuFns;needsMenuFns=function(t,n){var i=e.apply(this,arguments)||{};(n||[]).forEach(function(n){if(n.place===t)i["fpknow:"+n.item]=function(){FPK.list=FPK.list||[];if(!FPK.list.some(function(t){return t.item===n.item}))FPK.list.push({item:n.item,name:n.name,n:1,food:n.food,drink:n.drink,heal:n.heal});FPK.last=null;fpkUse(n.item)}});return i}}})();
+</script>
+
+
+<script>
+"use strict";var TXS={done:0,shapes:0};function txsSurfaces(){var e=new Map;try{for(var r in TEXCACHE){var t=TEXCACHE[r];if(t&&t.image)e.set(t.image,t)}}catch(e){}return e}function txsIsSurface(e,r){var t=r&&r.image&&e.get(r.image);return!!t&&(r===t||r.repeat.x===t.repeat.x&&r.repeat.y===t.repeat.y)}function txsMetres(e,r,t){var a=r.parameters||{},n=Math.abs(t.x),i=Math.abs(t.y),s=Math.abs(t.z),u=Math.max(n,s);switch(r.type){case"BoxGeometry":return{kind:"box",s:[(a.width||1)*n,(a.height||1)*i,(a.depth||1)*s]};case"CylinderGeometry":return{kind:"cyl",s:[(a.radiusTop||0)*u,(a.radiusBottom||0)*u,(a.height||1)*i]};case"ConeGeometry":return{kind:"cone",s:[(a.radius||1)*u,(a.height||1)*i]};case"SphereGeometry":case"IcosahedronGeometry":case"DodecahedronGeometry":case"OctahedronGeometry":return{kind:"sph",s:[(a.radius||1)*Math.max(n,i,s)]};case"PlaneGeometry":return{kind:"pln",s:[(a.width||1)*n,(a.height||1)*i]};case"CircleGeometry":case"RingGeometry":var o=a.radius||a.outerRadius||1;return{kind:"pln",s:[2*o*n,2*o*i]};case"TorusGeometry":return{kind:"pln",s:[2*Math.PI*(a.radius||1)*u,2*Math.PI*(a.tube||.4)*u]}}if(!r.boundingBox)r.computeBoundingBox();var c=r.boundingBox;if(!c)return null;var f=[(c.max.x-c.min.x)*n,(c.max.y-c.min.y)*i,(c.max.z-c.min.z)*s].sort(function(e,r){return r-e});return{kind:"pln",s:[f[0],f[1]]}}function txsFix(e){if(!e||typeof metreUVs!=="function"||!THREE)return 0;var r=txsSurfaces();if(!r.size)return 0;var t=new THREE.Vector3,a=0;e.updateMatrixWorld(true);e.traverse(function(e){if(!e.isMesh||e.isSkinnedMesh||!e.geometry||!e.material||Array.isArray(e.material))return;var n=e.material.map;if(!txsIsSurface(r,n))return;var i=e.geometry,s=i.attributes&&i.attributes.uv;if(!s||!s.array||i.userData.txsM)return;var u=s.array,o=1e9,c=-1e9;for(var f=0;f<u.length;f++){var d=u[f];if(d<o)o=d;if(d>c)c=d}if(o<-.01||c>1.01){i.userData.txsM=1;return}e.getWorldScale(t);if(e.isInstancedMesh)t.set(1,1,1);var h=txsMetres(e,i,t);if(!h)return;var y=Math.max.apply(null,h.s.map(function(e){return e||0}));if(h.kind==="cyl"||h.kind==="cone")y=Math.max(h.s[h.kind==="cyl"?2:1],2*Math.PI*(h.kind==="cyl"?Math.max(h.s[0],h.s[1]):h.s[0]));if(h.kind==="sph")y=2*Math.PI*h.s[0];if(y<3){i.userData.txsM=1;return}try{metreUVs(i,h.kind==="cone"?"cone":h.kind,h.s);i.attributes.uv.needsUpdate=true;i.userData.txsM=1;a++}catch(e){}});TXS.shapes+=a;return a}(function(){if(typeof gwBake==="function"){var e=gwBake;gwBake=function(r){try{txsFix(r)}catch(e){}return e.apply(this,arguments)}}var r=function(e){if(!e||e.txsW||typeof e.build!=="function")return;var r=e.build;e.txsW=1;e.build=function(e){var t=r.apply(this,arguments);try{txsFix(e)}catch(e){}TXS.done++;return t}};if(typeof WORLDS!=="undefined")for(var t in WORLDS)r(WORLDS[t]);if(typeof worldDef==="function"){var a=worldDef;worldDef=function(e,t){var n=a.apply(this,arguments);r(n||t);return n}}})();
 </script>
 
 </body>

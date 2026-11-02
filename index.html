@@ -1032,10 +1032,10 @@ body.pad-on #joy{display:none!important}
 
   <h3 class="set-h">How it looks and plays</h3>
   <label for="gfx">Graphics</label>
-  <select id="gfx" onchange="var c=cfg(), was=GFX_STYLE; c.gfx=this.value; setCfg(c); var now=(this.value==='auto')?((/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent)||TOUCH_ONLY)?'standard':'stylized'):this.value; if((now==='stylized')!==(was==='stylized')&&confirm('The new look takes effect when the page reloads. Reload now? Your dreams are saved.')) location.reload();">
+  <select id="gfx" onchange="var c=cfg(), was=GFX_STYLE; c.gfx=this.value; setCfg(c); var now=(this.value==='auto')?((/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent)||TOUCH_ONLY)?'standard':'high'):this.value; if((now==='stylized')!==(was==='stylized')&&confirm('The new look takes effect when the page reloads. Reload now? Your dreams are saved.')) location.reload();">
     <option value="auto">Best for this device</option>
     <option value="stylized">Stylized &mdash; cel-shaded fantasy art, glowing lights</option>
-    <option value="high">High &mdash; the plain look, with glowing lights</option>
+    <option value="high">Realistic &mdash; real light, sky and surfaces (a computer's best)</option>
     <option value="standard">Standard &mdash; fastest</option>
   </select>
   <label for="ink">Outlines (Stylized look)</label>
@@ -1228,7 +1228,7 @@ if(typeof THREE==="undefined")document.write('<script src="assets/vendor/three-r
 (function(){function e(e){var t=e.target;if(!t||!t.closest||!t.closest("#bug-wrap"))return;e.stopImmediatePropagation();if(e.type==="keydown"&&e.key==="Escape"&&typeof bugClose==="function")bugClose()}["keydown","keyup","keypress"].forEach(function(t){window.addEventListener(t,e,true)})})();
 </script>
 <script>
-"use strict";var GFX_STYLE=function(){var e={};try{e=JSON.parse(localStorage.getItem(/[?&]test=1\b/.test(location.search)?"dreamwalker.testcfg":"dreamwalker.cfg2")||"{}")||{}}catch(e){}if(e.gfx==="stylized"||e.gfx==="high"||e.gfx==="standard")return e.gfx;var t=/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent||"")||navigator.maxTouchPoints>1&&!/Windows|Macintosh|Linux x86/i.test(navigator.userAgent||"")||typeof TOUCH_ONLY!=="undefined"&&TOUCH_ONLY;return t?"standard":"stylized"}();var TOON=null;if(GFX_STYLE==="stylized"&&typeof THREE!=="undefined"&&THREE.MeshToonMaterial){TOON={};var tg=new Uint8Array([112,112,112,255,168,168,168,255,212,212,212,255,238,238,238,255]);TOON.gradient=new THREE.DataTexture(tg,4,1,THREE.RGBAFormat);TOON.gradient.minFilter=TOON.gradient.magFilter=THREE.NearestFilter;TOON.gradient.generateMipmaps=false;TOON.gradient.needsUpdate=true;TOON.rim={rimColor:{value:new THREE.Color(16773852)},rimStrength:{value:.32}};TOON.hook=function(e){e.uniforms.rimColor=TOON.rim.rimColor;e.uniforms.rimStrength=TOON.rim.rimStrength;e.fragmentShader=e.fragmentShader.replace("uniform vec3 diffuse;","uniform vec3 diffuse;\nuniform vec3 rimColor;\nuniform float rimStrength;").replace("vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + totalEmissiveRadiance;","vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + totalEmissiveRadiance;\n"+"float rimF = 1.0 - saturate( dot( normalize( vViewPosition ), normal ) );\n"+"vec3 upV = normalize( ( viewMatrix * vec4( 0.0, 1.0, 0.0, 0.0 ) ).xyz );\n"+"rimF *= 1.0 - abs( dot( normal, upV ) );\n"+"outgoingLight += rimColor * diffuseColor.rgb * smoothstep( 0.55, 0.95, rimF ) * rimStrength;")};var probe=new THREE.MeshToonMaterial;function e(e){var t={gradientMap:TOON.gradient};if(e)Object.keys(e).forEach(function(r){if(r in probe&&r!=="gradientMap")t[r]=e[r]});return t}function t(t){var r=new THREE.MeshToonMaterial(e(t));r.onBeforeCompile=TOON.hook;r.userData.toon=1;return r}TOON.Lambert=THREE.MeshLambertMaterial;TOON.Phong=THREE.MeshPhongMaterial;THREE.MeshLambertMaterial=function(e){return t(e)};THREE.MeshLambertMaterial.prototype=TOON.Lambert.prototype;THREE.MeshPhongMaterial=function(e){var r=t(e);if(e&&e.shininess>40){r.userData.shiny=1}return r};THREE.MeshPhongMaterial.prototype=TOON.Phong.prototype}
+"use strict";var GFX_STYLE=function(){var e={};try{e=JSON.parse(localStorage.getItem(/[?&]test=1\b/.test(location.search)?"dreamwalker.testcfg":"dreamwalker.cfg2")||"{}")||{}}catch(e){}if(e.gfx==="stylized"||e.gfx==="high"||e.gfx==="standard")return e.gfx;var r=/Android|iPhone|iPad|Mobile/i.test(navigator.userAgent||"")||navigator.maxTouchPoints>1&&!/Windows|Macintosh|Linux x86/i.test(navigator.userAgent||"")||typeof TOUCH_ONLY!=="undefined"&&TOUCH_ONLY;return r?"standard":"high"}();var TOON=null;if(GFX_STYLE==="stylized"&&typeof THREE!=="undefined"&&THREE.MeshToonMaterial){TOON={};var tg=new Uint8Array([112,112,112,255,168,168,168,255,212,212,212,255,238,238,238,255]);TOON.gradient=new THREE.DataTexture(tg,4,1,THREE.RGBAFormat);TOON.gradient.minFilter=TOON.gradient.magFilter=THREE.NearestFilter;TOON.gradient.generateMipmaps=false;TOON.gradient.needsUpdate=true;TOON.rim={rimColor:{value:new THREE.Color(16773852)},rimStrength:{value:.32}};TOON.hook=function(e){e.uniforms.rimColor=TOON.rim.rimColor;e.uniforms.rimStrength=TOON.rim.rimStrength;e.fragmentShader=e.fragmentShader.replace("uniform vec3 diffuse;","uniform vec3 diffuse;\nuniform vec3 rimColor;\nuniform float rimStrength;").replace("vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + totalEmissiveRadiance;","vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + totalEmissiveRadiance;\n"+"float rimF = 1.0 - saturate( dot( normalize( vViewPosition ), normal ) );\n"+"vec3 upV = normalize( ( viewMatrix * vec4( 0.0, 1.0, 0.0, 0.0 ) ).xyz );\n"+"rimF *= 1.0 - abs( dot( normal, upV ) );\n"+"outgoingLight += rimColor * diffuseColor.rgb * smoothstep( 0.55, 0.95, rimF ) * rimStrength;")};var probe=new THREE.MeshToonMaterial;function e(e){var r={gradientMap:TOON.gradient};if(e)Object.keys(e).forEach(function(t){if(t in probe&&t!=="gradientMap")r[t]=e[t]});return r}function r(r){var t=new THREE.MeshToonMaterial(e(r));t.onBeforeCompile=TOON.hook;t.userData.toon=1;return t}TOON.Lambert=THREE.MeshLambertMaterial;TOON.Phong=THREE.MeshPhongMaterial;THREE.MeshLambertMaterial=function(e){return r(e)};THREE.MeshLambertMaterial.prototype=TOON.Lambert.prototype;THREE.MeshPhongMaterial=function(e){var t=r(e);if(e&&e.shininess>40){t.userData.shiny=1}return t};THREE.MeshPhongMaterial.prototype=TOON.Phong.prototype}
 </script>
 
 <script>
@@ -1501,7 +1501,7 @@ var CITY_CAR_MODELS={car:1,coupe:1,sportscar:1,roadster:1,taxicab:1,van:1,truck:
 <script src="assets/js/204-9063053682.js"></script>
 <script src="assets/js/205-17e5af5fd2.js"></script>
 <script src="assets/js/206-e951c5c7c2.js"></script>
-<script src="assets/js/207-768b7c0bf8.js"></script>
+<script src="assets/js/207-c796e084a9.js"></script>
 <script src="assets/js/208-58aaed816a.js"></script>
 <script src="assets/js/209-956c9cdd38.js"></script>
 <script src="assets/js/210-54acffdfd1.js"></script>
@@ -1973,13 +1973,16 @@ var PBILL={msg:""};function pbillSafeUrl(t){t=String(t||"").trim();return/^https
 </script>
 
 
-<script src="assets/js/416-f4d5271ca9.js"></script>
+<script src="assets/js/416-c92c6ebb03.js"></script>
 
 
 <script src="assets/js/417-c66c00b35a.js"></script>
 
 
 <script src="assets/js/418-4c49a125e9.js"></script>
+
+
+<script src="assets/js/419-651d1b8b95.js"></script>
 
 </body>
 </html>

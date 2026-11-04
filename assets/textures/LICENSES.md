@@ -76,3 +76,9 @@ Also from **ambientCG** (CC0 1.0), the same mirror. Kept in full colour (the gam
 | planks | Planks012 | | checker | Tiles014 |
 | oak | WoodFloor009 | | marble | Marble001 |
 | deck | Planks006 | | moss | Moss001 |
+
+## Surface relief and shine (`pbr/`, added 4 November 2026)
+
+`<kind>-nr.jpg` (512 px) and `<kind>-nr-1k.jpg` (1024 px) hold the relief (normal map, red and green) and the shine (roughness, blue)
+of the same **ambientCG** materials listed above (CC0 1.0, public domain), fetched through the same mirror. Only built surfaces
+have one: brick, stone, wood, siding, metalroof, shingle, tile, slate, bark, paving.

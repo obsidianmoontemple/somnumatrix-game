@@ -1249,7 +1249,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/018-a662845381.js"></script>
 <script src="assets/js/019-eb7c5fc874.js"></script>
 <script>
-"use strict";var DW_TESTING=typeof location!=="undefined"&&/[?&]test=1\b/.test(location.search)||typeof window!=="undefined"&&window.DW_TEST===true;var KEY=DW_TESTING?"dreamwalker.test":"dreamwalker.v2";var CFGKEY=DW_TESTING?"dreamwalker.testcfg":"dreamwalker.cfg2";var store=blank();function blank(){return{objects:[],passages:[],transcript:"",emotions:[],lucidity:0,grid:{bx:0,bz:0,lot:0},streets:[],lastId:null,open:0,characters:[],sessions:[],session:1,blocks:{},lots:{},lastLot:null,dreamer:{name:"",about:"",practice:"",notes:"",abilities:[]},research:{consent:false,since:null}}}function uid(){return Math.random().toString(36).slice(2,10)}function save(){if(typeof visiting!=="undefined"&&visiting)return;try{var e={};for(var t in store)if(t!=="blocks")e[t]=store[t];e.objects=store.objects.filter(function(e){return!e.filler&&!e.city});var r={};e.objects.forEach(function(e){if(e.charId)r[e.charId]=1});e.characters=store.characters.filter(function(e){return e.primary!==false&&!e.city});["plots","districtPlots","workplaceAt","wildsNightmares","gaolYard"].forEach(function(t){delete e[t]});if(e.inside&&!e.objects.some(function(t){return t.id===e.inside}))e.inside=null;localStorage.setItem(KEY,JSON.stringify(e))}catch(e){}}function load(){try{var e=localStorage.getItem(KEY);if(!e)return false;var t=JSON.parse(e);if(t&&t.objects){store=Object.assign(blank(),t);return true}}catch(e){}return false}var LLM_URL="https://api.groq.com/openai/v1/chat/completions",LLM_MODEL="openai/gpt-oss-120b";function cfg(){var e;try{e=Object.assign({mode:"app",model:LLM_MODEL,density:26},JSON.parse(localStorage.getItem(CFGKEY))||{})}catch(t){e={mode:"app",model:LLM_MODEL,density:26}}if(!e.appSeen){e.appSeen=1;if(e.mode==="off")e.mode="app";try{localStorage.setItem(CFGKEY,JSON.stringify(e))}catch(e){}}if(e.mode==="off")e.mode="app";if(e.mode==="app"&&!appParseUrl())e.mode="off";if(!e.model||/^grok/i.test(e.model))e.model=LLM_MODEL;if(e.key&&/^xai-/i.test(e.key)){e.key="";if(e.mode==="direct")e.mode="off"}return e}function llmBody(e,t){var r=Object.assign({model:e.model||LLM_MODEL},t);if(/gpt-oss|qwen/i.test(r.model)){r.reasoning_effort="low";r.include_reasoning=false}if(e.mode!=="app"){delete r.talk;delete r.lookup;delete r.design}return r}function setCfg(e){try{localStorage.setItem(CFGKEY,JSON.stringify(e))}catch(e){}}function appParseUrl(){if(typeof DW_CONFIG==="undefined"||!DW_CONFIG)return"";if(DW_CONFIG.parseUrl)return DW_CONFIG.parseUrl;return DW_CONFIG.supabaseUrl?DW_CONFIG.supabaseUrl.replace(/\/+$/,"")+"/functions/v1/dream-parse":""}function llmTarget(e){var t={"Content-Type":"application/json"};if(e.mode==="app"){t.apikey=DW_CONFIG.supabaseKey;var r=DW_CONFIG.supabaseKey;if(typeof session!=="undefined"&&session&&session.access_token){var o=Date.now()-(session.at||0);if(o<55*60*1e3)r=session.access_token;if(o>=45*60*1e3&&typeof freshToken==="function")freshToken()}t.Authorization="Bearer "+r;return{url:appParseUrl(),headers:t}}if(e.mode==="direct"&&e.key)t.Authorization="Bearer "+e.key;return{url:e.mode==="proxy"?e.proxy:LLM_URL,headers:t}}
+"use strict";var DW_TESTING=typeof location!=="undefined"&&/[?&]test=1\b/.test(location.search)||typeof window!=="undefined"&&window.DW_TEST===true;var KEY=DW_TESTING?"dreamwalker.test":"dreamwalker.v2";var CFGKEY=DW_TESTING?"dreamwalker.testcfg":"dreamwalker.cfg2";var store=blank();function blank(){return{objects:[],passages:[],transcript:"",emotions:[],lucidity:0,grid:{bx:0,bz:0,lot:0},streets:[],lastId:null,open:0,characters:[],sessions:[],session:1,blocks:{},lots:{},lastLot:null,dreamer:{name:"",about:"",practice:"",notes:"",abilities:[]},research:{consent:false,since:null}}}function uid(){return Math.random().toString(36).slice(2,10)}function save(){if(typeof visiting!=="undefined"&&visiting)return;try{var e={};for(var t in store)if(t!=="blocks")e[t]=store[t];e.objects=store.objects.filter(function(e){return!e.filler&&!e.city});var r={};e.objects.forEach(function(e){if(e.charId)r[e.charId]=1});e.characters=store.characters.filter(function(e){return e.primary!==false&&!e.city});["plots","districtPlots","workplaceAt","wildsNightmares","gaolYard"].forEach(function(t){delete e[t]});if(e.inside&&!e.objects.some(function(t){return t.id===e.inside}))e.inside=null;localStorage.setItem(KEY,JSON.stringify(e))}catch(e){}}function load(){try{var e=localStorage.getItem(KEY);if(!e)return false;var t=JSON.parse(e);if(t&&t.objects){store=Object.assign(blank(),t);return true}}catch(e){}return false}var LLM_URL="https://api.groq.com/openai/v1/chat/completions",LLM_MODEL="openai/gpt-oss-120b";function cfg(){var e;try{e=Object.assign({mode:"app",model:LLM_MODEL,density:26},JSON.parse(localStorage.getItem(CFGKEY))||{})}catch(t){e={mode:"app",model:LLM_MODEL,density:26}}if(!e.appSeen){e.appSeen=1;if(e.mode==="off")e.mode="app";try{localStorage.setItem(CFGKEY,JSON.stringify(e))}catch(e){}}if(e.mode==="off")e.mode="app";if(e.mode==="app"&&!appParseUrl())e.mode="off";if(!e.model||/^grok/i.test(e.model))e.model=LLM_MODEL;if(e.key&&/^xai-/i.test(e.key)){e.key="";if(e.mode==="direct")e.mode="off"}return e}function llmBody(e,t){var r=Object.assign({model:e.model||LLM_MODEL},t);delete r.say;if(/gpt-oss|qwen/i.test(r.model)){r.reasoning_effort="low";r.include_reasoning=false}if(e.mode!=="app"){delete r.talk;delete r.lookup;delete r.design}return r}function setCfg(e){try{localStorage.setItem(CFGKEY,JSON.stringify(e))}catch(e){}}function appParseUrl(){if(typeof DW_CONFIG==="undefined"||!DW_CONFIG)return"";if(DW_CONFIG.parseUrl)return DW_CONFIG.parseUrl;return DW_CONFIG.supabaseUrl?DW_CONFIG.supabaseUrl.replace(/\/+$/,"")+"/functions/v1/dream-parse":""}function llmTarget(e){var t={"Content-Type":"application/json"};if(e.mode==="app"){t.apikey=DW_CONFIG.supabaseKey;var r=DW_CONFIG.supabaseKey;if(typeof session!=="undefined"&&session&&session.access_token){var a=Date.now()-(session.at||0);if(a<55*60*1e3)r=session.access_token;if(a>=45*60*1e3&&typeof freshToken==="function")freshToken()}t.Authorization="Bearer "+r;return{url:appParseUrl(),headers:t}}if(e.mode==="direct"&&e.key)t.Authorization="Bearer "+e.key;return{url:e.mode==="proxy"?e.proxy:LLM_URL,headers:t}}
 </script>
 <script src="assets/js/021-f931305e8f.js"></script>
 <script src="assets/js/022-24b8a9179f.js"></script>
@@ -1295,7 +1295,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 </script>
 <script src="assets/js/051-55659e96ff.js"></script>
 <script src="assets/js/052-70aec64481.js"></script>
-<script src="assets/js/053-a31fec8032.js"></script>
+<script src="assets/js/053-c51c430526.js"></script>
 <script src="assets/js/054-fc5f7e4fcb.js"></script>
 <script>
 "use strict";var audio={on:false,ctx:null,nodes:{},master:null};var VOICE={water:"surf",tree:"rustle",pine:"rustle",hedge:"rustle",grass:"rustle",road:"traffic",car:"traffic",truck:"traffic",bus:"traffic",train:"rumble",factory:"rumble",crowd:"murmur",bird:"chirp",station:"murmur",fountain:"surf",streetlight:"hum",pylon:"hum",portal:"hum",creature:"rumble"};function noiseBuffer(e){var a=e.sampleRate*2,i=e.createBuffer(1,a,e.sampleRate),o=i.getChannelData(0);for(var t=0;t<a;t++)o[t]=Math.random()*2-1;return i}function startAudio(){if(audio.ctx){audio.ctx.resume();audio.on=true;return}var e=window.AudioContext||window.webkitAudioContext;if(!e)return;audio.ctx=new e;audio.master=audio.ctx.createGain();audio.master.gain.value=.5;audio.master.connect(audio.ctx.destination);audio.buf=noiseBuffer(audio.ctx);audio.on=true;var a=audio.ctx.createBufferSource();a.buffer=audio.buf;a.loop=true;var i=audio.ctx.createBiquadFilter();i.type="lowpass";i.frequency.value=320;var o=audio.ctx.createGain();o.gain.value=.05;a.connect(i);i.connect(o);o.connect(audio.master);a.start();audio.bed=o}function voiceFor(e){var a=VOICE[e.archetype];if(!a)return null;var i=audio.ctx;var o=i.createBufferSource();o.buffer=audio.buf;o.loop=true;var t=i.createBiquadFilter();var r=i.createGain();var u=i.createPanner();u.panningModel="equalpower";u.distanceModel="inverse";u.refDistance=8;u.maxDistance=260;u.rolloffFactor=1.4;if(u.positionX){u.positionX.value=e.x;u.positionY.value=2;u.positionZ.value=e.z}else u.setPosition(e.x,2,e.z);if(a==="surf"){t.type="lowpass";t.frequency.value=520;r.gain.value=.3}else if(a==="rustle"){t.type="highpass";t.frequency.value=2400;r.gain.value=.1}else if(a==="traffic"){t.type="lowpass";t.frequency.value=180;r.gain.value=.26}else if(a==="rumble"){t.type="lowpass";t.frequency.value=90;r.gain.value=.4}else if(a==="murmur"){t.type="bandpass";t.frequency.value=650;t.Q.value=1.2;r.gain.value=.22}else if(a==="hum"){t.type="bandpass";t.frequency.value=120;t.Q.value=8;r.gain.value=.18}else if(a==="chirp"){t.type="bandpass";t.frequency.value=4200;t.Q.value=14;r.gain.value=.16}o.connect(t);t.connect(r);r.connect(u);u.connect(audio.master);o.start();return{src:o,pan:u,gain:r}}function audioTick(){if(!audio.ctx)return;var e=audio.ctx.listener;if(e.positionX){e.positionX.value=camera.position.x;e.positionY.value=camera.position.y;e.positionZ.value=camera.position.z;var a=new THREE.Vector3;camera.getWorldDirection(a);e.forwardX.value=a.x;e.forwardY.value=a.y;e.forwardZ.value=a.z;e.upX.value=0;e.upY.value=1;e.upZ.value=0}else if(e.setPosition){e.setPosition(camera.position.x,camera.position.y,camera.position.z)}for(var i=0;i<store.objects.length;i++){var o=store.objects[i];if(!VOICE[o.archetype])continue;var t=o.x-camera.position.x,r=o.z-camera.position.z;var u=t*t+r*r<300*300;if(u&&!audio.nodes[o.id])audio.nodes[o.id]=voiceFor(o);else if(!u&&audio.nodes[o.id]){try{audio.nodes[o.id].src.stop()}catch(e){}delete audio.nodes[o.id]}}}function stopAudio(){audio.on=false;Object.keys(audio.nodes).forEach(function(e){try{audio.nodes[e].src.stop()}catch(e){}delete audio.nodes[e]});if(audio.ctx)audio.ctx.suspend()}
@@ -1341,7 +1341,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/084-0e84343df2.js"></script>
 <script src="assets/js/085-b65545c6b0.js"></script>
 <script src="assets/js/086-dcdf65f95f.js"></script>
-<script src="assets/js/087-4f270f7ae1.js"></script>
+<script src="assets/js/087-399acd4ca8.js"></script>
 <script src="assets/js/088-905db028be.js"></script>
 <script src="assets/js/089-34457b3826.js"></script>
 <script src="assets/js/090-129f7bfb3d.js"></script>
@@ -1349,7 +1349,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/092-2ef8b18558.js"></script>
 <script src="assets/js/093-11aafbcb53.js"></script>
 
-<script src="assets/js/094-f9ddb8dbd4.js"></script>
+<script src="assets/js/094-38bbdc7a30.js"></script>
 
 <script src="assets/js/095-197aaa9940.js"></script>
 
@@ -1508,7 +1508,7 @@ var CITY_CAR_MODELS={car:1,coupe:1,sportscar:1,roadster:1,taxicab:1,van:1,truck:
 <script src="assets/js/209-58aaed816a.js"></script>
 <script src="assets/js/210-956c9cdd38.js"></script>
 <script src="assets/js/211-54acffdfd1.js"></script>
-<script src="assets/js/212-a8ccca0528.js"></script>
+<script src="assets/js/212-e931a8b66a.js"></script>
 <script src="assets/js/213-8e7a2c5827.js"></script>
 <script src="assets/js/214-6f4ed2f7e7.js"></script>
 <script src="assets/js/215-be119e4192.js"></script>
@@ -1576,7 +1576,7 @@ var TGD={n:0};function tgdKeep(){if(!INT||!walkMode||!INT.lifts||!INT.lifts.leng
 <script src="assets/js/261-568658f75d.js"></script>
 <script src="assets/js/262-5e6fd87124.js"></script>
 <script src="assets/js/263-d524e02eea.js"></script>
-<script src="assets/js/264-f79007aab3.js"></script>
+<script src="assets/js/264-462bd8a686.js"></script>
 <script src="assets/js/265-7e1ec9cb25.js"></script>
 <script src="assets/js/266-943e0fe4ef.js"></script>
 <script>
@@ -1647,10 +1647,10 @@ var SG_ICONS={0:{file:"0.webp?v=13e278c",cols:16,cell:80},1:{file:"1.webp?v=fe1e
 (function(){var e=null;try{e=new URLSearchParams(location.search)}catch(e){return}var t=e.get("kgo"),o=parseInt(e.get("gihide"),10)||0;if(!t)return;var n=0,i=0,r=false,a=false;function f(e){if(typeof setStatus==="function")try{setStatus(e)}catch(e){}}function c(){try{e.delete("kgo");e.delete("gihide");var t=e.toString().replace(/^play=(&|$)/,"play$1");history.replaceState(null,"",location.pathname+(t?"?"+t:"")+location.hash)}catch(e){}}function l(){return typeof store!=="undefined"&&store&&store.workplaceAt&&Object.keys(store.workplaceAt).length>0&&typeof camera!=="undefined"}function p(){var e=t.split(":")[0],n=t.slice(e.length+1);if(e==="tower"&&typeof ktToTower==="function")ktToTower();else if(e==="ring"&&typeof ktToRing==="function")ktToRing(n);else if(e==="place"&&typeof ktToPlace==="function")ktToPlace(n);else if(e==="family"&&typeof worldGo==="function")worldGo("family",{at:n==="fam"?"fam":"wed"});else if(e==="party"&&typeof worldGo==="function")worldGo("party",n?{at:n}:{});else if(e==="race"&&typeof worldGo==="function")worldGo("race");else if(e==="kids"&&typeof worldGo==="function")worldGo("kidszone");else if(e==="palace"&&typeof pbById==="function"){var i=pbById(n),r=i&&i.id!=="north"&&typeof pbSpec==="function"?pbSpec(i):null;if(r&&typeof ktLand==="function"){var a=pbDoor(r);ktLand(a.x,a.z,r.x,r.z,i.name)}else if(i&&typeof pbGo==="function")pbGo(i.id);else return f("The admin page asked for a place the game does not know.")}else return f("The admin page asked for a place the game does not know.");if(o&&typeof giHideHere==="function")setTimeout(function(){giHideHere(o)},4e3)}function u(){n++;if(n>120){c();return}var e=typeof signedIn==="function"&&signedIn();if(!e){if(n===6)f("Sign in as the Keeper and you will be taken where the admin page asked.");setTimeout(u,1500);return}if(!(typeof amKeeper==="function"&&amKeeper())){if(!r&&i<4&&typeof checkKeeper==="function"){r=true;i++;checkKeeper().then(function(){r=false},function(){r=false})}if(i>=4&&!r){f("Only the Keeper travels this way.");c();return}setTimeout(u,1500);return}if(t.indexOf("family:")!==0&&t.indexOf("party")!==0&&t!=="race"&&t!=="kids"&&t!=="palace:north"&&!l()){if(!a&&typeof toSomnucor==="function"){a=true;try{toSomnucor()}catch(e){}}setTimeout(u,1500);return}c();setTimeout(p,1200)}setTimeout(u,2500)})();
 </script>
 
-<script src="assets/js/310-8b0bb46c25.js"></script>
+<script src="assets/js/310-99326e3ffd.js"></script>
 
 
-<script src="assets/js/311-603d361c55.js"></script>
+<script src="assets/js/311-1d3c5cec85.js"></script>
 
 
 <script src="assets/js/312-bb457c05c9.js"></script>
@@ -1824,10 +1824,10 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/368-0029342640.js"></script>
 
 
-<script src="assets/js/369-86f211250b.js"></script>
+<script src="assets/js/369-7fc932b963.js"></script>
 
 
-<script src="assets/js/370-823f1b0485.js"></script>
+<script src="assets/js/370-664a5e5412.js"></script>
 
 
 <script src="assets/js/371-f1311e8a16.js"></script>
@@ -1854,10 +1854,10 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/378-2ecdc14391.js"></script>
 
 
-<script src="assets/js/379-4d1f0fa0bd.js"></script>
+<script src="assets/js/379-520183ee71.js"></script>
 
 
-<script src="assets/js/380-e372e8e5b6.js"></script>
+<script src="assets/js/380-07ea84797a.js"></script>
 
 
 <script src="assets/js/381-ae9afc6a3d.js"></script>
@@ -1904,7 +1904,7 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 <script src="assets/js/394-375be50cc5.js"></script>
 
 
-<script src="assets/js/395-d25cb16840.js"></script>
+<script src="assets/js/395-f51e6205a8.js"></script>
 
 
 <script>
@@ -1986,6 +1986,30 @@ var PBILL={msg:""};function pbillSafeUrl(t){t=String(t||"").trim();return/^https
 
 
 <script src="assets/js/420-8bc6bf894a.js"></script>
+
+
+<script src="assets/js/421-05ec804089.js"></script>
+
+
+<script src="assets/js/422-1444b40cd7.js"></script>
+
+
+<script src="assets/js/423-f838c20014.js"></script>
+
+
+<script src="assets/js/424-2f3c4e553f.js"></script>
+
+
+<script src="assets/js/425-8ad3966115.js"></script>
+
+
+<script src="assets/js/426-c4fe21ba34.js"></script>
+
+
+<script src="assets/js/427-a20ed13f79.js"></script>
+
+
+<script src="assets/js/428-b979f17860.js"></script>
 
 </body>
 </html>

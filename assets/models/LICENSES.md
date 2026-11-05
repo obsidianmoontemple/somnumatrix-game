@@ -1,6 +1,7 @@
 # Model licences
 
-Every model under `assets/models/` is **CC0 1.0 (public domain dedication)**: free to use, change and sell, with no attribution required.
+Every model under `assets/models/` is **CC0 1.0 (public domain dedication)**: free to use, change and sell, with no attribution required,
+except `characters/rocketbox/`, which is under the **MIT licence** (also free to use, change and sell; the licence text travels with it).
 Credit is given here anyway, as the authors ask. Each licence below was read from the licence file that ships with the
 downloaded pack (quoted), not from a web page. Where the download came through a GitHub mirror, both the author's own page and the
 mirror (with the original licence file in it) are given.
@@ -813,3 +814,14 @@ Colour variants are the same model with its named materials recoloured. The fram
 > License: (Creative Commons Zero, CC0)
 > http://creativecommons.org/publicdomain/zero/1.0/
 > This content is free to use in personal, educational and commercial projects.
+
+
+## Microsoft Rocketbox Avatar Library (MIT): `characters/rocketbox/`
+
+- Source: https://github.com/microsoft/Microsoft-Rocketbox (Copyright (c) 2020 Microsoft), MIT licence. The licence text is in
+  `characters/rocketbox/LICENSE.txt` and must stay with the files.
+- 65 of the library's people (38 adults, 4 children, 23 in work uniforms) and 9 of its recorded moves for men and for women
+  (stand, walk, run, sit, talk, wave, cheer, dance, crouch), converted from FBX to GLB. The textures are reduced to 1024 (512 for
+  hair and relief), each body's parts are split, the bones are renamed to the game's names, and the moves are trimmed and kept in
+  place. Each body also carries a small map of which parts are shirt, trousers, shoes, skin and hair, so the game can colour them
+  (made by `tools/rocketbox/convert`).

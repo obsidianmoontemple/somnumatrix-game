@@ -1,0 +1,16 @@
+{
+  "name": "SomnuMatrix",
+  "short_name": "SomnuMatrix",
+  "description": "Tell a dream, by voice or in writing, and walk it in 3D.",
+  "start_url": "index.html",
+  "scope": "./",
+  "display": "fullscreen",
+  "display_override": ["fullscreen", "standalone"],
+  "orientation": "any",
+  "background_color": "#07080B",
+  "theme_color": "#07080B",
+  "icons": [
+    { "src": "somnumatrix-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "somnumatrix-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" }
+  ]
+}

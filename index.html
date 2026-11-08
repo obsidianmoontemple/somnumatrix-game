@@ -1347,14 +1347,14 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script>
 "use strict";var NAV_CELL=2,NAV_R=.35,NAV_MAXCELLS=180*180,navQueue=[],NAV_PER_FRAME=6;function navBlocked(a,r){return blockedAt(a,r,0)}function lineClear(a,r,e,t){var n=Math.hypot(e-a,t-r),i=Math.max(1,Math.ceil(n/.8));for(var f=1;f<=i;f++){var u=f/i;if(navBlocked(a+(e-a)*u,r+(t-r)*u))return false}return true}function freeNear(a,r){if(!navBlocked(a,r))return{x:a,z:r};for(var e=1.5;e<60;e+=1.5){for(var t=0;t<12;t++){var n=t*Math.PI/6,i=a+Math.cos(n)*e,f=r+Math.sin(n)*e;if(!navBlocked(i,f))return{x:i,z:f}}}return{x:a,z:r}}function findPath(a,r,e,t){var n=freeNear(e,t);e=n.x;t=n.z;if(lineClear(a,r,e,t))return[{x:e,z:t}];var i=40,f=Math.min(a,e)-i,u=Math.min(r,t)-i,h=Math.max(a,e)+i,o=Math.max(r,t)+i;var v=Math.ceil((h-f)/NAV_CELL),l=Math.ceil((o-u)/NAV_CELL);if(v*l>NAV_MAXCELLS){var s=Math.sqrt(v*l/NAV_MAXCELLS);v=Math.floor(v/s);l=Math.floor(l/s)}var M=(h-f)/v,c=(o-u)/l;function x(a){return f+(a+.5)*M}function A(a){return u+(a+.5)*c}var d=new Uint8Array(v*l),p=new Uint8Array(v*l);function E(a,r){var e=r*v+a;if(!p[e]){p[e]=1;d[e]=navBlocked(x(a),A(r))?1:0}return d[e]}var m=Math.min(v-1,Math.max(0,Math.floor((a-f)/M))),y=Math.min(l-1,Math.max(0,Math.floor((r-u)/c)));var g=Math.min(v-1,Math.max(0,Math.floor((e-f)/M))),w=Math.min(l-1,Math.max(0,Math.floor((t-u)/c)));var z=new Float32Array(v*l).fill(1e9),C=new Int32Array(v*l).fill(-1),L=new Uint8Array(v*l);var k=[[0,m,y]];z[y*v+m]=0;var N=[[1,0,1],[-1,0,1],[0,1,1],[0,-1,1],[1,1,1.414],[1,-1,1.414],[-1,1,1.414],[-1,-1,1.414]],R=false,_=0;while(k.length&&_++<4e4){var V=0;for(var D=1;D<k.length;D++)if(k[D][0]<k[V][0])V=D;var P=k[V];k[V]=k[k.length-1];k.pop();var U=P[1],B=P[2],Q=B*v+U;if(L[Q])continue;L[Q]=1;if(U===g&&B===w){R=true;break}for(var T=0;T<8;T++){var b=U+N[T][0],O=B+N[T][1];if(b<0||O<0||b>=v||O>=l)continue;var F=O*v+b;if(L[F]||E(b,O))continue;if(N[T][2]>1&&(E(U+N[T][0],B)||E(U,B+N[T][1])))continue;var I=z[Q]+N[T][2];if(I<z[F]){z[F]=I;C[F]=Q;k.push([I+Math.hypot(b-g,O-w),b,O])}}}if(!R)return[{x:e,z:t}];var S=[],X=w*v+g;while(X!==-1){S.push({x:x(X%v),z:A(Math.floor(X/v))});X=C[X]}S.reverse();S[S.length-1]={x:e,z:t};var q=[],G={x:a,z:r},Y=0;while(Y<S.length-1){var j=Y+1;for(var H=S.length-1;H>Y;H--)if(lineClear(G.x,G.z,S[H].x,S[H].z)){j=H;break}q.push(S[j]);G=S[j];Y=j}if(!q.length)q.push({x:e,z:t});return q}function walksOnGround(a,r){if(!a||!a.userData||a.userData.drives)return false;if(r&&r.archetype==="dragon"){var e=r.deity&&DEITY[r.deity];var t=e?e.icons:["wings"];if(t.indexOf("wings")>-1&&t.indexOf("sea")===-1)return false}if(r&&typeof CREATURE!=="undefined"&&CREATURE[r.archetype]){var n=CREATURE[r.archetype].kind;if(n==="flyer"||n==="swarm")return false}if(r&&r.archetype==="bird")return false;return true}function wantPath(a){if(navQueue.indexOf(a)===-1)navQueue.push(a)}function navTick(){var a=0;while(navQueue.length&&a<NAV_PER_FRAME){var r=navQueue.shift(),e=meshes[r];if(!e||!e.userData.target)continue;e.userData.path=findPath(e.position.x,e.position.z,e.userData.target.x,e.userData.target.z);a++}}
 </script>
-<script src="assets/js/074-74c1c8481a.js"></script>
+<script src="assets/js/074-c0800879e4.js"></script>
 <script src="assets/js/075-116320d068.js"></script>
 <script src="assets/js/076-c376dcc1ae.js"></script>
 <script src="assets/js/077-be0d865994.js"></script>
 <script src="assets/js/078-db513795ff.js"></script>
 <script src="assets/js/079-f2c2a54ad2.js"></script>
 <script src="assets/js/080-3c53bb46ec.js"></script>
-<script src="assets/js/081-3a639a3826.js"></script>
+<script src="assets/js/081-db187ba52b.js"></script>
 <script>
 "use strict";var DW_CLOUD={config:{},live:false};var CLOUDKEY="dreamwalker.cloudcfg";function cloudOn(){return typeof DW_CONFIG!=="undefined"&&!!DW_CONFIG.supabaseUrl&&/^sb_publishable_/.test(DW_CONFIG.supabaseKey||"")}function cloudHeaders(){return{apikey:DW_CONFIG.supabaseKey,Authorization:"Bearer "+DW_CONFIG.supabaseKey}}function loadCloudConfig(){try{var e=JSON.parse(localStorage.getItem(CLOUDKEY)||"null");if(e)DW_CLOUD.config=e}catch(e){}if(!cloudOn()||typeof fetch!=="function")return Promise.resolve(DW_CLOUD.config);return fetch(DW_CONFIG.supabaseUrl.replace(/\/+$/,"")+"/rest/v1/app_config?select=key,value",{headers:cloudHeaders()}).then(function(e){if(!e.ok)throw new Error(e.status);return e.json()}).then(function(e){var t={};e.forEach(function(e){t[e.key]=e.value});DW_CLOUD.config=t;DW_CLOUD.live=true;try{localStorage.setItem(CLOUDKEY,JSON.stringify(t))}catch(e){}applyCloud();return t}).catch(function(){return DW_CLOUD.config})}function cloudReleased(e){var t=DW_CLOUD.config.miller_released;return Array.isArray(t)&&t.indexOf(e)>-1}var DEVKEY="dreamwalker.device",APP_VERSION="15";function deviceId(e){var t=null;try{t=localStorage.getItem(DEVKEY)}catch(e){}if(!t&&e){t=typeof crypto!=="undefined"&&crypto.randomUUID?crypto.randomUUID():"xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g,function(e){var t=Math.random()*16|0;return(e==="x"?t:t&3|8).toString(16)});try{localStorage.setItem(DEVKEY,t)}catch(e){}}return t}function platformWord(){var e=typeof matchMedia==="function"&&matchMedia("(pointer:coarse)").matches;var t=Math.min(innerWidth||1e3,innerHeight||1e3)<600;return e?t?"phone":"tablet":"computer"}function rpc(e,t){return fetch(DW_CONFIG.supabaseUrl.replace(/\/+$/,"")+"/rest/v1/rpc/"+e,{method:"POST",headers:Object.assign({"Content-Type":"application/json"},cloudHeaders()),body:JSON.stringify(t)})}function checkin(){if(!cloudOn()||typeof fetch!=="function"||DW_TESTING)return;if(cfg().counted===false)return;if(navigator.webdriver||/^(localhost|127\.|0\.0\.0\.0|\[::1\])/.test(location.hostname||"")||location.protocol==="file:")return;var e=deviceId(true);rpc("checkin",{p_id:e,p_platform:platformWord(),p_version:APP_VERSION}).catch(function(){})}function forgetDevice(){var e=deviceId(false);if(!e)return;try{localStorage.removeItem(DEVKEY)}catch(e){}if(cloudOn()&&typeof fetch==="function")rpc("forget_device",{p_id:e}).catch(function(){})}function applyCloud(){var e=DW_CLOUD.config.announcement;if(typeof e==="string"&&e.trim()&&typeof setStatus==="function")setStatus(esc(e.trim()))}
 </script>
@@ -1391,7 +1391,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/104-616f8a1798.js"></script>
 <script src="assets/js/105-a04dc392c3.js"></script>
 <script src="assets/js/106-d1cc847e04.js"></script>
-<script src="assets/js/107-a4982fbbcc.js"></script>
+<script src="assets/js/107-074cf341a9.js"></script>
 <script src="assets/js/108-6753e6588f.js"></script>
 <script src="assets/js/109-86248c0b99.js"></script>
 <script src="assets/js/110-454620d6d1.js"></script>
@@ -1475,7 +1475,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/171-9edfa5a3d8.js"></script>
 <script src="assets/js/172-d8a54e3cb4.js"></script>
 <script src="assets/js/173-194c31c69b.js"></script>
-<script src="assets/js/174-5f1635358e.js"></script>
+<script src="assets/js/174-0094bf6d97.js"></script>
 <script src="assets/js/175-4cdab4e558.js"></script>
 <script src="assets/js/176-1e76aee4b3.js"></script>
 <script src="assets/js/177-c6bfc58cff.js"></script>
@@ -2051,7 +2051,7 @@ var PBILL={msg:""};function pbillSafeUrl(t){t=String(t||"").trim();return/^https
 <script src="assets/js/436-f8c0aed10a.js"></script>
 
 
-<script src="assets/js/437-fd755b8476.js"></script>
+<script src="assets/js/437-137bb7d21c.js"></script>
 
 
 <script src="assets/js/438-a1035a05fb.js"></script>
@@ -2076,7 +2076,7 @@ var FLG={kit:new WeakMap,on:0,hollow:0,made:0,at:0,dummy:null,ph:null};function 
 <script src="assets/js/443-a066b9bf24.js"></script>
 
 
-<script src="assets/js/444-787c143d99.js"></script>
+<script src="assets/js/444-0d011e68a9.js"></script>
 
 
 <script src="assets/js/445-67ab5c51dd.js"></script>

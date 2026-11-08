@@ -1082,6 +1082,12 @@ body.pad-on #joy{display:none!important}
     <option value="off">Off &mdash; the whole city as far as the fog allows</option>
   </select>
   <p class="hint" style="font-size:12px;color:var(--dim);margin:4px 0 0">Everything near you looks exactly the same either way.</p>
+  <label for="softscreen">Screen sharpness on tablets</label>
+  <select id="softscreen">
+    <option value="auto">Automatic &mdash; softer on tablets, for a smoother game</option>
+    <option value="on">Softer &mdash; about half the dots drawn each frame</option>
+    <option value="off">Full &mdash; every dot of the screen, sharpest</option>
+  </select>
   <label for="set-sound">Sound</label>
   <div class="row" style="margin-top:0;gap:8px"><button class="btn" id="set-sound" type="button">Sound is off &mdash; turn it on</button></div>
   <label for="solidall" style="margin-top:14px">What you dream is</label>
@@ -1281,7 +1287,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script>
 "use strict";var DW_TESTING=typeof location!=="undefined"&&/[?&]test=1\b/.test(location.search)||typeof window!=="undefined"&&window.DW_TEST===true;var KEY=DW_TESTING?"dreamwalker.test":"dreamwalker.v2";var CFGKEY=DW_TESTING?"dreamwalker.testcfg":"dreamwalker.cfg2";var store=blank();function blank(){return{objects:[],passages:[],transcript:"",emotions:[],lucidity:0,grid:{bx:0,bz:0,lot:0},streets:[],lastId:null,open:0,characters:[],sessions:[],session:1,blocks:{},lots:{},lastLot:null,dreamer:{name:"",about:"",practice:"",notes:"",abilities:[]},research:{consent:false,since:null}}}function uid(){return Math.random().toString(36).slice(2,10)}function save(){if(typeof visiting!=="undefined"&&visiting)return;try{var e={};for(var t in store)if(t!=="blocks")e[t]=store[t];e.objects=store.objects.filter(function(e){return!e.filler&&!e.city});var r={};e.objects.forEach(function(e){if(e.charId)r[e.charId]=1});e.characters=store.characters.filter(function(e){return e.primary!==false&&!e.city});["plots","districtPlots","workplaceAt","wildsNightmares","gaolYard"].forEach(function(t){delete e[t]});if(e.inside&&!e.objects.some(function(t){return t.id===e.inside}))e.inside=null;localStorage.setItem(KEY,JSON.stringify(e))}catch(e){}}function load(){try{var e=localStorage.getItem(KEY);if(!e)return false;var t=JSON.parse(e);if(t&&t.objects){store=Object.assign(blank(),t);return true}}catch(e){}return false}var LLM_URL="https://api.groq.com/openai/v1/chat/completions",LLM_MODEL="openai/gpt-oss-120b";function cfg(){var e;try{e=Object.assign({mode:"app",model:LLM_MODEL,density:26},JSON.parse(localStorage.getItem(CFGKEY))||{})}catch(t){e={mode:"app",model:LLM_MODEL,density:26}}if(!e.appSeen){e.appSeen=1;if(e.mode==="off")e.mode="app";try{localStorage.setItem(CFGKEY,JSON.stringify(e))}catch(e){}}if(e.mode==="off")e.mode="app";if(e.mode==="app"&&!appParseUrl())e.mode="off";if(!e.model||/^grok/i.test(e.model))e.model=LLM_MODEL;if(e.key&&/^xai-/i.test(e.key)){e.key="";if(e.mode==="direct")e.mode="off"}return e}function llmBody(e,t){var r=Object.assign({model:e.model||LLM_MODEL},t);delete r.say;if(/gpt-oss|qwen/i.test(r.model)){r.reasoning_effort="low";r.include_reasoning=false}if(e.mode!=="app"){delete r.talk;delete r.lookup;delete r.design}return r}function setCfg(e){try{localStorage.setItem(CFGKEY,JSON.stringify(e))}catch(e){}}function appParseUrl(){if(typeof DW_CONFIG==="undefined"||!DW_CONFIG)return"";if(DW_CONFIG.parseUrl)return DW_CONFIG.parseUrl;return DW_CONFIG.supabaseUrl?DW_CONFIG.supabaseUrl.replace(/\/+$/,"")+"/functions/v1/dream-parse":""}function llmTarget(e){var t={"Content-Type":"application/json"};if(e.mode==="app"){t.apikey=DW_CONFIG.supabaseKey;var r=DW_CONFIG.supabaseKey;if(typeof session!=="undefined"&&session&&session.access_token){var a=Date.now()-(session.at||0);if(a<55*60*1e3)r=session.access_token;if(a>=45*60*1e3&&typeof freshToken==="function")freshToken()}t.Authorization="Bearer "+r;return{url:appParseUrl(),headers:t}}if(e.mode==="direct"&&e.key)t.Authorization="Bearer "+e.key;return{url:e.mode==="proxy"?e.proxy:LLM_URL,headers:t}}
 </script>
-<script src="assets/js/023-4ff7c5edce.js"></script>
+<script src="assets/js/023-010c119403.js"></script>
 <script src="assets/js/024-24b8a9179f.js"></script>
 <script src="assets/js/025-2768a7892a.js"></script>
 <script src="assets/js/026-e4f7425d40.js"></script>
@@ -1550,7 +1556,7 @@ var CITY_CAR_MODELS={car:1,coupe:1,sportscar:1,roadster:1,taxicab:1,van:1,truck:
 <script src="assets/js/223-c82d9a9bd5.js"></script>
 <script src="assets/js/224-f2882e2ee9.js"></script>
 <script src="assets/js/225-a0b6f14d8a.js"></script>
-<script src="assets/js/226-9045778ca3.js"></script>
+<script src="assets/js/226-913b75f8ec.js"></script>
 <script>
 var TGD={n:0};function tgdKeep(){if(!INT||!walkMode||!INT.lifts||!INT.lifts.length||!INT.W||!INT.D)return;if(INT.spec&&INT.spec.archetype&&INT.spec.archetype!=="somnucortower"&&!(typeof STOREYS!=="undefined"&&STOREYS[INT.spec.archetype]>3))return;var e=camera.position,t=INT.W/2-.35,r=INT.D/2-.35,i=e.x-INT.ox,n=e.z-INT.oz;if((INT.level||0)===0&&Math.abs(e.x-INT.exit.x)<1.6&&n>0)return;var T=Math.max(-t,Math.min(t,i)),a=Math.max(-r,Math.min(r,n));if(T!==i||a!==n){e.x=INT.ox+T;e.z=INT.oz+a;TGD.n++}}(function(){if(typeof interiorTick!=="function")return;var e=interiorTick;interiorTick=function(t){var r=e.apply(this,arguments);try{tgdKeep()}catch(e){}return r}})();
 </script>

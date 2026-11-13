@@ -1333,13 +1333,13 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 "use strict";var WAKE_AT=4;function normName(e){return String(e||"").toLowerCase().replace(/^(a|an|the|some)\s+/,"").trim()}function resolveCharacter(e,r,a){var n=normName(r)||e;for(var t=0;t<store.characters.length;t++){var i=store.characters[t];if(i.archetype!==e)continue;if(normName(i.name)===n||i.aka.indexOf(n)>-1){noteDetail(i,n,a);return i}}return newCharacter(e,r,a,n)}var NOT_SOMEONE={car:1,truck:1,bus:1,bicycle:1,train:1,boat:1,ship:1,plane:1,hotairballoon:1,dog:1,cat:1,horse:1,bird:1,crowd:0};function isSomeone(e){if(!e)return false;var r=e.archetype;if(NOT_SOMEONE[r])return false;if(typeof CREATURE!=="undefined"&&CREATURE[r]){var a=CREATURE[r].kind;return a==="folk"}return true}function canSpeakTo(e){return isSomeone(e)||e.awake&&e.src&&e.src.name==="stated"}function newCharacter(e,r,a,n){n=n||normName(r)||e;var t={id:uid(),archetype:e,name:r||e,aka:[n],details:[],sessions:[store.session],awake:false,log:[],objId:null,x:0,z:0,primary:true,src:{name:"stated"},role:null,shift:null,routine:null,home:null,work:null,anchor:null,born:(new Date).toISOString().slice(0,10)};seedDetails(t,a);store.characters.push(t);return t}function seedDetails(e,r){var a=r||{};if(a.s&&a.s>1.4)addDetail(e,"larger than they should be");if(a.s&&a.s<.7)addDetail(e,"small, smaller than expected");if(a.h&&a.h>1.5)addDetail(e,"unusually tall");if(a.c!==undefined)addDetail(e,"coloured "+("#"+("000000"+a.c.toString(16)).slice(-6)))}function addDetail(e,r){r=String(r).trim();if(!r||e.details.indexOf(r)>-1)return false;e.details.push(r);return true}function noteDetail(e,r,a){if(r&&e.aka.indexOf(r)===-1)e.aka.push(r);if(e.sessions.indexOf(store.session)===-1)e.sessions.push(store.session);seedDetails(e,a);checkWake(e)}function feedContext(e){if(!e)return;var r=e.toLowerCase();store.characters.forEach(function(a){if(a.primary===false)return;var n=a.aka.some(function(e){return e&&r.indexOf(e)>-1});if(!n)return;var t=/[^.!?]+[.!?]?/g,i;while(i=t.exec(e)){var s=i[0],o=s.toLowerCase();if(!a.aka.some(function(e){return e&&o.indexOf(e)>-1}))continue;var c=s.replace(/[.!?]$/,"").trim();if(c.length>8&&c.length<220)addDetail(a,c)}if(a.sessions.indexOf(store.session)===-1)a.sessions.push(store.session);checkWake(a)});if(typeof nightmareScan==="function")nightmareScan(e);if(typeof insideScan==="function")insideScan(e)}function awareness(e){return Math.min(1,(e.details.length+(e.sessions.length-1)*2)/WAKE_AT)}function checkWake(e){if(e.awake)return false;if(awareness(e)<1)return false;e.awake=true;var r=e.objId?specById(e.objId):null;if(r){r.solid=true;refresh(r)}setStatus("<b>"+esc(e.name)+" has become aware of you.</b>");save();return true}function charOf(e){if(!e||!e.charId)return null;for(var r=0;r<store.characters.length;r++)if(store.characters[r].id===e.charId)return store.characters[r];return null}function awakeNear(e,r){var a=null,n=r*r;for(var t=0;t<store.characters.length;t++){var i=store.characters[t];if(!i.objId)continue;if(i.visible===false)continue;if(!canSpeakTo(i))continue;if(store.inside&&typeof INT!=="undefined"&&INT&&i.insideAt===INT.spec.id&&(i.onLevel||0)!==(INT.level||0))continue;var s=i.x-e.x,o=i.z-e.z,c=s*s+o*o;var u=i.deity&&DEITY[i.deity]&&DEITY[i.deity].dragon;if(u)c=Math.max(0,c-45*45+r*r);if(c<n){n=c;a=i}}return a}
 </script>
 <script src="assets/js/053-55659e96ff.js"></script>
-<script src="assets/js/054-4ce05506b6.js"></script>
+<script src="assets/js/054-88cd776a4f.js"></script>
 <script src="assets/js/055-c51c430526.js"></script>
 <script src="assets/js/056-fc5f7e4fcb.js"></script>
 <script>
 "use strict";var audio={on:false,ctx:null,nodes:{},master:null};var VOICE={water:"surf",tree:"rustle",pine:"rustle",hedge:"rustle",grass:"rustle",road:"traffic",car:"traffic",truck:"traffic",bus:"traffic",train:"rumble",factory:"rumble",crowd:"murmur",bird:"chirp",station:"murmur",fountain:"surf",streetlight:"hum",pylon:"hum",portal:"hum",creature:"rumble"};function noiseBuffer(e){var a=e.sampleRate*2,i=e.createBuffer(1,a,e.sampleRate),o=i.getChannelData(0);for(var t=0;t<a;t++)o[t]=Math.random()*2-1;return i}function startAudio(){if(audio.ctx){audio.ctx.resume();audio.on=true;return}var e=window.AudioContext||window.webkitAudioContext;if(!e)return;audio.ctx=new e;audio.master=audio.ctx.createGain();audio.master.gain.value=.5;audio.master.connect(audio.ctx.destination);audio.buf=noiseBuffer(audio.ctx);audio.on=true;var a=audio.ctx.createBufferSource();a.buffer=audio.buf;a.loop=true;var i=audio.ctx.createBiquadFilter();i.type="lowpass";i.frequency.value=320;var o=audio.ctx.createGain();o.gain.value=.05;a.connect(i);i.connect(o);o.connect(audio.master);a.start();audio.bed=o}function voiceFor(e){var a=VOICE[e.archetype];if(!a)return null;var i=audio.ctx;var o=i.createBufferSource();o.buffer=audio.buf;o.loop=true;var t=i.createBiquadFilter();var r=i.createGain();var u=i.createPanner();u.panningModel="equalpower";u.distanceModel="inverse";u.refDistance=8;u.maxDistance=260;u.rolloffFactor=1.4;if(u.positionX){u.positionX.value=e.x;u.positionY.value=2;u.positionZ.value=e.z}else u.setPosition(e.x,2,e.z);if(a==="surf"){t.type="lowpass";t.frequency.value=520;r.gain.value=.3}else if(a==="rustle"){t.type="highpass";t.frequency.value=2400;r.gain.value=.1}else if(a==="traffic"){t.type="lowpass";t.frequency.value=180;r.gain.value=.26}else if(a==="rumble"){t.type="lowpass";t.frequency.value=90;r.gain.value=.4}else if(a==="murmur"){t.type="bandpass";t.frequency.value=650;t.Q.value=1.2;r.gain.value=.22}else if(a==="hum"){t.type="bandpass";t.frequency.value=120;t.Q.value=8;r.gain.value=.18}else if(a==="chirp"){t.type="bandpass";t.frequency.value=4200;t.Q.value=14;r.gain.value=.16}o.connect(t);t.connect(r);r.connect(u);u.connect(audio.master);o.start();return{src:o,pan:u,gain:r}}function audioTick(){if(!audio.ctx)return;var e=audio.ctx.listener;if(e.positionX){e.positionX.value=camera.position.x;e.positionY.value=camera.position.y;e.positionZ.value=camera.position.z;var a=new THREE.Vector3;camera.getWorldDirection(a);e.forwardX.value=a.x;e.forwardY.value=a.y;e.forwardZ.value=a.z;e.upX.value=0;e.upY.value=1;e.upZ.value=0}else if(e.setPosition){e.setPosition(camera.position.x,camera.position.y,camera.position.z)}for(var i=0;i<store.objects.length;i++){var o=store.objects[i];if(!VOICE[o.archetype])continue;var t=o.x-camera.position.x,r=o.z-camera.position.z;var u=t*t+r*r<300*300;if(u&&!audio.nodes[o.id])audio.nodes[o.id]=voiceFor(o);else if(!u&&audio.nodes[o.id]){try{audio.nodes[o.id].src.stop()}catch(e){}delete audio.nodes[o.id]}}}function stopAudio(){audio.on=false;Object.keys(audio.nodes).forEach(function(e){try{audio.nodes[e].src.stop()}catch(e){}delete audio.nodes[e]});if(audio.ctx)audio.ctx.suspend()}
 </script>
-<script src="assets/js/058-feb4dc1044.js"></script>
+<script src="assets/js/058-14f0278655.js"></script>
 <script src="assets/js/059-14fa714c68.js"></script>
 <script src="assets/js/060-e1634a6c75.js"></script>
 <script>
@@ -1452,9 +1452,9 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/138-873b7334a5.js"></script>
 <script src="assets/js/139-5522b332a3.js"></script>
 <script src="assets/js/140-1b72ae2fd1.js"></script>
-<script src="assets/js/141-fce336cf97.js"></script>
+<script src="assets/js/141-8b171fab05.js"></script>
 <script src="assets/js/142-9c1df722bd.js"></script>
-<script src="assets/js/143-6bd24d7e0d.js"></script>
+<script src="assets/js/143-aec7f93f2a.js"></script>
 <script>
 "use strict";(function(){if(typeof KIT==="undefined"||!KIT.cave)return;if(typeof CUSTOM_SHAPE!=="undefined"&&CUSTOM_SHAPE.ell)KIT.cave.parts=[{g:"ell",s:[6.5,4.6,5.5],p:[0,2.2,-1],c:7038300},{g:"ell",s:[3.8,3.2,3.4],p:[-3.6,1.6,.8],c:6182991},{g:"ell",s:[3.4,2.8,3.2],p:[3.8,1.4,.6],c:6511956},{g:"ell",s:[2.6,2.2,2.4],p:[1.2,4.6,-1.6],c:7498593},{g:"ell",s:[1.9,2.3,.9],p:[0,1.2,3.95],c:920587},{g:"ell",s:[.9,.7,.8],p:[-2.8,.5,4.3],c:5722440},{g:"ell",s:[.8,.55,.7],p:[2.9,.4,4.1],c:6182991}];else(KIT.cave.parts||[]).forEach(function(e){if(e.g==="pln"&&e.c==="dark"){e.p=[0,2.4,4.05];e.s=[4.6,4.4]}});var e=6051406,t=4209461;function r(e){return new THREE.MeshLambertMaterial({color:e,flatShading:true})}if(typeof FURN!=="undefined"){FURN.stalagmite=function(){var n=F([P(cone(.45,1.8,7),r(e),0,.9,0),P(cone(.28,1.1,6),r(t),.55,.55,.2),P(cone(.2,.8,6),r(e),-.4,.4,-.25)]);return n};FURN.stalactites=function(){var e=typeof INT_H!=="undefined"?INT_H:3.2;var n=F([]);[[0,0,1.3],[.7,.3,.9],[-.6,-.4,1.1],[.2,-.8,.7]].forEach(function(a){var o=P(cone(.22,a[2],6),r(t),a[0],e-a[2]/2,a[1]);o.rotation.x=Math.PI;n.add(o)});return n};FURN.boulder=function(){return F([P(new THREE.DodecahedronGeometry(.9,0),r(e),0,.6,0),P(new THREE.DodecahedronGeometry(.55,0),r(t),.9,.35,.4)])};FURN.crystals=function(){var e=F([]);[[0,0,1.1,0],[.3,.15,.8,.35],[-.25,.2,.7,-.4],[.1,-.3,.6,.2]].forEach(function(t){var r=P(new THREE.OctahedronGeometry(.18,0),new THREE.MeshBasicMaterial({color:9427184}),t[0],t[2]/2,t[1]);r.scale.set(1,t[2]*2.6,1);r.rotation.z=t[3];e.add(r)});return e};FURN.cavepool=function(){return F([P(new THREE.CylinderGeometry(1.6,1.6,.04,14),new THREE.MeshLambertMaterial({color:1981002,transparent:true,opacity:.85}),0,.03,0)])}}if(typeof SOLIDFURN!=="undefined"){SOLIDFURN.boulder=1;SOLIDFURN.stalagmite=1}if(typeof PLANS!=="undefined")PLANS.cave={mode:"hall",w:14,d:20,fill:"cave",wall:t,floor:"stone"};if(typeof ROOMNAME!=="undefined")ROOMNAME.cave="the cavern";if(typeof fillHall==="function"){var n=fillHall;fillHall=function(e,t,r,a,o){if(e!=="cave")return n.apply(this,arguments);for(var i=-r/2+2;i<r/2-3;i+=3.2){a("boulder",-t/2+1.1,i,i);a("boulder",t/2-1.1,i+1.4,-i)}[[-t/4,-r/4],[t/4,-r/6],[-t/6,r/8],[t/5,r/5],[0,-r/2+2.2]].forEach(function(e,t){a("stalagmite",e[0],e[1],t)});[[-t/5,-r/3],[t/6,0],[0,r/4]].forEach(function(e){a("stalactites",e[0],e[1],0)});a("crystals",-t/2+2.2,-r/2+2,0);a("crystals",t/2-2.4,-r/8,0);a("crystals",-t/2+2.4,r/5,0);a("cavepool",t/6,-r/3,0);o.push({x:0,z:r/6,room:"cavern"})}}function a(e){return!!(e&&(e.archetype==="cave"||KIT[e.archetype]&&KIT[e.archetype].caveLike))}if(typeof enterable==="function"){var o=enterable;enterable=function(e){if(a(e)&&!e.filler)return true;return o.apply(this,arguments)}}if(typeof doorWorld==="function"){var i=doorWorld;doorWorld=function(e){if(!a(e))return i.apply(this,arguments);var t=e.attrs||{},r=t.s||1,n=((KIT[e.archetype]||{}).doorZ||5)*r*(t.d||1)+.6,o=e.rot||0;return{x:e.x+n*Math.sin(o),z:e.z+n*Math.cos(o),out:{x:Math.sin(o),z:Math.cos(o)}}}}if(typeof makeInterior==="function"){var l=makeInterior;makeInterior=function(e){var t=l.apply(this,arguments);if(!a(e)||!t)return t;var n={};(t.winMats||[]).concat(t.winGlints||[]).forEach(function(e){n[e.uuid]=1});t.root.traverse(function(e){if(e.isMesh&&e.material&&n[e.material.uuid])e.visible=false});t.winMats=[];t.winGlints=[];t.lightSpots=[];t.cave=true;var o=t.ceilH||3.2,i=r(3354410);t.root.add(P(box(t.W+.4,.4,t.D+.4),i,0,o+.2,0));return t}}})();
 </script>
@@ -1484,7 +1484,7 @@ var DW_CONFIG={supabaseUrl:"https://ryxmrkwgdyphcdlglwka.supabase.co",supabaseKe
 <script src="assets/js/164-e53af6795a.js"></script>
 <script src="assets/js/165-92b0de3061.js"></script>
 <script src="assets/js/166-181b429039.js"></script>
-<script src="assets/js/167-273b38f87e.js"></script>
+<script src="assets/js/167-b28669fd5f.js"></script>
 <script src="assets/js/168-5fd216b582.js"></script>
 <script src="assets/js/169-71c5508254.js"></script>
 <script src="assets/js/170-797bbe5c1a.js"></script>
@@ -1657,83 +1657,81 @@ var SG_ICONS={0:{file:"0.webp?v=13e278c",cols:16,cell:80},1:{file:"1.webp?v=fe1e
 <script src="assets/js/297-cfb18b6dac.js"></script>
 <script src="assets/js/298-5f40fbf8e7.js"></script>
 
-<script src="assets/js/299-04fa79ee9a.js"></script>
-<script src="assets/js/300-d28dc53315.js"></script>
-<script src="assets/js/301-5b81a0db0b.js"></script>
-<script src="assets/js/302-6f0bbf79e3.js"></script>
+<script src="assets/js/299-5b81a0db0b.js"></script>
+<script src="assets/js/300-1439f3d05d.js"></script>
 
 
-<script src="assets/js/303-164d8ed7c0.js"></script>
+<script src="assets/js/301-164d8ed7c0.js"></script>
 
 
-<script src="assets/js/304-43a57dd898.js"></script>
+<script src="assets/js/302-43a57dd898.js"></script>
 
 <script>
 "use strict";var WSF={worlds:{station:1,casino:1,party:1,lounge:1,northpole:1,underdark:1,greenwold:1},min:2.5};(function(){if(typeof PAINT==="undefined"||typeof WORLDS==="undefined")return;PAINT.wsgrain=function(r,t){var e=rng(9157),a=new Float32Array(64*64);for(var s=0;s<a.length;s++)a[s]=e();var n=function(r,t,e){var s=Math.floor(r),n=Math.floor(t),i=r-s,o=t-n;i=i*i*(3-2*i);o=o*o*(3-2*o);var f=(s%e+e)%e,u=(n%e+e)%e,l=(f+1)%e,c=(u+1)%e,w=a[u*64+f],h=a[u*64+l],d=a[c*64+f],g=a[c*64+l];return w+(h-w)*i+(d-w)*o+(w-h-d+g)*i*o};var i=r.createImageData(t,t),o=i.data;for(var f=0;f<t;f++)for(var u=0;u<t;u++){var l=u/t,c=f/t;var w=n(l*4,c*4,4)*.5+n(l*8,c*8,8)*.25+n(l*16,c*16,16)*.15+n(l*32,c*32,32)*.1,h=n(l*64,c*64,64);var d=Math.max(0,Math.min(255,(.84+w*.16+h*.05)*255)),g=(f*t+u)*4;o[g]=o[g+1]=o[g+2]=d;o[g+3]=255}r.putImageData(i,0,0)};if(typeof TILE!=="undefined")TILE.wsgrain=3.5})();function wsfUVs(r,t){var e=r.attributes.position,a=r.attributes.normal,s=r.attributes.uv;if(!e||!a)return false;if(!s){s=new THREE.BufferAttribute(new Float32Array(e.count*2),2);r.setAttribute("uv",s)}for(var n=0;n<e.count;n++){var i=e.getX(n)*t.x,o=e.getY(n)*t.y,f=e.getZ(n)*t.z,u=Math.abs(a.getX(n)),l=Math.abs(a.getY(n)),c=Math.abs(a.getZ(n));if(l>=u&&l>=c)s.setXY(n,i,f);else if(u>=c)s.setXY(n,f,o);else s.setXY(n,i,o)}s.needsUpdate=true;return true}function wsfPlain(r){if(!r||r.map||r.transparent||r.opacity!==undefined&&r.opacity<1)return false;if(!(r.isMeshLambertMaterial||r.isMeshStandardMaterial||r.isMeshPhongMaterial||r.isMeshToonMaterial))return false;if(r.emissive&&r.emissive.r+r.emissive.g+r.emissive.b>.15)return false;if(r.userData&&(r.userData.bwSurf||r.userData.wsfSkip))return false;return true}function wsfDress(r){if(!r||typeof texOf!=="function")return 0;var t=null,e=0,a=new THREE.Box3,s=new THREE.Vector3,n=new THREE.Vector3;r.updateMatrixWorld(true);r.traverse(function(r){if(!r.isMesh||r.isInstancedMesh||r.userData.wsf)return;r.userData.wsf=1;var i=r.material,o=r.geometry;if(Array.isArray(i)||!wsfPlain(i)||!o||!o.attributes)return;if(o.userData.wsf)return;if(!o.boundingBox)o.computeBoundingBox();a.copy(o.boundingBox);a.getSize(s);r.getWorldScale(n);var f=Math.max(s.x*Math.abs(n.x),s.y*Math.abs(n.y),s.z*Math.abs(n.z));if(!(f>=WSF.min))return;var u=s.y*Math.abs(n.y)<.25*f,l={h:0,s:0,l:0};i.color.getHSL(l);var c=u&&l.s>.18&&l.h>.17&&l.h<.45?"grass":u&&l.s>.15&&l.h>.04&&l.h<.14&&l.l<.6?"earth":"wsgrain";var w=c==="wsgrain"?t||(t=texOf("wsgrain")):texOf(c);if(!w)return;if(!wsfUVs(o,{x:Math.abs(n.x)||1,y:Math.abs(n.y)||1,z:Math.abs(n.z)||1}))return;o.userData.wsf=1;i.map=w;if(c!=="wsgrain")i.color.multiplyScalar(255/204);i.needsUpdate=true;e++});return e}(function(){if(typeof worldGo!=="function")return;var r=worldGo;worldGo=function(t,e){var a=r.apply(this,arguments);try{var s=WORLDS[t];if(a&&s&&s.g&&WSF.worlds[t]){wsfDress(s.g);setTimeout(function(){try{if(s.g)wsfDress(s.g)}catch(r){}},4e3)}}catch(r){if(window.console)console.warn("[world surfaces]",t,r)}return a}})();
 </script>
 
-<script src="assets/js/306-17a8d874ac.js"></script>
+<script src="assets/js/304-17a8d874ac.js"></script>
 
-<script src="assets/js/307-30d866c84c.js"></script>
-<script src="assets/js/308-89dfc43a1d.js"></script>
+<script src="assets/js/305-30d866c84c.js"></script>
+<script src="assets/js/306-89dfc43a1d.js"></script>
 <script>
 "use strict";var WFREE={on:true,delay:4e3,freed:{},timer:{},last:null};function wfreeWanted(){return WFREE.on&&typeof LITE!=="undefined"&&!!LITE}function wfreeInUse(){var e=new Set,r=new Set;var n=function(e){if(!e)return;for(var n in e){var t=e[n];if(t&&t.isTexture)r.add(t)}if(e.uniforms)for(var i in e.uniforms){var f=e.uniforms[i]&&e.uniforms[i].value;if(f&&f.isTexture)r.add(f)}};(function t(i){if(!i.visible)return;if(i.geometry)e.add(i.geometry);if(i.material){if(Array.isArray(i.material))i.material.forEach(n);else n(i.material)}if(i.isSkinnedMesh&&i.skeleton&&i.skeleton.boneTexture)r.add(i.skeleton.boneTexture);for(var f=0;f<i.children.length;f++)t(i.children[f])})(scene);if(scene.background&&scene.background.isTexture)r.add(scene.background);if(scene.environment&&scene.environment.isTexture)r.add(scene.environment);return{g:e,t:r}}function wfreeWorld(e){var r=typeof WORLDS!=="undefined"&&WORLDS[e];if(!r||!r.g||r.g.visible||WLD.on===e)return 0;var n=wfreeInUse(),t=new Set,i=new Set;var f=function(e){if(!e)return;for(var r in e){var n=e[r];if(n&&n.isTexture)i.add(n)}};r.g.traverse(function(e){if(e.geometry)t.add(e.geometry);if(e.material){if(Array.isArray(e.material))e.material.forEach(f);else f(e.material)}});var a=0;t.forEach(function(e){if(!n.g.has(e)){try{e.dispose();a++}catch(e){}}});i.forEach(function(e){if(!n.t.has(e)&&!e.isRenderTargetTexture&&!e.isVideoTexture){try{e.dispose();a++}catch(e){}}});WFREE.freed[e]=(WFREE.freed[e]||0)+1;WFREE.last={key:e,n:a,at:Date.now()};return a}function wfreeLater(e){if(!wfreeWanted()||!e)return;clearTimeout(WFREE.timer[e]);WFREE.timer[e]=setTimeout(function(){WFREE.timer[e]=null;try{wfreeWorld(e)}catch(r){if(window.console)console.warn("[world free]",e,r)}},WFREE.delay)}(function(){if(typeof worldOff!=="function")return;var e=worldOff;worldOff=function(){var r=typeof WLD!=="undefined"&&WLD.on||null;var n=e.apply(this,arguments);if(r)wfreeLater(r);return n}})();
 </script>
 
-<script src="assets/js/310-f586ca43c7.js"></script>
+<script src="assets/js/308-f586ca43c7.js"></script>
 
 <script>
 (function(){var e=null;try{e=new URLSearchParams(location.search)}catch(e){return}var t=e.get("kgo"),o=parseInt(e.get("gihide"),10)||0;if(!t)return;var n=0,i=0,r=false,a=false;function f(e){if(typeof setStatus==="function")try{setStatus(e)}catch(e){}}function c(){try{e.delete("kgo");e.delete("gihide");var t=e.toString().replace(/^play=(&|$)/,"play$1");history.replaceState(null,"",location.pathname+(t?"?"+t:"")+location.hash)}catch(e){}}function l(){return typeof store!=="undefined"&&store&&store.workplaceAt&&Object.keys(store.workplaceAt).length>0&&typeof camera!=="undefined"}function p(){var e=t.split(":")[0],n=t.slice(e.length+1);if(e==="tower"&&typeof ktToTower==="function")ktToTower();else if(e==="ring"&&typeof ktToRing==="function")ktToRing(n);else if(e==="place"&&typeof ktToPlace==="function")ktToPlace(n);else if(e==="family"&&typeof worldGo==="function")worldGo("family",{at:n==="fam"?"fam":"wed"});else if(e==="party"&&typeof worldGo==="function")worldGo("party",n?{at:n}:{});else if(e==="race"&&typeof worldGo==="function")worldGo("race");else if(e==="kids"&&typeof worldGo==="function")worldGo("kidszone");else if(e==="palace"&&typeof pbById==="function"){var i=pbById(n),r=i&&i.id!=="north"&&typeof pbSpec==="function"?pbSpec(i):null;if(r&&typeof ktLand==="function"){var a=pbDoor(r);ktLand(a.x,a.z,r.x,r.z,i.name)}else if(i&&typeof pbGo==="function")pbGo(i.id);else return f("The admin page asked for a place the game does not know.")}else return f("The admin page asked for a place the game does not know.");if(o&&typeof giHideHere==="function")setTimeout(function(){giHideHere(o)},4e3)}function u(){n++;if(n>120){c();return}var e=typeof signedIn==="function"&&signedIn();if(!e){if(n===6)f("Sign in as the Keeper and you will be taken where the admin page asked.");setTimeout(u,1500);return}if(!(typeof amKeeper==="function"&&amKeeper())){if(!r&&i<4&&typeof checkKeeper==="function"){r=true;i++;checkKeeper().then(function(){r=false},function(){r=false})}if(i>=4&&!r){f("Only the Keeper travels this way.");c();return}setTimeout(u,1500);return}if(t.indexOf("family:")!==0&&t.indexOf("party")!==0&&t!=="race"&&t!=="kids"&&t!=="palace:north"&&!l()){if(!a&&typeof toSomnucor==="function"){a=true;try{toSomnucor()}catch(e){}}setTimeout(u,1500);return}c();setTimeout(p,1200)}setTimeout(u,2500)})();
 </script>
 
-<script src="assets/js/312-99326e3ffd.js"></script>
+<script src="assets/js/310-99326e3ffd.js"></script>
 
 
-<script src="assets/js/313-297dbef0c6.js"></script>
+<script src="assets/js/311-297dbef0c6.js"></script>
 
 
-<script src="assets/js/314-bb457c05c9.js"></script>
+<script src="assets/js/312-bb457c05c9.js"></script>
 
 
-<script src="assets/js/315-2cc13f7449.js"></script>
+<script src="assets/js/313-2cc13f7449.js"></script>
 
 
-<script src="assets/js/316-ebe39fef8c.js"></script>
+<script src="assets/js/314-ebe39fef8c.js"></script>
 
 
-<script src="assets/js/317-9fde0f3d86.js"></script>
+<script src="assets/js/315-9fde0f3d86.js"></script>
 
 
-<script src="assets/js/318-1dffa93a76.js"></script>
+<script src="assets/js/316-1dffa93a76.js"></script>
 
 
-<script src="assets/js/319-060bb411e0.js"></script>
-<script src="assets/js/320-39a3bb5bd4.js"></script>
+<script src="assets/js/317-060bb411e0.js"></script>
+<script src="assets/js/318-39a3bb5bd4.js"></script>
 
 
-<script src="assets/js/321-b5e1ce1960.js"></script>
+<script src="assets/js/319-b5e1ce1960.js"></script>
 
 
-<script src="assets/js/322-5219731772.js"></script>
-<script src="assets/js/323-4c9e69c4f3.js"></script>
+<script src="assets/js/320-5219731772.js"></script>
+<script src="assets/js/321-4c9e69c4f3.js"></script>
 
 
-<script src="assets/js/324-764ed08ad0.js"></script>
+<script src="assets/js/322-764ed08ad0.js"></script>
 
 
-<script src="assets/js/325-ced694d1d9.js"></script>
+<script src="assets/js/323-ced694d1d9.js"></script>
 
 
-<script src="assets/js/326-1d4ccd0256.js"></script>
+<script src="assets/js/324-1d4ccd0256.js"></script>
 
 
-<script src="assets/js/327-b811c6c8e0.js"></script>
+<script src="assets/js/325-b811c6c8e0.js"></script>
 
 
-<script src="assets/js/328-25889a6ace.js"></script>
+<script src="assets/js/326-25889a6ace.js"></script>
 
 
-<script src="assets/js/329-e3caa45d17.js"></script>
+<script src="assets/js/327-e3caa45d17.js"></script>
 
 
 <script>
@@ -1746,166 +1744,166 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 </script>
 
 
-<script src="assets/js/332-6cf97345b5.js"></script>
+<script src="assets/js/330-1cf9b77959.js"></script>
 
 
-<script src="assets/js/333-add3e91700.js"></script>
+<script src="assets/js/331-add3e91700.js"></script>
 
 
-<script src="assets/js/334-ef0684c9d7.js"></script>
+<script src="assets/js/332-ef0684c9d7.js"></script>
 
 
-<script src="assets/js/335-db33d5ebe7.js"></script>
+<script src="assets/js/333-db33d5ebe7.js"></script>
 
 
-<script src="assets/js/336-e52b9be5ec.js"></script>
+<script src="assets/js/334-e52b9be5ec.js"></script>
 
 
-<script src="assets/js/337-d70ebf882e.js"></script>
+<script src="assets/js/335-9f99868985.js"></script>
 
 
-<script src="assets/js/338-beb47e9f0e.js"></script>
+<script src="assets/js/336-beb47e9f0e.js"></script>
 
 
-<script src="assets/js/339-87301150ac.js"></script>
+<script src="assets/js/337-87301150ac.js"></script>
 
 
-<script src="assets/js/340-c2aff3096c.js"></script>
+<script src="assets/js/338-c2aff3096c.js"></script>
 
 
-<script src="assets/js/341-fed0dd3761.js"></script>
+<script src="assets/js/339-23142bfb76.js"></script>
 
 
-<script src="assets/js/342-811eb9e699.js"></script>
+<script src="assets/js/340-811eb9e699.js"></script>
 
 
-<script src="assets/js/343-f7bcc03586.js"></script>
+<script src="assets/js/341-f7bcc03586.js"></script>
 
 
-<script src="assets/js/344-700717c509.js"></script>
+<script src="assets/js/342-700717c509.js"></script>
 
 
-<script src="assets/js/345-a0f2b3c894.js"></script>
+<script src="assets/js/343-a0f2b3c894.js"></script>
 
 
-<script src="assets/js/346-cd997b48ca.js"></script>
+<script src="assets/js/344-cd997b48ca.js"></script>
 
 
-<script src="assets/js/347-de5ace3776.js"></script>
+<script src="assets/js/345-de5ace3776.js"></script>
 
 
-<script src="assets/js/348-3a2af97d7b.js"></script>
+<script src="assets/js/346-3a2af97d7b.js"></script>
 
 
-<script src="assets/js/349-90c300d99e.js"></script>
+<script src="assets/js/347-90c300d99e.js"></script>
 
 
-<script src="assets/js/350-14485e9a5a.js"></script>
+<script src="assets/js/348-14485e9a5a.js"></script>
 
 
-<script src="assets/js/351-18df9d6723.js"></script>
+<script src="assets/js/349-18df9d6723.js"></script>
 
 
-<script src="assets/js/352-3825a2ba61.js"></script>
+<script src="assets/js/350-3825a2ba61.js"></script>
 
 
-<script src="assets/js/353-b9e93f6b69.js"></script>
+<script src="assets/js/351-b9e93f6b69.js"></script>
 
 
-<script src="assets/js/354-8a299550c2.js"></script>
+<script src="assets/js/352-8a299550c2.js"></script>
 
 
-<script src="assets/js/355-c256009125.js"></script>
+<script src="assets/js/353-008bd7c1ac.js"></script>
 
 
-<script src="assets/js/356-6b80bfaf3f.js"></script>
+<script src="assets/js/354-6b80bfaf3f.js"></script>
 
 
-<script src="assets/js/357-05a522e566.js"></script>
+<script src="assets/js/355-05a522e566.js"></script>
 
 
-<script src="assets/js/358-4881336783.js"></script>
+<script src="assets/js/356-4881336783.js"></script>
 
 
-<script src="assets/js/359-26ca33deae.js"></script>
+<script src="assets/js/357-26ca33deae.js"></script>
 
 
-<script src="assets/js/360-1d1e845e18.js"></script>
+<script src="assets/js/358-1d1e845e18.js"></script>
 
 
-<script src="assets/js/361-f28c0d2193.js"></script>
+<script src="assets/js/359-f28c0d2193.js"></script>
 
 
-<script src="assets/js/362-83438327ec.js"></script>
+<script src="assets/js/360-83438327ec.js"></script>
 
 
-<script src="assets/js/363-9c9bbc64f2.js"></script>
+<script src="assets/js/361-9c9bbc64f2.js"></script>
 
 
-<script src="assets/js/364-8b8723cc9c.js"></script>
+<script src="assets/js/362-8b8723cc9c.js"></script>
 
 
-<script src="assets/js/365-b702156b17.js"></script>
+<script src="assets/js/363-b702156b17.js"></script>
 
 
-<script src="assets/js/366-6d9ecf6181.js"></script>
+<script src="assets/js/364-6d9ecf6181.js"></script>
 
 
-<script src="assets/js/367-5841f89ce9.js"></script>
+<script src="assets/js/365-5841f89ce9.js"></script>
 
 
-<script src="assets/js/368-75b530f330.js"></script>
+<script src="assets/js/366-75b530f330.js"></script>
 
 
-<script src="assets/js/369-0938f80262.js"></script>
+<script src="assets/js/367-0938f80262.js"></script>
 
 
-<script src="assets/js/370-0029342640.js"></script>
+<script src="assets/js/368-0029342640.js"></script>
 
 
-<script src="assets/js/371-7fc932b963.js"></script>
+<script src="assets/js/369-7fc932b963.js"></script>
 
 
-<script src="assets/js/372-aa12c3c514.js"></script>
+<script src="assets/js/370-7d6b789a51.js"></script>
 
 
-<script src="assets/js/373-f1311e8a16.js"></script>
+<script src="assets/js/371-f1311e8a16.js"></script>
 
 
-<script src="assets/js/374-ac86c2e595.js"></script>
+<script src="assets/js/372-ac86c2e595.js"></script>
 
 
-<script src="assets/js/375-2dfa3d29e1.js"></script>
+<script src="assets/js/373-2dfa3d29e1.js"></script>
 
 
-<script src="assets/js/376-9d87751481.js"></script>
+<script src="assets/js/374-9d87751481.js"></script>
 
 
-<script src="assets/js/377-1a2db8bbfe.js"></script>
+<script src="assets/js/375-1a2db8bbfe.js"></script>
 
 
-<script src="assets/js/378-34a41275ee.js"></script>
+<script src="assets/js/376-34a41275ee.js"></script>
 
 
-<script src="assets/js/379-8015d85120.js"></script>
+<script src="assets/js/377-8015d85120.js"></script>
 
 
-<script src="assets/js/380-2ecdc14391.js"></script>
+<script src="assets/js/378-2ecdc14391.js"></script>
 
 
-<script src="assets/js/381-520183ee71.js"></script>
+<script src="assets/js/379-520183ee71.js"></script>
 
 
-<script src="assets/js/382-07ea84797a.js"></script>
+<script src="assets/js/380-07ea84797a.js"></script>
 
 
-<script src="assets/js/383-ae9afc6a3d.js"></script>
+<script src="assets/js/381-ae9afc6a3d.js"></script>
 
 
-<script src="assets/js/384-6943a529d8.js"></script>
+<script src="assets/js/382-6943a529d8.js"></script>
 
 
-<script src="assets/js/385-7a0ae2ce01.js"></script>
+<script src="assets/js/383-7a0ae2ce01.js"></script>
 
 
 <script>
@@ -1913,37 +1911,37 @@ var CWL={near:.05,base:0,was:-1};function cwlWant(){if(typeof camera==="undefine
 </script>
 
 
-<script src="assets/js/387-03f50006af.js"></script>
+<script src="assets/js/385-03f50006af.js"></script>
 
 
-<script src="assets/js/388-0579d267d2.js"></script>
+<script src="assets/js/386-0579d267d2.js"></script>
 
 
-<script src="assets/js/389-845bb40d99.js"></script>
+<script src="assets/js/387-845bb40d99.js"></script>
 
 
-<script src="assets/js/390-40f348e4d6.js"></script>
+<script src="assets/js/388-40f348e4d6.js"></script>
 
 
-<script src="assets/js/391-e78067cf27.js"></script>
+<script src="assets/js/389-e78067cf27.js"></script>
 
 
-<script src="assets/js/392-047be8b305.js"></script>
+<script src="assets/js/390-047be8b305.js"></script>
 
 
-<script src="assets/js/393-25b77620c1.js"></script>
+<script src="assets/js/391-25b77620c1.js"></script>
 
 
-<script src="assets/js/394-4740790cc6.js"></script>
+<script src="assets/js/392-4740790cc6.js"></script>
 
 
-<script src="assets/js/395-2bf515193a.js"></script>
+<script src="assets/js/393-2bf515193a.js"></script>
 
 
-<script src="assets/js/396-375be50cc5.js"></script>
+<script src="assets/js/394-375be50cc5.js"></script>
 
 
-<script src="assets/js/397-fa6f98b564.js"></script>
+<script src="assets/js/395-fa6f98b564.js"></script>
 
 
 <script>
@@ -1951,61 +1949,61 @@ var PBILL={msg:""};function pbillSafeUrl(t){t=String(t||"").trim();return/^https
 </script>
 
 
-<script src="assets/js/399-cdba6556d6.js"></script>
+<script src="assets/js/397-cdba6556d6.js"></script>
 
 
-<script src="assets/js/400-e8732030d1.js"></script>
+<script src="assets/js/398-e8732030d1.js"></script>
 
 
-<script src="assets/js/401-4e5b0d6d6b.js"></script>
+<script src="assets/js/399-4e5b0d6d6b.js"></script>
 
 
-<script src="assets/js/402-344d6e535c.js"></script>
+<script src="assets/js/400-344d6e535c.js"></script>
 
 
-<script src="assets/js/403-148de8c52f.js"></script>
+<script src="assets/js/401-148de8c52f.js"></script>
 
 
-<script src="assets/js/404-a736d4cedc.js"></script>
+<script src="assets/js/402-a736d4cedc.js"></script>
 
 
-<script src="assets/js/405-78ec74acd0.js"></script>
+<script src="assets/js/403-78ec74acd0.js"></script>
 
 
-<script src="assets/js/406-48c199fad8.js"></script>
+<script src="assets/js/404-48c199fad8.js"></script>
 
 
-<script src="assets/js/407-ed82170988.js"></script>
+<script src="assets/js/405-ed82170988.js"></script>
 
 
-<script src="assets/js/408-f1afd27cc3.js"></script>
+<script src="assets/js/406-f1afd27cc3.js"></script>
 
 
-<script src="assets/js/409-a5c40cc546.js"></script>
+<script src="assets/js/407-a5c40cc546.js"></script>
 
 
-<script src="assets/js/410-033a09ecb8.js"></script>
+<script src="assets/js/408-033a09ecb8.js"></script>
 
 
-<script src="assets/js/411-e59d28c6f4.js"></script>
+<script src="assets/js/409-e59d28c6f4.js"></script>
 
 
-<script src="assets/js/412-efca090b51.js"></script>
+<script src="assets/js/410-efca090b51.js"></script>
 
 
-<script src="assets/js/413-56297c5dcf.js"></script>
+<script src="assets/js/411-56297c5dcf.js"></script>
 
 
-<script src="assets/js/414-541a166ffd.js"></script>
+<script src="assets/js/412-541a166ffd.js"></script>
 
 
-<script src="assets/js/415-219c45ba8e.js"></script>
+<script src="assets/js/413-219c45ba8e.js"></script>
 
 
-<script src="assets/js/416-ad17510b0a.js"></script>
+<script src="assets/js/414-ad17510b0a.js"></script>
 
 
-<script src="assets/js/417-0e45e21e30.js"></script>
+<script src="assets/js/415-0e45e21e30.js"></script>
 
 
 <script>
@@ -2013,67 +2011,67 @@ var PBILL={msg:""};function pbillSafeUrl(t){t=String(t||"").trim();return/^https
 </script>
 
 
-<script src="assets/js/419-06aa8b742d.js"></script>
+<script src="assets/js/417-06aa8b742d.js"></script>
 
 
-<script src="assets/js/420-c66c00b35a.js"></script>
+<script src="assets/js/418-c66c00b35a.js"></script>
 
 
-<script src="assets/js/421-4c49a125e9.js"></script>
+<script src="assets/js/419-4c49a125e9.js"></script>
 
 
-<script src="assets/js/422-393d9916f6.js"></script>
+<script src="assets/js/420-393d9916f6.js"></script>
 
 
-<script src="assets/js/423-05ec804089.js"></script>
+<script src="assets/js/421-05ec804089.js"></script>
 
 
-<script src="assets/js/424-1fc83e7239.js"></script>
+<script src="assets/js/422-1fc83e7239.js"></script>
 
 
-<script src="assets/js/425-f838c20014.js"></script>
+<script src="assets/js/423-f838c20014.js"></script>
 
 
-<script src="assets/js/426-2f3c4e553f.js"></script>
+<script src="assets/js/424-2f3c4e553f.js"></script>
 
 
-<script src="assets/js/427-8ad3966115.js"></script>
+<script src="assets/js/425-8ad3966115.js"></script>
 
 
-<script src="assets/js/428-c4fe21ba34.js"></script>
+<script src="assets/js/426-c4fe21ba34.js"></script>
 
 
-<script src="assets/js/429-13aa00a5d9.js"></script>
+<script src="assets/js/427-13aa00a5d9.js"></script>
 
 
-<script src="assets/js/430-b979f17860.js"></script>
+<script src="assets/js/428-b979f17860.js"></script>
 
 
-<script src="assets/js/431-6164b5352b.js"></script>
+<script src="assets/js/429-6164b5352b.js"></script>
 
 
-<script src="assets/js/432-8c64d5b1d0.js"></script>
+<script src="assets/js/430-8c64d5b1d0.js"></script>
 
 
-<script src="assets/js/433-c00b6f235e.js"></script>
+<script src="assets/js/431-c00b6f235e.js"></script>
 
 
-<script src="assets/js/434-dc89859ccb.js"></script>
+<script src="assets/js/432-dc89859ccb.js"></script>
 
 
-<script src="assets/js/435-338b6db409.js"></script>
+<script src="assets/js/433-338b6db409.js"></script>
 
 
-<script src="assets/js/436-f8c0aed10a.js"></script>
+<script src="assets/js/434-f8c0aed10a.js"></script>
 
 
-<script src="assets/js/437-9ad5c02cee.js"></script>
+<script src="assets/js/435-9ad5c02cee.js"></script>
 
 
-<script src="assets/js/438-85370803d1.js"></script>
+<script src="assets/js/436-85370803d1.js"></script>
 
 
-<script src="assets/js/439-e95320b042.js"></script>
+<script src="assets/js/437-e95320b042.js"></script>
 
 
 <script>
@@ -2081,7 +2079,7 @@ var FLG={kit:new WeakMap,on:0,hollow:0,made:0,at:0,dummy:null,ph:null};function 
 </script>
 
 
-<script src="assets/js/441-cff72c1f55.js"></script>
+<script src="assets/js/439-cff72c1f55.js"></script>
 
 
 <script>
@@ -2089,67 +2087,67 @@ var FLG={kit:new WeakMap,on:0,hollow:0,made:0,at:0,dummy:null,ph:null};function 
 </script>
 
 
-<script src="assets/js/443-a066b9bf24.js"></script>
+<script src="assets/js/441-a066b9bf24.js"></script>
 
 
-<script src="assets/js/444-0778c6cf02.js"></script>
+<script src="assets/js/442-f028c9f01b.js"></script>
 
 
-<script src="assets/js/445-2e9bf75001.js"></script>
+<script src="assets/js/443-2e9bf75001.js"></script>
 
 
-<script src="assets/js/446-2d216f88ab.js"></script>
+<script src="assets/js/444-2d216f88ab.js"></script>
 
 
-<script src="assets/js/447-b5fca28514.js"></script>
+<script src="assets/js/445-b5fca28514.js"></script>
 
 
-<script src="assets/js/448-0d0e25af8b.js"></script>
+<script src="assets/js/446-0d0e25af8b.js"></script>
 
 
-<script src="assets/js/449-2d096aed6b.js"></script>
+<script src="assets/js/447-2d096aed6b.js"></script>
 
 
-<script src="assets/js/450-f36eff7246.js"></script>
+<script src="assets/js/448-f36eff7246.js"></script>
 
 
-<script src="assets/js/451-38ef20c6d4.js"></script>
+<script src="assets/js/449-38ef20c6d4.js"></script>
 
 
-<script src="assets/js/452-eb480f3509.js"></script>
+<script src="assets/js/450-eb480f3509.js"></script>
 
 
-<script src="assets/js/453-f1db71e029.js"></script>
+<script src="assets/js/451-f1db71e029.js"></script>
 
 
-<script src="assets/js/454-42e388c3d3.js"></script>
+<script src="assets/js/452-42e388c3d3.js"></script>
 
 
-<script src="assets/js/455-718113100a.js"></script>
+<script src="assets/js/453-718113100a.js"></script>
 
 
-<script src="assets/js/456-50eab0d28a.js"></script>
+<script src="assets/js/454-b2d0313f25.js"></script>
 
 
-<script src="assets/js/457-39e4d0c28d.js"></script>
+<script src="assets/js/455-39e4d0c28d.js"></script>
 
 
-<script src="assets/js/458-96014bbf54.js"></script>
+<script src="assets/js/456-96014bbf54.js"></script>
 
 
-<script src="assets/js/459-baae0739e0.js"></script>
+<script src="assets/js/457-baae0739e0.js"></script>
 
 
-<script src="assets/js/460-a918147bb0.js"></script>
+<script src="assets/js/458-7c9247f5cf.js"></script>
 
 
-<script src="assets/js/461-c450a5f487.js"></script>
+<script src="assets/js/459-c450a5f487.js"></script>
 
 
-<script src="assets/js/462-12a47a609f.js"></script>
+<script src="assets/js/460-12a47a609f.js"></script>
 
 
-<script src="assets/js/463-0731adfe8e.js"></script>
+<script src="assets/js/461-0731adfe8e.js"></script>
 
 
 <script>
@@ -2157,43 +2155,46 @@ var FLG={kit:new WeakMap,on:0,hollow:0,made:0,at:0,dummy:null,ph:null};function 
 </script>
 
 
-<script src="assets/js/465-f492aaa94e.js"></script>
+<script src="assets/js/463-f492aaa94e.js"></script>
 
 
-<script src="assets/js/466-16d3926267.js"></script>
+<script src="assets/js/464-6168a08aca.js"></script>
 
 
-<script src="assets/js/467-7109e1229b.js"></script>
+<script src="assets/js/465-7109e1229b.js"></script>
 
 
-<script src="assets/js/468-15d26f1f17.js"></script>
+<script src="assets/js/466-15d26f1f17.js"></script>
 
 
-<script src="assets/js/469-191015c9d1.js"></script>
+<script src="assets/js/467-191015c9d1.js"></script>
 
 
-<script src="assets/js/470-7f555bf751.js"></script>
+<script src="assets/js/468-7f555bf751.js"></script>
 
 
-<script src="assets/js/471-61e316fcf4.js"></script>
+<script src="assets/js/469-61e316fcf4.js"></script>
 
 
-<script src="assets/js/472-940e08005b.js"></script>
+<script src="assets/js/470-fc7bd1301e.js"></script>
 
 
-<script src="assets/js/473-b039b452c7.js"></script>
+<script src="assets/js/471-b5f5f1e693.js"></script>
 
 
-<script src="assets/js/474-036c49db4e.js"></script>
+<script src="assets/js/472-b039b452c7.js"></script>
 
 
-<script src="assets/js/475-de8097e4a9.js"></script>
+<script src="assets/js/473-036c49db4e.js"></script>
 
 
-<script src="assets/js/476-743db59c28.js"></script>
+<script src="assets/js/474-de8097e4a9.js"></script>
 
 
-<script src="assets/js/477-3aecab64b9.js"></script>
+<script src="assets/js/475-743db59c28.js"></script>
+
+
+<script src="assets/js/476-3aecab64b9.js"></script>
 
 
 <script>

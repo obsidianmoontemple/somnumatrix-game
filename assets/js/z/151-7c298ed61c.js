@@ -1,0 +1,2 @@
+/* SomnuMatrix (c) 2026 Thaddeus (obsidianmoontemple). All rights reserved. Proprietary: no copying, hosting or reuse without written permission. */
+__ZD(151,function(){"use strict";return[function(o,t){var e=ccDuty(o,t),n=o.job.title.toLowerCase();var r=e==="work"?"at work":e==="lunch"?"on a lunch break":e==="going"?"on the way to work":e==="home"?"on the way home from work":t>=19.5||t<4?"out for the evening":"off duty";return o.name+" · "+(o.k%9===4?"at play":o.job.title+", "+r)}]});

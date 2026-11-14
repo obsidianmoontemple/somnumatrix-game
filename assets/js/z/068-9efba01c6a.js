@@ -1,0 +1,2 @@
+/* SomnuMatrix (c) 2026 Thaddeus (obsidianmoontemple). All rights reserved. Proprietary: no copying, hosting or reuse without written permission. */
+__ZD(68,function(){"use strict";return[function(t){for(var n=0;n<REALM_NEAR.length;n++){if(REALM_NEAR[n][1].test(t)){var o=(REALMS[REALM_NEAR[n][0]]||{}).name||"another world";return"You spoke of "+o+" but not of going there. Say how you got in — <i>“I went down into it”, “I stepped through”, “I found myself there”</i> — or use <b>Cross into…</b> in The land."}}return null}]});

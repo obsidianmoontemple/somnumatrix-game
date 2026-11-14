@@ -1,0 +1,2 @@
+/* SomnuMatrix (c) 2026 Thaddeus (obsidianmoontemple). All rights reserved. Proprietary: no copying, hosting or reuse without written permission. */
+__ZD(113,function(){"use strict";return[function(e){var t=" "+String(e||"").toLowerCase()+" ",n=null,i=-1;WX_WORDS.forEach(function(e){var r=new RegExp(e[1].source,"g"),l;while(l=r.exec(t)){if(l.index>=i){i=l.index;n=e[0]}}});var r=/\b(heavy|torrential|pouring|violent|raging|huge|massive|terrible|biggest|endless|thick)\b/.test(t)?1.6:/\b(light|gentle|soft|faint|little)\b/.test(t)?.6:1;return n?{kind:n,strength:r}:null}]});

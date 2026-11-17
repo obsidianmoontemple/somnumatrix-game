@@ -1,0 +1,186 @@
+[
+ {
+  "key": "angelic",
+  "label": "Ethereal Angelic Wings",
+  "slot": "wings",
+  "price": 1500,
+  "file": "assets/models/worn/angelic.glb",
+  "lite": "assets/models/worn/angelic-lite.glb"
+ },
+ {
+  "key": "demonbat",
+  "label": "Demonic Bat Wings",
+  "slot": "wings",
+  "price": 1500,
+  "file": "assets/models/worn/demonbat.glb",
+  "lite": "assets/models/worn/demonbat-lite.glb"
+ },
+ {
+  "key": "fairywings",
+  "label": "Fairy Wings",
+  "slot": "wings",
+  "price": 1000,
+  "file": "assets/models/worn/fairywings.glb",
+  "lite": "assets/models/worn/fairywings-lite.glb"
+ },
+ {
+  "key": "steamwings",
+  "label": "Steampunk Clockwork Wings",
+  "slot": "wings",
+  "price": 1800,
+  "file": "assets/models/worn/steamwings.glb",
+  "lite": "assets/models/worn/steamwings-lite.glb"
+ },
+ {
+  "key": "phoenixwings",
+  "label": "Phoenix Fire Wings",
+  "slot": "wings",
+  "price": 2000,
+  "file": "assets/models/worn/phoenixwings.glb",
+  "lite": "assets/models/worn/phoenixwings-lite.glb"
+ },
+ {
+  "key": "frostwings",
+  "label": "Frost Crystal Wings",
+  "slot": "wings",
+  "price": 1800,
+  "file": "assets/models/worn/frostwings.glb",
+  "lite": "assets/models/worn/frostwings-lite.glb"
+ },
+ {
+  "key": "insectwings",
+  "label": "Insectoid Wings",
+  "slot": "wings",
+  "price": 1200,
+  "file": "assets/models/worn/insectwings.glb",
+  "lite": "assets/models/worn/insectwings-lite.glb"
+ },
+ {
+  "key": "griffinwings",
+  "label": "Griffin Wings",
+  "slot": "wings",
+  "price": 1600,
+  "file": "assets/models/worn/griffinwings.glb",
+  "lite": "assets/models/worn/griffinwings-lite.glb"
+ },
+ {
+  "key": "voidwings",
+  "label": "Shadow Void Wings",
+  "slot": "wings",
+  "price": 2000,
+  "file": "assets/models/worn/voidwings.glb",
+  "lite": "assets/models/worn/voidwings-lite.glb"
+ },
+ {
+  "key": "dragonfly",
+  "label": "Dragonfly Wings",
+  "slot": "wings",
+  "price": 1000,
+  "file": "assets/models/worn/dragonfly.glb",
+  "lite": "assets/models/worn/dragonfly-lite.glb"
+ },
+ {
+  "key": "ramhorns",
+  "label": "Curved Ram Horns",
+  "slot": "horns",
+  "price": 600,
+  "file": "assets/models/worn/ramhorns.glb",
+  "lite": "assets/models/worn/ramhorns-lite.glb"
+ },
+ {
+  "key": "bighorn",
+  "label": "Twisted Bighorn Horns",
+  "slot": "horns",
+  "price": 700,
+  "file": "assets/models/worn/bighorn.glb",
+  "lite": "assets/models/worn/bighorn-lite.glb"
+ },
+ {
+  "key": "elkantlers",
+  "label": "Elk Antlers",
+  "slot": "horns",
+  "price": 800,
+  "file": "assets/models/worn/elkantlers.glb",
+  "lite": "assets/models/worn/elkantlers-lite.glb"
+ },
+ {
+  "key": "imphorns",
+  "label": "Curled Imp Horns",
+  "slot": "horns",
+  "price": 450,
+  "file": "assets/models/worn/imphorns.glb",
+  "lite": "assets/models/worn/imphorns-lite.glb"
+ },
+ {
+  "key": "fiendhorns",
+  "label": "Sculpted Fiend Horns",
+  "slot": "horns",
+  "price": 800,
+  "file": "assets/models/worn/fiendhorns.glb",
+  "lite": "assets/models/worn/fiendhorns-lite.glb"
+ },
+ {
+  "key": "prehensile",
+  "label": "Thick Prehensile Tail",
+  "slot": "tail",
+  "price": 700,
+  "file": "assets/models/worn/prehensile.glb",
+  "lite": "assets/models/worn/prehensile-lite.glb"
+ },
+ {
+  "key": "deviltail",
+  "label": "Slender Devil Tail",
+  "slot": "tail",
+  "price": 500,
+  "file": "assets/models/worn/deviltail.glb",
+  "lite": "assets/models/worn/deviltail-lite.glb"
+ },
+ {
+  "key": "foxtail",
+  "label": "Furry Canine Tail",
+  "slot": "tail",
+  "price": 600,
+  "file": "assets/models/worn/foxtail.glb",
+  "lite": "assets/models/worn/foxtail-lite.glb"
+ },
+ {
+  "key": "dragontail",
+  "label": "Scaled Dragon Tail",
+  "slot": "tail",
+  "price": 900,
+  "file": "assets/models/worn/dragontail.glb",
+  "lite": "assets/models/worn/dragontail-lite.glb"
+ },
+ {
+  "key": "bonetail",
+  "label": "Segmented Bone Tail",
+  "slot": "tail",
+  "price": 800,
+  "file": "assets/models/worn/bonetail.glb",
+  "lite": "assets/models/worn/bonetail-lite.glb"
+ },
+ {
+  "key": "curltail",
+  "label": "Smooth Curled Tail",
+  "slot": "tail",
+  "price": 500,
+  "file": "assets/models/worn/curltail.glb",
+  "lite": "assets/models/worn/curltail-lite.glb"
+ },
+ {
+  "key": "thorntail",
+  "label": "Twisted Bony Tail",
+  "slot": "tail",
+  "price": 800,
+  "file": "assets/models/worn/thorntail.glb",
+  "lite": "assets/models/worn/thorntail-lite.glb"
+ },
+ {
+  "key": "feathertail",
+  "label": "Feathered Imp Tail",
+  "slot": "tail",
+  "price": 700,
+  "file": "assets/models/worn/feathertail.glb",
+  "lite": "assets/models/worn/feathertail-lite.glb"
+ }
+]

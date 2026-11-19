@@ -30,17 +30,7 @@ a.btn{display:inline-block;padding:10px 18px;border:1px solid var(--gold);border
   <a class="btn" href="index.html">Step into the dream</a>
 </main>
 <script>
-(function () {
-var BASE = "https://ryxmrkwgdyphcdlglwka.supabase.co";
-var c = new URLSearchParams(location.search).get("c") || "", v = document.getElementById("v"), say = document.getElementById("say");
-if (!/^[0-9a-f-]{36}\/[A-Za-z0-9_-]{1,80}\.(webm|mp4)$/.test(c)) {
-v.style.display = "none";
-say.textContent = "This link has no clip in it.";
-return;
-}
-v.src = BASE + "/storage/v1/object/public/clips/" + c.split("/").map(encodeURIComponent).join("/");
-v.onerror = function () { v.style.display = "none"; say.textContent = "This clip has been removed, or the link is not whole."; };
-})();
+(function(){var e="https://ryxmrkwgdyphcdlglwka.supabase.co";var t=new URLSearchParams(location.search).get("c")||"",n=document.getElementById("v"),o=document.getElementById("say");if(!/^[0-9a-f-]{36}\/[A-Za-z0-9_-]{1,80}\.(webm|mp4)$/.test(t)){n.style.display="none";o.textContent="This link has no clip in it.";return}n.src=e+"/storage/v1/object/public/clips/"+t.split("/").map(encodeURIComponent).join("/");n.onerror=function(){n.style.display="none";o.textContent="This clip has been removed, or the link is not whole."}})();
 </script>
 </body>
 </html>

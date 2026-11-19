@@ -1,0 +1,2 @@
+/* SomnuMatrix (c) 2026 Thaddeus (obsidianmoontemple). All rights reserved. Proprietary: no copying, hosting or reuse without written permission. */
+__ZD(119,function(){"use strict";return[function(){try{localStorage.setItem(KITCACHE_KEY,JSON.stringify(kitCache))}catch(e){var t=Object.keys(kitCache.defs);t.slice(0,Math.ceil(t.length/2)).forEach(function(t){delete kitCache.defs[t]});try{localStorage.setItem(KITCACHE_KEY,JSON.stringify(kitCache))}catch(t){}}}]});

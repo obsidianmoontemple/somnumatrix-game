@@ -1,0 +1,2 @@
+/* SomnuMatrix (c) 2026 Thaddeus (obsidianmoontemple). All rights reserved. Proprietary: no copying, hosting or reuse without written permission. */
+__ZD(62,function(){"use strict";return[function(){if(!rec)return;listening=!listening;var t=document.getElementById("mic");t.classList.toggle("live",listening);t.setAttribute("aria-label",listening?"Stop listening":"Start listening");if(listening){try{rec.start();setStatus("Listening.")}catch(t){}}else{rec.stop();setStatus("Stopped.")}}]});

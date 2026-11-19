@@ -825,3 +825,10 @@ Colour variants are the same model with its named materials recoloured. The fram
   hair and relief), each body's parts are split, the bones are renamed to the game's names, and the moves are trimmed and kept in
   place. Each body also carries a small map of which parts are shirt, trousers, shoes, skin and hair, so the game can colour them
   (made by `tools/rocketbox/convert`).
+
+## omega/ and worn/ — the owner's own designs
+
+- `omega/` (vehicles, mechs, props, buildings, creatures and the glowing spell effects in `omega/fx/`) and `worn/` (wings,
+  horns and tails) are Obsidian Moon Temple's own designs, drawn on its "Project Omega" and wing/horn/tail sheets. Each
+  piece was cut from its sheet and made into a model with TripoSR (MIT licence), the sheet picture laid on as its texture,
+  then thinned and given smooth shading by `tools/worn/prep.js`. Owned outright by Obsidian Moon Temple; manifest `lic:"owner"`.

@@ -1,0 +1,193 @@
+/* SomnuMatrix (c) 2026 Thaddeus (obsidianmoontemple). All rights reserved. Proprietary: no copying, hosting or reuse without written permission. */
+"use strict";
+var BUG = { el: null, btn: null, pendingKey: "dreamwalker.bugs.pending" };
+function bugShot() { return __ZC(186, 0, this, arguments, new.target); }
+function bugGL() {
+try {
+var gl = renderer.getContext(), ext = gl.getExtension("WEBGL_debug_renderer_info");
+return ext ? String(gl.getParameter(ext.UNMASKED_RENDERER_WEBGL)).slice(0, 120) : "";
+}
+catch (e) {
+return "";
+}
+}
+function bugInsideName() {
+var i = store.inside;
+if (!i)
+return "";
+if (typeof i === "object")
+return String(i.label || i.archetype || i.id || "").slice(0, 60);
+var o = (store.objects || []).filter(function (q) { return q.id === i; })[0];
+return String(o ? ((o.label || o.archetype) + " (" + i + ")") : i).slice(0, 60);
+}
+function bugInCity(here) { try {
+var r = (typeof somnucorRealm === "function") ? somnucorRealm() : null;
+return !!(r && here === r.id);
+}
+catch (e) {
+return false;
+} }
+function bugRealmName(here) { try {
+var r = (store.realms || []).filter(function (q) { return q.id === here; })[0];
+var t = r && typeof REALMS !== "undefined" ? REALMS[r.kind] : null;
+return r ? String(r.name || (t && t.name) || r.kind || "").slice(0, 60) : "";
+}
+catch (e) {
+return "";
+} }
+function bugGather(what) { return __ZC(186, 1, this, arguments, new.target); }
+function bugWithin(pr, ms) { return Promise.race([pr, new Promise(function (ok) { setTimeout(function () { ok(false); }, ms); })]); }
+function bugDone(rid) {
+if (!rid)
+return;
+BUG.sent = BUG.sent || {};
+BUG.sent[rid] = 1;
+try {
+var p = bugPending().filter(function (q) { return q.rid !== rid; });
+localStorage.setItem(BUG.pendingKey, JSON.stringify(p));
+}
+catch (e) { }
+}
+function bugSend(rep) { return __ZC(186, 2, this, arguments, new.target); }
+function bugPost(rep) { return __ZC(186, 3, this, arguments, new.target); }
+function bugPending() { try {
+return JSON.parse(localStorage.getItem(BUG.pendingKey) || "[]") || [];
+}
+catch (e) {
+return [];
+} }
+function bugKeep(rep) { try {
+if (BUG.sent && BUG.sent[rep.rid])
+return;
+var p = bugPending().filter(function (q) { return !rep.rid || q.rid !== rep.rid; });
+p.push(Object.assign({}, rep, { shot: null }));
+localStorage.setItem(BUG.pendingKey, JSON.stringify(p.slice(-10)));
+}
+catch (e) { } }
+function bugFlush() {
+var p = bugPending();
+if (!p.length || typeof signedIn !== "function" || !signedIn())
+return;
+var rest = [];
+p.reduce(function (chain, rep) { return chain.then(function () { return bugSend(rep).then(function (ok) { if (!ok)
+rest.push(rep); }); }); }, Promise.resolve())
+.then(function () { try {
+localStorage.setItem(BUG.pendingKey, JSON.stringify(rest));
+}
+catch (e) { } });
+}
+function bugIsOpen() { return !!(BUG.el && BUG.el.style.display === "flex"); }
+function bugOpen() { return __ZC(186, 4, this, arguments, new.target); }
+function bugClose() {
+if (!BUG.el)
+return;
+var t = document.getElementById("bug-what");
+if (t) {
+BUG.draft = t.value;
+if (document.activeElement === t)
+try {
+t.blur();
+}
+catch (e) { }
+}
+BUG.el.style.display = "none";
+}
+function bugFit() { return __ZC(186, 5, this, arguments, new.target); }
+function bugBuild() {
+var st = document.createElement("style");
+st.textContent =
+"#bug-btn{position:fixed;left:10px;bottom:84px;z-index:48;width:40px;height:40px;border-radius:50%;border:1px solid rgba(232,198,106,.55);" +
+"background:rgba(20,16,40,.78);color:#E8C66A;font:600 18px/38px system-ui,sans-serif;text-align:center;cursor:pointer;padding:0}" +
+"#bug-btn:hover{background:rgba(40,32,72,.92)}" +
+"#bug-wrap{position:fixed;inset:0;z-index:99990;display:none;align-items:center;justify-content:center;background:rgba(8,6,20,.6)}" +
+"#bug-box{width:min(520px,calc(100vw - 32px));max-height:calc(100vh - 32px);overflow:auto;-webkit-overflow-scrolling:touch;margin:8px 0;background:#17122C;color:#EDE8F8;border:1px solid #3A3160;" +
+"border-radius:8px;padding:18px 18px 14px;font:15px/1.5 system-ui,sans-serif;box-shadow:0 10px 40px rgba(0,0,0,.5)}" +
+"#bug-box h3{margin:0 0 6px;font:600 18px/1.3 Georgia,serif;color:#fff}" +
+"#bug-box .note{margin:0 0 12px;color:#C9C2E0;font-size:13.5px}" +
+"#bug-box textarea{width:100%;box-sizing:border-box;min-height:96px;font-size:16px!important;-webkit-user-select:text;user-select:text;touch-action:manipulation;background:#0E0B1E;color:#fff;border:1px solid #3A3160;border-radius:4px;padding:9px;font:15px/1.45 system-ui,sans-serif}" +
+"#bug-shot{width:100%;max-height:140px;object-fit:contain;background:#0E0B1E;border-radius:4px;margin:10px 0 4px;border:1px solid #2A2448}" +
+"#bug-box .row{display:flex;gap:8px;justify-content:flex-end;margin-top:12px}" +
+"#bug-box button{border:0;border-radius:4px;padding:9px 16px;font:600 14px system-ui,sans-serif;cursor:pointer}" +
+"#bug-send{background:#E8C66A;color:#17120A}#bug-cancel{background:#2A2448;color:#EDE8F8}" +
+"#bug-msg{font-size:13px;color:#E8C66A;margin-top:8px;min-height:18px}" +
+"@media (max-height:520px){#bug-shot{display:none!important}#bug-box{padding:12px 14px 10px}#bug-box h3{font-size:16px;margin-bottom:4px}" +
+"#bug-box .note{font-size:12.5px;line-height:1.35;margin-bottom:8px}#bug-box textarea{min-height:64px}#bug-box .row{margin-top:8px}}";
+document.head.appendChild(st);
+var b = document.createElement("button");
+b.id = "bug-btn";
+b.type = "button";
+b.title = "Report a bug";
+b.setAttribute("aria-label", "Report a bug");
+b.textContent = "!";
+b.onclick = function (e) { e.stopPropagation(); bugOpen(); };
+document.body.appendChild(b);
+BUG.btn = b;
+var w = document.createElement("div");
+w.id = "bug-wrap";
+w.innerHTML = '<div id="bug-box" role="dialog" aria-label="Report a bug">' +
+'<h3>Report a bug</h3>' +
+'<p class="note">The dream journal is still coming fully online, and you can help it get there. If something looks wrong, tell us in a line or two. ' +
+'A picture of your screen, your dream as you told it and what was built go with your report, so you only need to say what went wrong. ' +
+'Good finds may be rewarded.</p>' +
+'<textarea id="bug-what" maxlength="4000" placeholder="What went wrong? For example: I said I was on a boat, but the boat was far away and under the water."></textarea>' +
+'<img id="bug-shot" alt="Your screen, as it will be sent">' +
+'<div id="bug-msg" aria-live="polite"></div>' +
+'<div class="row"><button id="bug-cancel" type="button">Cancel</button><button id="bug-send" type="button">Send report</button></div></div>';
+document.body.appendChild(w);
+BUG.el = w;
+w.addEventListener("click", function (e) { if (e.target === w && !document.getElementById("bug-what").value.trim())
+bugClose(); });
+w.addEventListener("keydown", function (e) { e.stopPropagation(); if (e.key === "Escape")
+bugClose(); });
+["keyup", "keypress", "input", "beforeinput", "compositionstart", "compositionupdate", "compositionend",
+"touchstart", "touchmove", "touchend", "pointerdown", "pointerup", "mousedown", "mouseup", "wheel", "contextmenu"].forEach(function (k) {
+w.addEventListener(k, function (e) { e.stopPropagation(); }, { passive: true });
+});
+var ta = document.getElementById("bug-what");
+ta.addEventListener("input", function () { BUG.draft = ta.value; });
+ta.addEventListener("focus", function () { setTimeout(bugFit, 300); });
+if (window.visualViewport) {
+visualViewport.addEventListener("resize", bugFit);
+visualViewport.addEventListener("scroll", bugFit);
+}
+window.addEventListener("resize", bugFit);
+document.getElementById("bug-cancel").onclick = bugClose;
+document.getElementById("bug-send").onclick = function () {
+var what = document.getElementById("bug-what").value.trim(), msg = document.getElementById("bug-msg"), btn = this;
+var rep = bugGather(what);
+if (BUG.shotNow)
+rep.shot = BUG.shotNow;
+btn.disabled = true;
+msg.textContent = "Sending…";
+bugSend(rep).then(function (ok) {
+btn.disabled = false;
+if (ok) {
+BUG.draft = "";
+msg.textContent = "Thank you. Your report has been sent to the Keeper.";
+setTimeout(function () { document.getElementById("bug-what").value = ""; bugClose(); }, 1600);
+}
+else {
+bugKeep(rep);
+BUG.draft = "";
+document.getElementById("bug-what").value = "";
+msg.textContent = BUG.flying && BUG.flying[rep.rid] ?
+"It is still on its way (a slow connection) and will finish by itself. No need to send it again." : (typeof signedIn === "function" && signedIn()) ?
+"It could not be sent just now. It has been kept and will be sent again later." :
+"Sign in to send it. Your report has been kept and will be sent when you next sign in.";
+}
+});
+};
+}
+setTimeout(function () { try {
+bugBuild();
+bugFlush();
+}
+catch (e) { } }, 2500);
+setInterval(function () { try {
+bugFlush();
+}
+catch (e) { } }, 120000);
+window.addEventListener("online", function () { try {
+bugFlush();
+}
+catch (e) { } });

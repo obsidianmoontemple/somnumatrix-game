@@ -1,0 +1,17 @@
+/* SomnuMatrix (c) 2026 Thaddeus (obsidianmoontemple). All rights reserved. Proprietary: no copying, hosting or reuse without written permission. */
+__ZD(11, function () {
+"use strict";
+return [
+function (shader) {
+shader.uniforms.rimColor = TOON.rim.rimColor;
+shader.uniforms.rimStrength = TOON.rim.rimStrength;
+shader.fragmentShader = shader.fragmentShader
+.replace("uniform vec3 diffuse;", "uniform vec3 diffuse;\nuniform vec3 rimColor;\nuniform float rimStrength;")
+.replace("vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + totalEmissiveRadiance;", "vec3 outgoingLight = reflectedLight.directDiffuse + reflectedLight.indirectDiffuse + totalEmissiveRadiance;\n" +
+"float rimF = 1.0 - saturate( dot( normalize( vViewPosition ), normal ) );\n" +
+"vec3 upV = normalize( ( viewMatrix * vec4( 0.0, 1.0, 0.0, 0.0 ) ).xyz );\n" +
+"rimF *= 1.0 - abs( dot( normal, upV ) );\n" +
+"outgoingLight += rimColor * diffuseColor.rgb * smoothstep( 0.55, 0.95, rimF ) * rimStrength;");
+}
+];
+});

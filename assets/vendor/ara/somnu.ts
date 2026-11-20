@@ -17,7 +17,15 @@ function gen() {
 }
 /* a recipe saved by an older maker, or typed by hand, keeps only what this one knows (a wrong pattern would stop the whole person) */
 function clean(input: any) {
-  const p = input && input.params; if (!p || !p.garmentStyles) return input;
+  let p = input && input.params; if (!p) return input;
+  if (Array.isArray(p.accessories)) {
+    const slot: any = {}; for (const g of GARMENTS as any[]) slot[g.id] = g.slot;
+    const hat = p.accessories.find((a: string) => slot[a] === 'hat');
+    p = { ...p, accessories: p.accessories.filter((a: string) => slot[a] === 'acc') };
+    if (hat && (!p.hat || p.hat === 'none')) p.hat = hat;
+    input = { ...input, params: p };
+  }
+  if (!p.garmentStyles) return input;
   const by: any = {}; for (const g of GARMENTS as any[]) by[g.id] = g;
   const gs: any = {};
   for (const k of Object.keys(p.garmentStyles)) { const g = by[k], st = p.garmentStyles[k]; if (!g || !st) continue; const o: any = {};

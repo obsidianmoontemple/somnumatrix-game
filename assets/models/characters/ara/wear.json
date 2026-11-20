@@ -1,0 +1,498 @@
+{
+"culturalibre_faun_horns": {
+"slot": "horns",
+"label": "Faun horns"
+},
+"culturalibre_minotaur_horns": {
+"slot": "horns",
+"label": "Minotaur horns"
+},
+"culturalibre_faun_beard": {
+"slot": "beard",
+"label": "Faun beard"
+},
+"grinsegold_beard_sigmund_wip": {
+"slot": "beard",
+"label": "Beard sigmund wip"
+},
+"rehmanpolanski_beard_viking": {
+"slot": "beard",
+"label": "Beard viking"
+},
+"rehmanpolanski_moustache_viking": {
+"slot": "beard",
+"label": "Moustache viking"
+},
+"wdg_scruffy_beard": {
+"slot": "beard",
+"label": "Scruffy beard"
+},
+"aethelraed_flapper_dress": {
+"slot": "outfit",
+"label": "Flapper dress"
+},
+"mindfront_kimono": {
+"slot": "outfit",
+"label": "Kimono"
+},
+"toigo_bodice_dress_with_lace_ruffle_skirt": {
+"slot": "outfit",
+"label": "Bodice dress with lace ruffle skirt"
+},
+"toigo_camisole_dress_with_full_skirt": {
+"slot": "outfit",
+"label": "Camisole dress with full skirt"
+},
+"toigo_cut_out_dress": {
+"slot": "outfit",
+"label": "Cut out dress"
+},
+"toigo_dress_with_tiered_skirt": {
+"slot": "outfit",
+"label": "Dress with tiered skirt"
+},
+"toigo_halter_dress_knee_length": {
+"slot": "outfit",
+"label": "Halter dress knee length"
+},
+"toigo_halter_dress_midi": {
+"slot": "outfit",
+"label": "Halter dress midi"
+},
+"toigo_halter_dress_with_fluted_skirt": {
+"slot": "outfit",
+"label": "Halter dress with fluted skirt"
+},
+"toigo_keyhole_neck_dress": {
+"slot": "outfit",
+"label": "Keyhole neck dress"
+},
+"toigo_shift_dress": {
+"slot": "outfit",
+"label": "Shift dress"
+},
+"toigo_strapless_ruffle_top_dress": {
+"slot": "outfit",
+"label": "Strapless ruffle top dress"
+},
+"wdg_mycenaean_tunic": {
+"slot": "outfit",
+"label": "Mycenaean tunic"
+},
+"frankyaye_glasses_library_male": {
+"slot": "face",
+"label": "Glasses library male"
+},
+"kwnet_at_optical_glasses": {
+"slot": "face",
+"label": "Optical glasses"
+},
+"spamrakuen_sagerfrogs_glasses_01": {
+"slot": "face",
+"label": "Sagerfrogs glasses 01"
+},
+"spamrakuen_sagerfrogs_glasses_02": {
+"slot": "face",
+"label": "Sagerfrogs glasses 02"
+},
+"spamrakuen_sagerfrogs_glasses_03": {
+"slot": "face",
+"label": "Sagerfrogs glasses 03"
+},
+"spamrakuen_sagerfrogs_glasses_04": {
+"slot": "face",
+"label": "Sagerfrogs glasses 04"
+},
+"spamrakuen_tbm_glasses_frames_01": {
+"slot": "face",
+"label": "Tbm glasses frames 01"
+},
+"toigo_round_glasses_leopard": {
+"slot": "face",
+"label": "Round glasses leopard"
+},
+"culturalibre_hero-heroine_gloves_1": {
+"slot": "hands",
+"label": "Hero heroine gloves 1"
+},
+"culturalibre_hero-heroine_gloves_2": {
+"slot": "hands",
+"label": "Hero heroine gloves 2"
+},
+"culturalibre_hero-heroine_gloves_3": {
+"slot": "hands",
+"label": "Hero heroine gloves 3"
+},
+"culturalibre_hero-heroine_gloves_4": {
+"slot": "hands",
+"label": "Hero heroine gloves 4"
+},
+"culturalibre_hero-heroine_gloves_5": {
+"slot": "hands",
+"label": "Hero heroine gloves 5"
+},
+"learning_mma_fighting_gloves": {
+"slot": "hands",
+"label": "Mma fighting gloves"
+},
+"toigo_gloves_long": {
+"slot": "hands",
+"label": "Gloves long"
+},
+"toigo_gloves_medium": {
+"slot": "hands",
+"label": "Gloves medium"
+},
+"toigo_gloves_short": {
+"slot": "hands",
+"label": "Gloves short"
+},
+"aethelraed_unraed_cloche_hat": {
+"slot": "hat",
+"label": "Unraed cloche hat"
+},
+"grinsegold_uncle_joshis_hat": {
+"slot": "hat",
+"label": "Uncle joshis hat"
+},
+"jujube_newsboy_cap": {
+"slot": "hat",
+"label": "Newsboy cap"
+},
+"culturalibre_motorcycle_helmet": {
+"slot": "hat",
+"label": "Motorcycle helmet"
+},
+"culturalibre_skull_helmet": {
+"slot": "hat",
+"label": "Skull helmet"
+},
+"culturalibre_warrior_helmet": {
+"slot": "hat",
+"label": "Warrior helmet"
+},
+"grinsegold_corinthian_helmet": {
+"slot": "hat",
+"label": "Corinthian helmet"
+},
+"javherre_casco_caballero_templario_templar_knight_helmet": {
+"slot": "hat",
+"label": "Casco caballero templario templar knight helmet"
+},
+"mrgreaterthan_m1_helmet": {
+"slot": "hat",
+"label": "M1 helmet"
+},
+"culturalibre_hero-heroine_hood_1": {
+"slot": "hat",
+"label": "Hero heroine hood 1"
+},
+"culturalibre_hero-heroine_hood_2": {
+"slot": "hat",
+"label": "Hero heroine hood 2"
+},
+"culturalibre_hero_mask_1": {
+"slot": "face",
+"label": "Hero mask 1"
+},
+"culturalibre_hero_mask_2": {
+"slot": "face",
+"label": "Hero mask 2"
+},
+"culturalibre_hero_mask_3": {
+"slot": "face",
+"label": "Hero mask 3"
+},
+"culturalibre_hero_mask_4": {
+"slot": "face",
+"label": "Hero mask 4"
+},
+"culturalibre_hero_mask_5": {
+"slot": "face",
+"label": "Hero mask 5"
+},
+"culturalibre_heroine_mask_1": {
+"slot": "face",
+"label": "Heroine mask 1"
+},
+"joepal_medical_mouth_protection": {
+"slot": "face",
+"label": "Medical mouth protection"
+},
+"cortu_cargo_pants": {
+"slot": "bottom",
+"label": "Cargo pants"
+},
+"cortu_jeans_shorts": {
+"slot": "bottom",
+"label": "Jeans shorts"
+},
+"toigo_harem_pants": {
+"slot": "bottom",
+"label": "Harem pants"
+},
+"toigo_wool_pants": {
+"slot": "bottom",
+"label": "Wool pants"
+},
+"elvs_crude_t-shirt_male": {
+"slot": "top",
+"label": "Crude t shirt male"
+},
+"joepal_crude_t-shirt_female": {
+"slot": "top",
+"label": "Crude t shirt female"
+},
+"namuhekam_male_polo_shirt": {
+"slot": "top",
+"label": "Male polo shirt"
+},
+"skalldyrssuppe_tube_top_funky_colors": {
+"slot": "top",
+"label": "Tube top funky colors"
+},
+"toigo_basic_tucked_t-shirt": {
+"slot": "top",
+"label": "Basic tucked t shirt"
+},
+"toigo_bodice-style_top": {
+"slot": "top",
+"label": "Bodice style top"
+},
+"toigo_camisole_top": {
+"slot": "top",
+"label": "Camisole top"
+},
+"toigo_fisherman_sweater": {
+"slot": "top",
+"label": "Fisherman sweater"
+},
+"toigo_keyhole_tank_top": {
+"slot": "top",
+"label": "Keyhole tank top"
+},
+"toigo_turtleneck_halter_top": {
+"slot": "top",
+"label": "Turtleneck halter top"
+},
+"cortu_floppy_overknee_shoes": {
+"slot": "shoes",
+"label": "Floppy overknee shoes"
+},
+"cortu_t-bar": {
+"slot": "shoes",
+"label": "T bar"
+},
+"culturalibre_hero_boots_1": {
+"slot": "shoes",
+"label": "Hero boots 1"
+},
+"culturalibre_hero_boots_2": {
+"slot": "shoes",
+"label": "Hero boots 2"
+},
+"culturalibre_hero_boots_3": {
+"slot": "shoes",
+"label": "Hero boots 3"
+},
+"culturalibre_hero_boots_4": {
+"slot": "shoes",
+"label": "Hero boots 4"
+},
+"culturalibre_hero_boots_5": {
+"slot": "shoes",
+"label": "Hero boots 5"
+},
+"culturalibre_heroine_boots_1": {
+"slot": "shoes",
+"label": "Heroine boots 1"
+},
+"culturalibre_heroine_boots_2": {
+"slot": "shoes",
+"label": "Heroine boots 2"
+},
+"culturalibre_heroine_boots_3": {
+"slot": "shoes",
+"label": "Heroine boots 3"
+},
+"culturalibre_heroine_boots_4": {
+"slot": "shoes",
+"label": "Heroine boots 4"
+},
+"culturalibre_male_boots": {
+"slot": "shoes",
+"label": "Male boots"
+},
+"grinsegold_female_pirate_boots": {
+"slot": "shoes",
+"label": "Female pirate boots"
+},
+"scailman_gogo_platform_boots": {
+"slot": "shoes",
+"label": "Gogo platform boots"
+},
+"scailman_semitransparent_water_boots": {
+"slot": "shoes",
+"label": "Semitransparent water boots"
+},
+"toigo_ankle_boots_female": {
+"slot": "shoes",
+"label": "Ankle boots female"
+},
+"toigo_ankle_boots_male": {
+"slot": "shoes",
+"label": "Ankle boots male"
+},
+"toigo_ballet_flats": {
+"slot": "shoes",
+"label": "Ballet flats"
+},
+"toigo_ballet_flats_with_bows": {
+"slot": "shoes",
+"label": "Ballet flats with bows"
+},
+"toigo_ballet_flats_with_flowers": {
+"slot": "shoes",
+"label": "Ballet flats with flowers"
+},
+"toigo_flats": {
+"slot": "shoes",
+"label": "Flats"
+},
+"toigo_mj_cloth_shoes": {
+"slot": "shoes",
+"label": "Mj cloth shoes"
+},
+"toigo_stiletto_booties": {
+"slot": "shoes",
+"label": "Stiletto booties"
+},
+"frankyaye_mini_skirt_01": {
+"slot": "bottom",
+"label": "Mini skirt 01"
+},
+"frankyaye_mini_skirt_02": {
+"slot": "bottom",
+"label": "Mini skirt 02"
+},
+"toigo_long_full_skirt": {
+"slot": "bottom",
+"label": "Long full skirt"
+},
+"toigo_skirt_with_lace_ruffle": {
+"slot": "bottom",
+"label": "Skirt with lace ruffle"
+},
+"toigo_tiered_mini_skirt": {
+"slot": "bottom",
+"label": "Tiered mini skirt"
+},
+"toigo_tiered_skirt": {
+"slot": "bottom",
+"label": "Tiered skirt"
+},
+"toigo_female_double-breasted_suit": {
+"slot": "outfit",
+"label": "Female double breasted suit"
+},
+"toigo_female_suit": {
+"slot": "outfit",
+"label": "Female suit"
+},
+"toigo_female_suit_2": {
+"slot": "outfit",
+"label": "Female suit 2"
+},
+"toigo_male_double-breasted_suit": {
+"slot": "outfit",
+"label": "Male double breasted suit"
+},
+"toigo_male_suit_3": {
+"slot": "outfit",
+"label": "Male suit 3"
+},
+"toigo_male_suit_tie_and_jacket": {
+"slot": "outfit",
+"label": "Male suit tie and jacket"
+},
+"toigo_suit_with_dinner_jacket": {
+"slot": "outfit",
+"label": "Suit with dinner jacket"
+},
+"toigo_suit_with_jacket_and_bowtie": {
+"slot": "outfit",
+"label": "Suit with jacket and bowtie"
+},
+"culturalibre_hero_suit_1": {
+"slot": "outfit",
+"label": "Hero suit 1"
+},
+"culturalibre_hero_suit_2": {
+"slot": "outfit",
+"label": "Hero suit 2"
+},
+"culturalibre_hero_suit_3": {
+"slot": "outfit",
+"label": "Hero suit 3"
+},
+"culturalibre_heroine_suit_2": {
+"slot": "outfit",
+"label": "Heroine suit 2"
+},
+"donitz_monk_robe": {
+"slot": "outfit",
+"label": "Monk robe"
+},
+"donitz_monk_robe_hood": {
+"slot": "hat",
+"label": "Monk robe hood"
+},
+"donitz_monk_robe_hood_down": {
+"slot": "hat",
+"label": "Monk robe hood down"
+},
+"donitz_monk_robe_hood_off": {
+"slot": "hat",
+"label": "Monk robe hood off"
+},
+"joachip_cyborg_suit": {
+"slot": "outfit",
+"label": "Cyborg suit"
+},
+"matcreator_mc-bodysuit-2021": {
+"slot": "outfit",
+"label": "Bodysuit 2021"
+},
+"matcreator_mc-scifi-armor_guardian": {
+"slot": "outfit",
+"label": "Scifi armor guardian"
+},
+"matcreator_mc-scifi-armor_helios": {
+"slot": "outfit",
+"label": "Scifi armor helios"
+},
+"matcreator_mc-scifi-armor_jupiter7": {
+"slot": "outfit",
+"label": "Scifi armor jupiter7"
+},
+"matcreator_mc-skinsuit_2022": {
+"slot": "outfit",
+"label": "Skinsuit 2022"
+},
+"rehmanpolanski_viking_boots": {
+"slot": "shoes",
+"label": "Viking boots"
+},
+"rehmanpolanski_viking_pants": {
+"slot": "bottom",
+"label": "Viking pants"
+},
+"rehmanpolanski_viking_tunic": {
+"slot": "top",
+"label": "Viking tunic"
+},
+"thegreatengineer_galactic_warrior_uniform": {
+"slot": "outfit",
+"label": "Galactic warrior uniform"
+}
+}

@@ -832,3 +832,9 @@ Colour variants are the same model with its named materials recoloured. The fram
   horns and tails) are Obsidian Moon Temple's own designs, drawn on its "Project Omega" and wing/horn/tail sheets. Each
   piece was cut from its sheet and made into a model with TripoSR (MIT licence), the sheet picture laid on as its texture,
   then thinned and given smooth shading by `tools/worn/prep.js`. Owned outright by Obsidian Moon Temple; manifest `lic:"owner"`.
+
+## Character Maker people (characters/ara, vendor/ara)
+
+- Generator: Ara 3D Gen by olatunde85, https://github.com/olatunde85/3d-gen, MIT licence (assets/vendor/ara/LICENSE-ara3d-MIT.txt). Built into assets/vendor/ara/ara-maker.js from packages/cli/src/somnu.ts (copy kept beside it).
+- Body, shapes, skins, eyes, brows, lashes, hair, clothes and proxies: MakeHuman, CC0 1.0 (Data Collection AB, Joel Palmius, Jonas Hauquier). See characters/ara/LICENSE.txt.
+- Motion: partly from the CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu; created with funding from NSF EIA-0196217). Free to use in sold products, not to be resold as data.

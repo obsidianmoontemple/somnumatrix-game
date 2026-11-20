@@ -839,3 +839,33 @@ Colour variants are the same model with its named materials recoloured. The fram
 - Body, shapes, skins, eyes, brows, lashes, hair, clothes and proxies: MakeHuman, CC0 1.0 (Data Collection AB, Joel Palmius, Jonas Hauquier). See characters/ara/LICENSE.txt.
 - Motion: partly from the CMU Graphics Lab Motion Capture Database (mocap.cs.cmu.edu; created with funding from NSF EIA-0196217). Free to use in sold products, not to be resold as data.
 - Folk library (characters/ara/folk, 20 November 2026): 91 people made ahead of time with the same generator and the same MakeHuman (CC0) parts, by tools/folk-library. Packed with meshopt; the unpacker assets/vendor/meshopt/meshopt_decoder.js is meshoptimizer by Arseny Kapoulkine, MIT licence (assets/vendor/meshopt/LICENSE.md).
+
+## grab3d/ (Grab3D, grab3d.com)
+CC0 1.0 (public domain), no credit needed: https://grab3d.com/license/ . Each model cut down to 15,000 triangles (PC)
+and 4,000 (phone/Quest) and given a skeleton by tools (see tools/creature-real/g3d-data.js). Grab3D says these were
+made with an AI image-to-3D tool and cleaned by hand.
+
+## sketchfab/cars/ (CC BY 4.0, credit given on the Credits page)
+- Daniel Zhabotinsky (https://sketchfab.com/DanielZhabotinsky): Negotiator '80, Fairheaven LT '80, Phoenix 455 '71, Doutrive '78, Lightbody Lifted '85, Shvan '92, LCT 3000 '95, Coupe '33 Hot Rod #2 (low poly models; made-up makes). Cut down to 10,000 / 3,000 triangles, turned front to +z, textures to webp.
+- 3d_Bob (https://sketchfab.com/3d_Bob): Cyberpunk car. Same treatment.
+
+### Death Races battle cars (assets/models/sketchfab/cars/, CC BY 4.0, via Sketchfab)
+- buggy-2.glb: "Buggy_2" by Rzyas, https://sketchfab.com/3d-models/buggy-2-983dc960e4c34a2688456b3c31821cd9
+- jester-butane.glb: "Jester Butane Reworked" by Swiss_Fox, https://sketchfab.com/3d-models/3a661ebc42a047e396c77ae214fde459
+- green-bug.glb: "Green Bug Stylized Scifi Car Free" by ferofluid, https://sketchfab.com/3d-models/34f1a7734d474b34a8291f613a581ccb
+- zombie-pickup.glb: "ZOMBIE PICKUP TRUCK" by seangorman, https://sketchfab.com/3d-models/23708528454e43b58e02d78fd427c240
+- md-84-armored.glb: "MD '84 Armored - Low poly model" by Daniel Zhabotinsky, https://sketchfab.com/3d-models/26e809cce40e4359a3199649f12ef295
+Each was cut down (10k / 3k triangles), turned nose to +Z, set on the ground, and its pictures made smaller (webp). -lite.glb = phone/Quest copy.
+
+### Animated animals (assets/models/sketchfab/animals/, CC BY 4.0, via Sketchfab, by WildMesh 3D)
+- wm-bear.glb: "Realistic Animated Bear 3D Model", https://sketchfab.com/3d-models/bffc3c87d2d148ff8533e1cc8a11c9f1
+- wm-elk.glb: "Realistic Animated Elk 3D Model", https://sketchfab.com/3d-models/787834f9caa2474d9f1814b807c072d7
+- wm-doe.glb: "Realistic Animated Doe 3D Model", https://sketchfab.com/3d-models/b6172618aa304473a4cf7b9246c0a218
+- wm-donkey.glb: "Realistic Animated Donkey 3D Model", https://sketchfab.com/3d-models/2b4086035df94d9e88fd0f18d34b3872
+Only the free CC BY versions are used (never their "demo" NonCommercial ones). Kept moves renamed (idle, walk, trot, run, eat, hit, die...), the walk-forward taken out so they move in place, pictures made smaller (webp). -lite.glb = phone/Quest copy with fewer triangles.
+
+## mh-extra/ (MakeHuman community asset packs, for the Character Maker)
+Raw MakeHuman files from https://static.makehumancommunity.org/assets/assetpacks.html, listed one by one in mh-extra/list.json.
+- animal01, equipment01: CC0 1.0.
+- animal02, animal03, animal04, equipment02: CC BY 4.0 (MakeHuman's "CC-BY"). Credit: JALdMIC (animal heads, ears, snouts, bodies and the AKM, L1A1 and M1911A1), culturalibre (CL gun, right and left hand), MaciekG (hammer, short bow). Source page for each item is in list.json.
+Trademark characters (Pikachu, Vulpix, Care Bear, P-Ivy, Mirage) were left out. Textures over 1024 px were made 1024.

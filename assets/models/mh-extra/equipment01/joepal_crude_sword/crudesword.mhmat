@@ -1,0 +1,23 @@
+# MakeHuman Material definition
+
+name material.001Material
+
+// Color shading attributes
+diffuseColor  0.1916 0.1916 0.1916
+specularColor  0.8 0.8 0.8
+shininess 0.3922
+opacity 1
+
+// Textures and properties
+diffuseTexture crudesword.png
+
+// Shader programme
+shader data/shaders/glsl/phong
+
+// Configure built-in shader defines
+shaderConfig diffuse true
+shaderConfig bump false
+shaderConfig normal  false
+shaderConfig displacement  false
+shaderConfig spec  false
+shaderConfig vertexColors false

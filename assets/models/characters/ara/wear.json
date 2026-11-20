@@ -494,5 +494,65 @@
 "thegreatengineer_galactic_warrior_uniform": {
 "slot": "outfit",
 "label": "Galactic warrior uniform"
+},
+"culturalibre_cl_gun": {
+"slot": "weapon",
+"label": "Pistol"
+},
+"culturalibre_cl_gun_left_hand": {
+"slot": "weapon",
+"label": "Pistol (left hand)"
+},
+"culturalibre_hand_claws": {
+"slot": "weapon",
+"label": "Hand claws"
+},
+"culturalibre_hero_kalistick": {
+"slot": "weapon",
+"label": "Fighting stick"
+},
+"culturalibre_hero_kalistick_lefthanded": {
+"slot": "weapon",
+"label": "Fighting stick (left hand)"
+},
+"culturalibre_magic_sceptre": {
+"slot": "weapon",
+"label": "Magic sceptre"
+},
+"culturalibre_war_hammer": {
+"slot": "weapon",
+"label": "War hammer"
+},
+"culturalibre_wooden_bow": {
+"slot": "weapon",
+"label": "Wooden bow"
+},
+"jaldmic_akm_base": {
+"slot": "weapon",
+"label": "Assault rifle"
+},
+"jaldmic_l1a1": {
+"slot": "weapon",
+"label": "Battle rifle"
+},
+"jaldmic_m1911a1": {
+"slot": "weapon",
+"label": "Old army pistol"
+},
+"joepal_crude_sword": {
+"slot": "weapon",
+"label": "Crude sword"
+},
+"maciekg_hammer": {
+"slot": "weapon",
+"label": "Hammer"
+},
+"maciekg_short_bow": {
+"slot": "weapon",
+"label": "Short bow"
+},
+"o4saken_dagger": {
+"slot": "weapon",
+"label": "Dagger"
 }
 }

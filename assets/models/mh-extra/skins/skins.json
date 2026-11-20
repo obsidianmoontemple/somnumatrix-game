@@ -1,0 +1,335 @@
+{
+ "note": "Race skins painted for SomnuMatrix on the MakeHuman young caucasian skins (CC0), keeping their real skin detail; scales are soft bumps in the _normal map. Rows are ready for ara/catalog.json skins (copy the jpgs to ara/web/textures/). Our own work, free to sell, no credit needed.",
+ "skins": [
+  {
+   "id": "somnu_lizardfolk_m",
+   "name": "Lizardfolk scales (man)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Lizardfolk scales (man)",
+    "color": "#ffffff",
+    "roughness": 0.5,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_lizardfolk_m.jpg",
+    "normal": "skin_somnu_lizardfolk_m_normal.jpg"
+   }
+  },
+  {
+   "id": "somnu_lizardfolk_f",
+   "name": "Lizardfolk scales (woman)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Lizardfolk scales (woman)",
+    "color": "#ffffff",
+    "roughness": 0.5,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_lizardfolk_f.jpg",
+    "normal": "skin_somnu_lizardfolk_f_normal.jpg"
+   }
+  },
+  {
+   "id": "somnu_dragonborn_gold_m",
+   "name": "Gold dragon scales (man)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Gold dragon scales (man)",
+    "color": "#ffffff",
+    "roughness": 0.5,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_dragonborn_gold_m.jpg",
+    "normal": "skin_somnu_dragonborn_gold_m_normal.jpg"
+   }
+  },
+  {
+   "id": "somnu_dragonborn_gold_f",
+   "name": "Gold dragon scales (woman)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Gold dragon scales (woman)",
+    "color": "#ffffff",
+    "roughness": 0.5,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_dragonborn_gold_f.jpg",
+    "normal": "skin_somnu_dragonborn_gold_f_normal.jpg"
+   }
+  },
+  {
+   "id": "somnu_dragonborn_red_m",
+   "name": "Red dragon scales (man)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Red dragon scales (man)",
+    "color": "#ffffff",
+    "roughness": 0.5,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_dragonborn_red_m.jpg",
+    "normal": "skin_somnu_dragonborn_red_m_normal.jpg"
+   }
+  },
+  {
+   "id": "somnu_dragonborn_red_f",
+   "name": "Red dragon scales (woman)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Red dragon scales (woman)",
+    "color": "#ffffff",
+    "roughness": 0.5,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_dragonborn_red_f.jpg",
+    "normal": "skin_somnu_dragonborn_red_f_normal.jpg"
+   }
+  },
+  {
+   "id": "somnu_seafolk_m",
+   "name": "Sea folk (man)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Sea folk (man)",
+    "color": "#ffffff",
+    "roughness": 0.5,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_seafolk_m.jpg",
+    "normal": "skin_somnu_seafolk_m_normal.jpg"
+   }
+  },
+  {
+   "id": "somnu_seafolk_f",
+   "name": "Sea folk (woman)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Sea folk (woman)",
+    "color": "#ffffff",
+    "roughness": 0.5,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_seafolk_f.jpg",
+    "normal": "skin_somnu_seafolk_f_normal.jpg"
+   }
+  },
+  {
+   "id": "somnu_demon_red_m",
+   "name": "Demon red (man)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Demon red (man)",
+    "color": "#ffffff",
+    "roughness": 0.55,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_demon_red_m.jpg"
+   }
+  },
+  {
+   "id": "somnu_demon_red_f",
+   "name": "Demon red (woman)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Demon red (woman)",
+    "color": "#ffffff",
+    "roughness": 0.55,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_demon_red_f.jpg"
+   }
+  },
+  {
+   "id": "somnu_frost_m",
+   "name": "Frost folk (man)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Frost folk (man)",
+    "color": "#ffffff",
+    "roughness": 0.55,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_frost_m.jpg"
+   }
+  },
+  {
+   "id": "somnu_frost_f",
+   "name": "Frost folk (woman)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Frost folk (woman)",
+    "color": "#ffffff",
+    "roughness": 0.55,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_frost_f.jpg"
+   }
+  },
+  {
+   "id": "somnu_night_elf_m",
+   "name": "Night elf violet (man)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Night elf violet (man)",
+    "color": "#ffffff",
+    "roughness": 0.55,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_night_elf_m.jpg"
+   }
+  },
+  {
+   "id": "somnu_night_elf_f",
+   "name": "Night elf violet (woman)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Night elf violet (woman)",
+    "color": "#ffffff",
+    "roughness": 0.55,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_night_elf_f.jpg"
+   }
+  },
+  {
+   "id": "somnu_ashen_m",
+   "name": "Ashen grey (man)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Ashen grey (man)",
+    "color": "#ffffff",
+    "roughness": 0.55,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_ashen_m.jpg"
+   }
+  },
+  {
+   "id": "somnu_ashen_f",
+   "name": "Ashen grey (woman)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Ashen grey (woman)",
+    "color": "#ffffff",
+    "roughness": 0.55,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_ashen_f.jpg"
+   }
+  },
+  {
+   "id": "somnu_stone_m",
+   "name": "Stone-kin (man)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Stone-kin (man)",
+    "color": "#ffffff",
+    "roughness": 0.5,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_stone_m.jpg",
+    "normal": "skin_somnu_stone_m_normal.jpg"
+   }
+  },
+  {
+   "id": "somnu_stone_f",
+   "name": "Stone-kin (woman)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Stone-kin (woman)",
+    "color": "#ffffff",
+    "roughness": 0.5,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_stone_f.jpg",
+    "normal": "skin_somnu_stone_f_normal.jpg"
+   }
+  },
+  {
+   "id": "somnu_azure_m",
+   "name": "Azure folk (man)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Azure folk (man)",
+    "color": "#ffffff",
+    "roughness": 0.55,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_azure_m.jpg"
+   }
+  },
+  {
+   "id": "somnu_azure_f",
+   "name": "Azure folk (woman)",
+   "tags": [
+    "race"
+   ],
+   "material": {
+    "name": "Azure folk (woman)",
+    "color": "#ffffff",
+    "roughness": 0.55,
+    "metalness": 0,
+    "alpha": "opaque",
+    "doubleSided": false,
+    "diffuse": "skin_somnu_azure_f.jpg"
+   }
+  }
+ ]
+}

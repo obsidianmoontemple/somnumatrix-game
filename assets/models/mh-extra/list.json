@@ -1,0 +1,627 @@
+{
+ "note": "MakeHuman community asset packs (makehumancommunity.org/assets/assetpacks.html), raw MakeHuman files for the Character Maker to convert. Left out: trademark characters (pikachu, vulpix, care bear, p-ivy, mirage). Textures over 1024 px made 1024. CC BY ones must be credited by author.",
+ "items": [
+  {
+   "id": "culturalibre_faun_face",
+   "pack": "animal01",
+   "kind": "race-shape",
+   "category": "Facial detail",
+   "description": "This target will transform the face of your male caucasian model into a faun.",
+   "files": [
+    "animal01/culturalibre_faun_face.target"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/2357"
+  },
+  {
+   "id": "elvs_piggy_nose1",
+   "pack": "animal01",
+   "kind": "race-shape",
+   "category": "Facial detail",
+   "description": "A target for a piggy style fantasy nose. Unisex",
+   "files": [
+    "animal01/elvs_piggy_nose1.target"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/2372"
+  },
+  {
+   "id": "jaldmic_donkey_head",
+   "pack": "animal01",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "I don't speak English The head of a donkey based in Peppert and Carrot the picnic",
+   "files": [
+    "animal01/jaldmic_donkey_head.target"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/3535"
+  },
+  {
+   "id": "jaldmic_equinus_headv2",
+   "pack": "animal01",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "Reshapes the model head into one like a horse.",
+   "files": [
+    "animal01/jaldmic_equinus_headv2.target"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/2952"
+  },
+  {
+   "id": "titleknown_catgirl_ears",
+   "pack": "animal01",
+   "kind": "race-shape",
+   "category": "Head detail",
+   "description": "Y'know like nya ?",
+   "files": [
+    "animal01/titleknown_catgirl_ears.target"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/1153"
+  },
+  {
+   "id": "jaldmic_bunny_rabbit_ears_v2",
+   "pack": "animal02",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "Bunny or rabbit ears for a furry character.",
+   "files": [
+    "animal02/jaldmic_bunny_rabbit_ears_v2.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/2923",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_canine_ears_v2",
+   "pack": "animal02",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "Canine ears for a furry character.",
+   "files": [
+    "animal02/jaldmic_canine_ears_v2.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/2926",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_dropped_ears",
+   "pack": "animal02",
+   "kind": "race-shape",
+   "category": "Head detail",
+   "description": "Ears like a dog dropped ears. for replace toriel_ears ",
+   "files": [
+    "animal02/jaldmic_dropped_ears.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3127",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_feline_ears_v2",
+   "pack": "animal02",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "Feline ears for a furry character.",
+   "files": [
+    "animal02/jaldmic_feline_ears_v2.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/2928",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_furry_mouth_feline_v4",
+   "pack": "animal02",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "A feline base mouth for furry characters.",
+   "files": [
+    "animal02/jaldmic_furry_mouth_feline_v4.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/2929",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_furry_mouth_reptile",
+   "pack": "animal02",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "A reptile base mouth for furry characters.",
+   "files": [
+    "animal02/jaldmic_furry_mouth_reptile.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/2931",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_furrymouth_canine_v4",
+   "pack": "animal02",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "A furry mouth for canine characters.",
+   "files": [
+    "animal02/jaldmic_furrymouth_canine_v4.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/2927",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_shark_mouth",
+   "pack": "animal02",
+   "kind": "race-shape",
+   "category": "Facial detail",
+   "description": "Simplified shark mouth.",
+   "files": [
+    "animal02/jaldmic_shark_mouth.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3131",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_bear_head",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "I don't speak English A bear head Una cabeza de oso",
+   "files": [
+    "animal03/jaldmic_bear_head.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3487",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_bear_head_cartoon",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "I don't speak English A stylized bear head Una cabeza de oso estilizada",
+   "files": [
+    "animal03/jaldmic_bear_head_cartoon.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3486",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_cat_head",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "A cat head.",
+   "files": [
+    "animal03/jaldmic_cat_head.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3144",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_fox_head_cartoon",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "I don't speak English A stylized fox head Una cabeza de zorro estilizada",
+   "files": [
+    "animal03/jaldmic_fox_head_cartoon.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3488",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_hazel_rabbit_head",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "I don't speak English Head based in the character created by Shakotanbunny Cabeza basada en la del personaje creado por Shakotanbunny.",
+   "files": [
+    "animal03/jaldmic_hazel_rabbit_head.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3489",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_lion",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "A lion head between a female and a male",
+   "files": [
+    "animal03/jaldmic_lion.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3200",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_perro_dog_head",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "Give the model the head of a dog",
+   "files": [
+    "animal03/jaldmic_perro_dog_head.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3540",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_rabbit_hare_head",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "A rabbit or hare or bunny head i don't know the difference.",
+   "files": [
+    "animal03/jaldmic_rabbit_hare_head.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3152",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_squirrel_head",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "A squirrel head",
+   "files": [
+    "animal03/jaldmic_squirrel_head.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3209",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_tiger_head",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "A tiger head",
+   "files": [
+    "animal03/jaldmic_tiger_head.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3221",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_vaca_cow_head",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "I don't speak English Le da al modelo la cabeza de una vaca Give the model the head of a dog",
+   "files": [
+    "animal03/jaldmic_vaca_cow_head.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3544",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_wolf_headv3",
+   "pack": "animal03",
+   "kind": "race-shape",
+   "category": "Head shape",
+   "description": "Third Version of the wolf head.",
+   "files": [
+    "animal03/jaldmic_wolf_headv3.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3009",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_donkey",
+   "pack": "animal04",
+   "kind": "race-shape",
+   "category": "Large modification",
+   "description": "I don't speak English The target of a donkey based in these from Peppert and Carrot the Picnic",
+   "files": [
+    "animal04/jaldmic_donkey.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3534",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_horse",
+   "pack": "animal04",
+   "kind": "race-shape",
+   "category": "Large modification",
+   "description": "I don't speak English Transform the body in a horse",
+   "files": [
+    "animal04/jaldmic_horse.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3533",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_perro_dog",
+   "pack": "animal04",
+   "kind": "race-shape",
+   "category": "Large modification",
+   "description": "I don't speak English Give the model the form of a dog.",
+   "files": [
+    "animal04/jaldmic_perro_dog.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3539",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_vaca_cow",
+   "pack": "animal04",
+   "kind": "race-shape",
+   "category": "Large modification",
+   "description": "I don't speak English Le da al modelo la forma de una vaca Give the model the form of a cow",
+   "files": [
+    "animal04/jaldmic_vaca_cow.target"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3543",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "culturalibre_hand_claws",
+   "pack": "equipment01",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "Retractable hand claws weapon for superhero.Optional diffuse texture after the fight here: http://www.makehumancommunity.org/content/blood_claws.html . If you don't like superheroes you can use it to make a nice haircut : ",
+   "files": [
+    "equipment01/culturalibre_hand_claws/claws.png",
+    "equipment01/culturalibre_hand_claws/culturalibre_hand_claws.mhclo",
+    "equipment01/culturalibre_hand_claws/culturalibre_hand_claws.thumb",
+    "equipment01/culturalibre_hand_claws/hand_claws.mhmat",
+    "equipment01/culturalibre_hand_claws/hand_claws.obj"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/2840"
+  },
+  {
+   "id": "culturalibre_hero_kalistick",
+   "pack": "equipment01",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "Hero metal kalistick.Get more textures in the materials section.",
+   "files": [
+    "equipment01/culturalibre_hero_kalistick/culturalibre_hero_kalistick.mhclo",
+    "equipment01/culturalibre_hero_kalistick/culturalibre_hero_kalistick.thumb",
+    "equipment01/culturalibre_hero_kalistick/hero_kalistick.mhmat",
+    "equipment01/culturalibre_hero_kalistick/hero_kalistick.obj",
+    "equipment01/culturalibre_hero_kalistick/metal.png"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/2119"
+  },
+  {
+   "id": "culturalibre_hero_kalistick_lefthanded",
+   "pack": "equipment01",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "Metal kalistick for left handed hero.Get more textures in the materials section.",
+   "files": [
+    "equipment01/culturalibre_hero_kalistick_lefthanded/culturalibre_hero_kalistick_lefthanded.mhclo",
+    "equipment01/culturalibre_hero_kalistick_lefthanded/culturalibre_hero_kalistick_lefthanded.thumb",
+    "equipment01/culturalibre_hero_kalistick_lefthanded/hero_kalistick_lefthanded.mhmat",
+    "equipment01/culturalibre_hero_kalistick_lefthanded/hero_kalistick_lefthanded.obj",
+    "equipment01/culturalibre_hero_kalistick_lefthanded/metal.png"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/2120"
+  },
+  {
+   "id": "culturalibre_magic_sceptre",
+   "pack": "equipment01",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "Magic sceptre for a wizard.Original 3d model by quaternius.Downloaded from https://opengameart.org/content/lowpoly-rpg.Thanks.",
+   "files": [
+    "equipment01/culturalibre_magic_sceptre/culturalibre_magic_sceptre.mhclo",
+    "equipment01/culturalibre_magic_sceptre/culturalibre_magic_sceptre.thumb",
+    "equipment01/culturalibre_magic_sceptre/magic_sceptre.mhmat",
+    "equipment01/culturalibre_magic_sceptre/magic_sceptre.obj",
+    "equipment01/culturalibre_magic_sceptre/sceptre_texture.png"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/2358"
+  },
+  {
+   "id": "culturalibre_war_hammer",
+   "pack": "equipment01",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "Medieval war hammer.",
+   "files": [
+    "equipment01/culturalibre_war_hammer/culturalibre_war_hammer.mhclo",
+    "equipment01/culturalibre_war_hammer/culturalibre_war_hammer.thumb",
+    "equipment01/culturalibre_war_hammer/hammer.png",
+    "equipment01/culturalibre_war_hammer/warhammer.mhmat",
+    "equipment01/culturalibre_war_hammer/warhammer.obj"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/2051"
+  },
+  {
+   "id": "culturalibre_wooden_bow",
+   "pack": "equipment01",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "Original wooden bow model by quaternius.Downloaded from https://drive.google.com/drive/folders/1Z6vYiQxY8W73FXuMWzaTQAg9rzbumnOr.Thanks for sharing More textures in the materials section.",
+   "files": [
+    "equipment01/culturalibre_wooden_bow/bow.png",
+    "equipment01/culturalibre_wooden_bow/culturalibre_wooden_bow.mhclo",
+    "equipment01/culturalibre_wooden_bow/culturalibre_wooden_bow.thumb",
+    "equipment01/culturalibre_wooden_bow/wooden_bow.mhmat",
+    "equipment01/culturalibre_wooden_bow/wooden_bow.obj"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/2362"
+  },
+  {
+   "id": "joepal_crude_sword",
+   "pack": "equipment01",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "An item intended to demonstrate non-deforming vertex groups. Here the entire sword has been assigned to a vertex group called ' sword' note the asterisk . Then on the human exactly three vertices on the edges of the palm of the hand holding the sword have been assigned to ' sword'. This is intended to demo how to create rigid groups which scales linearly with the size of the toon in this case the distance between the three vertices in the palm rather than deform in strange ways.",
+   "files": [
+    "equipment01/joepal_crude_sword/crudesword.mhmat",
+    "equipment01/joepal_crude_sword/crudesword.obj",
+    "equipment01/joepal_crude_sword/crudesword.png",
+    "equipment01/joepal_crude_sword/joepal_crude_sword.mhclo",
+    "equipment01/joepal_crude_sword/joepal_crude_sword.thumb"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/428"
+  },
+  {
+   "id": "o4saken_dagger",
+   "pack": "equipment01",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "A little dagger i made sculpting in blender fitted as a strap around the thigh on the average female . use with a nice split skirt or fancy lingerie.",
+   "files": [
+    "equipment01/o4saken_dagger/DIFFUSELAYOUT.png",
+    "equipment01/o4saken_dagger/NORAML.png",
+    "equipment01/o4saken_dagger/dagger.mhmat",
+    "equipment01/o4saken_dagger/dagger.obj",
+    "equipment01/o4saken_dagger/o4saken_dagger.mhclo",
+    "equipment01/o4saken_dagger/o4saken_dagger.thumb"
+   ],
+   "licence": "CC0 1.0",
+   "source": "http://www.makehumancommunity.org/node/809"
+  },
+  {
+   "id": "culturalibre_cl_gun",
+   "pack": "equipment02",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "Gun with black texture.",
+   "files": [
+    "equipment02/culturalibre_cl_gun/black.png",
+    "equipment02/culturalibre_cl_gun/cl_gun.mhmat",
+    "equipment02/culturalibre_cl_gun/cl_gun.obj",
+    "equipment02/culturalibre_cl_gun/culturalibre_cl_gun.mhclo",
+    "equipment02/culturalibre_cl_gun/culturalibre_cl_gun.thumb"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/2383",
+   "author": "culturalibre"
+  },
+  {
+   "id": "culturalibre_cl_gun_left_hand",
+   "pack": "equipment02",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "Left hand gun.",
+   "files": [
+    "equipment02/culturalibre_cl_gun_left_hand/black.png",
+    "equipment02/culturalibre_cl_gun_left_hand/cl_gun_left_hand.mhmat",
+    "equipment02/culturalibre_cl_gun_left_hand/cl_gun_left_hand.obj",
+    "equipment02/culturalibre_cl_gun_left_hand/culturalibre_cl_gun_left_hand.mhclo",
+    "equipment02/culturalibre_cl_gun_left_hand/culturalibre_cl_gun_left_hand.thumb"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3030",
+   "author": "culturalibre"
+  },
+  {
+   "id": "jaldmic_akm_base",
+   "pack": "equipment02",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "A russian weapon",
+   "files": [
+    "equipment02/jaldmic_akm_base/akm.mhmat",
+    "equipment02/jaldmic_akm_base/akm.obj",
+    "equipment02/jaldmic_akm_base/akm.png",
+    "equipment02/jaldmic_akm_base/jaldmic_akm_base.mhclo",
+    "equipment02/jaldmic_akm_base/jaldmic_akm_base.thumb"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/2921",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_l1a1",
+   "pack": "equipment02",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "The L1A1 Self-Loading Rifle also known as the SLR Self-Loading Rifle From Wikipedia",
+   "files": [
+    "equipment02/jaldmic_l1a1/jaldmic_l1a1.mhclo",
+    "equipment02/jaldmic_l1a1/jaldmic_l1a1.thumb",
+    "equipment02/jaldmic_l1a1/l1a1.mhmat",
+    "equipment02/jaldmic_l1a1/l1a1.obj",
+    "equipment02/jaldmic_l1a1/l1a1.png"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/2986",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "jaldmic_m1911a1",
+   "pack": "equipment02",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "The M1911 also known as Colt 1911 or Colt Government is a single-action semi-automatic magazine-fed recoil-operated pistol chambered for the .45 ACP cartridge. Wikipedia",
+   "files": [
+    "equipment02/jaldmic_m1911a1/colt_m1911a1.mhmat",
+    "equipment02/jaldmic_m1911a1/colt_m1911a1.obj",
+    "equipment02/jaldmic_m1911a1/colt_m1911a1.png",
+    "equipment02/jaldmic_m1911a1/jaldmic_m1911a1.mhclo",
+    "equipment02/jaldmic_m1911a1/jaldmic_m1911a1.thumb"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/3004",
+   "author": "JALdMIC"
+  },
+  {
+   "id": "maciekg_hammer",
+   "pack": "equipment02",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "hammer",
+   "files": [
+    "equipment02/maciekg_hammer/hammer.mhmat",
+    "equipment02/maciekg_hammer/hammer.obj",
+    "equipment02/maciekg_hammer/hammer_diffuse.png",
+    "equipment02/maciekg_hammer/hammer_normal.png",
+    "equipment02/maciekg_hammer/maciekg_hammer.mhclo",
+    "equipment02/maciekg_hammer/maciekg_hammer.thumb"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/1488",
+   "author": "MaciekG"
+  },
+  {
+   "id": "maciekg_short_bow",
+   "pack": "equipment02",
+   "kind": "weapon",
+   "category": "Weapon/Tool/Carried",
+   "description": "Short bow",
+   "files": [
+    "equipment02/maciekg_short_bow/bow.mhmat",
+    "equipment02/maciekg_short_bow/bow.obj",
+    "equipment02/maciekg_short_bow/bow_diffuse.png",
+    "equipment02/maciekg_short_bow/bow_normal.png",
+    "equipment02/maciekg_short_bow/maciekg_short_bow.mhclo",
+    "equipment02/maciekg_short_bow/maciekg_short_bow.thumb"
+   ],
+   "licence": "CC BY 4.0",
+   "source": "http://www.makehumancommunity.org/node/1465",
+   "author": "MaciekG"
+  }
+ ]
+}

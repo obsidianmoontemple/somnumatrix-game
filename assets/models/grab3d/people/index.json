@@ -1,0 +1,313 @@
+{
+ "about": "Grab3D people (grab3d.com, CC0). Ara game rig names, A-pose as made, metres, Y up, facing +Z, feet on y=0. Clips: Idle, Walk, Run, Sit idle (chair), Drive car, Sword slash, Punch, Hit reaction, Death (fall backward), retargeted from ara/folk m-casual-1 / f-casual-1, walk and run in place. <name>.glb = PC (15k tris, 1024 textures), <name>-lite.glb = phones and Quest (5k tris, 512).",
+ "people": [
+  {
+   "file": "farmer.glb",
+   "lite": "farmer-lite.glb",
+   "job": "farmer",
+   "sex": "m",
+   "height": 1.8
+  },
+  {
+   "file": "farmer-woman.glb",
+   "lite": "farmer-woman-lite.glb",
+   "job": "farmer",
+   "sex": "f",
+   "height": 1.66
+  },
+  {
+   "file": "construction-worker.glb",
+   "lite": "construction-worker-lite.glb",
+   "job": "builder",
+   "sex": "m",
+   "height": 1.8
+  },
+  {
+   "file": "chef.glb",
+   "lite": "chef-lite.glb",
+   "job": "chef",
+   "sex": "m",
+   "height": 1.78
+  },
+  {
+   "file": "chef-woman.glb",
+   "lite": "chef-woman-lite.glb",
+   "job": "chef",
+   "sex": "f",
+   "height": 1.65
+  },
+  {
+   "file": "doctor.glb",
+   "lite": "doctor-lite.glb",
+   "job": "doctor",
+   "sex": "m",
+   "height": 1.8
+  },
+  {
+   "file": "nurse.glb",
+   "lite": "nurse-lite.glb",
+   "job": "nurse",
+   "sex": "f",
+   "height": 1.65
+  },
+  {
+   "file": "police-officer.glb",
+   "lite": "police-officer-lite.glb",
+   "job": "police",
+   "sex": "m",
+   "height": 1.82
+  },
+  {
+   "file": "firefighter.glb",
+   "lite": "firefighter-lite.glb",
+   "job": "firefighter",
+   "sex": "m",
+   "height": 1.82
+  },
+  {
+   "file": "soldier.glb",
+   "lite": "soldier-lite.glb",
+   "job": "soldier",
+   "sex": "m",
+   "height": 1.8
+  },
+  {
+   "file": "sci-fi-soldier.glb",
+   "lite": "sci-fi-soldier-lite.glb",
+   "job": "soldier-scifi",
+   "sex": "m",
+   "height": 1.85
+  },
+  {
+   "file": "businessman.glb",
+   "lite": "businessman-lite.glb",
+   "job": "office",
+   "sex": "m",
+   "height": 1.8
+  },
+  {
+   "file": "scientist.glb",
+   "lite": "scientist-lite.glb",
+   "job": "scientist",
+   "sex": "m",
+   "height": 1.76
+  },
+  {
+   "file": "astronaut-in-spacesuit.glb",
+   "lite": "astronaut-in-spacesuit-lite.glb",
+   "job": "astronaut",
+   "sex": "m",
+   "height": 1.85
+  },
+  {
+   "file": "female-athlete.glb",
+   "lite": "female-athlete-lite.glb",
+   "job": "athlete",
+   "sex": "f",
+   "height": 1.7
+  },
+  {
+   "file": "king.glb",
+   "lite": "king-lite.glb",
+   "job": "king",
+   "sex": "m",
+   "height": 1.82
+  },
+  {
+   "file": "queen.glb",
+   "lite": "queen-lite.glb",
+   "job": "queen",
+   "sex": "f",
+   "height": 1.7
+  },
+  {
+   "file": "wizard.glb",
+   "lite": "wizard-lite.glb",
+   "job": "wizard",
+   "sex": "m",
+   "height": 1.8
+  },
+  {
+   "file": "witch.glb",
+   "lite": "witch-lite.glb",
+   "job": "witch",
+   "sex": "f",
+   "height": 1.66
+  },
+  {
+   "file": "elf.glb",
+   "lite": "elf-lite.glb",
+   "job": "elf",
+   "sex": "f",
+   "height": 1.78
+  },
+  {
+   "file": "dwarf.glb",
+   "lite": "dwarf-lite.glb",
+   "job": "dwarf",
+   "sex": "m",
+   "height": 1.35
+  },
+  {
+   "file": "pirate.glb",
+   "lite": "pirate-lite.glb",
+   "job": "pirate",
+   "sex": "m",
+   "height": 1.78
+  },
+  {
+   "file": "armored-knight.glb",
+   "lite": "armored-knight-lite.glb",
+   "job": "knight",
+   "sex": "m",
+   "height": 1.85
+  },
+  {
+   "file": "leather-armor-warrior.glb",
+   "lite": "leather-armor-warrior-lite.glb",
+   "job": "warrior",
+   "sex": "m",
+   "height": 1.8
+  },
+  {
+   "file": "viking.glb",
+   "lite": "viking-lite.glb",
+   "job": "viking",
+   "sex": "m",
+   "height": 1.86
+  },
+  {
+   "file": "samurai.glb",
+   "lite": "samurai-lite.glb",
+   "job": "samurai",
+   "sex": "m",
+   "height": 1.75
+  },
+  {
+   "file": "ninja.glb",
+   "lite": "ninja-lite.glb",
+   "job": "ninja",
+   "sex": "m",
+   "height": 1.72
+  },
+  {
+   "file": "hooded-rogue.glb",
+   "lite": "hooded-rogue-lite.glb",
+   "job": "rogue",
+   "sex": "m",
+   "height": 1.76
+  },
+  {
+   "file": "plague-doctor.glb",
+   "lite": "plague-doctor-lite.glb",
+   "job": "plague-doctor",
+   "sex": "m",
+   "height": 1.8
+  },
+  {
+   "file": "steampunk-inventor.glb",
+   "lite": "steampunk-inventor-lite.glb",
+   "job": "inventor",
+   "sex": "m",
+   "height": 1.78
+  },
+  {
+   "file": "vampire.glb",
+   "lite": "vampire-lite.glb",
+   "job": "vampire",
+   "sex": "m",
+   "height": 1.85
+  },
+  {
+   "file": "santa-claus.glb",
+   "lite": "santa-claus-lite.glb",
+   "job": "santa",
+   "sex": "m",
+   "height": 1.78
+  },
+  {
+   "file": "medieval-villager.glb",
+   "lite": "medieval-villager-lite.glb",
+   "job": "villager",
+   "sex": "m",
+   "height": 1.75
+  },
+  {
+   "file": "elderly-man.glb",
+   "lite": "elderly-man-lite.glb",
+   "job": "elder",
+   "sex": "m",
+   "height": 1.72
+  },
+  {
+   "file": "elderly-woman.glb",
+   "lite": "elderly-woman-lite.glb",
+   "job": "elder",
+   "sex": "f",
+   "height": 1.6
+  },
+  {
+   "file": "man.glb",
+   "lite": "man-lite.glb",
+   "job": "townsman",
+   "sex": "m",
+   "height": 1.78
+  },
+  {
+   "file": "woman.glb",
+   "lite": "woman-lite.glb",
+   "job": "townswoman",
+   "sex": "f",
+   "height": 1.66
+  },
+  {
+   "file": "man-base-character.glb",
+   "lite": "man-base-character-lite.glb",
+   "job": "townsman",
+   "sex": "m",
+   "height": 1.78
+  },
+  {
+   "file": "woman-base-character.glb",
+   "lite": "woman-base-character-lite.glb",
+   "job": "townswoman",
+   "sex": "f",
+   "height": 1.66
+  },
+  {
+   "file": "teen-character.glb",
+   "lite": "teen-character-lite.glb",
+   "job": "teen",
+   "sex": "m",
+   "height": 1.65
+  },
+  {
+   "file": "hoodie-teen.glb",
+   "lite": "hoodie-teen-lite.glb",
+   "job": "teen",
+   "sex": "m",
+   "height": 1.68
+  },
+  {
+   "file": "child.glb",
+   "lite": "child-lite.glb",
+   "job": "child",
+   "sex": "m",
+   "height": 1.25
+  },
+  {
+   "file": "cyborg.glb",
+   "lite": "cyborg-lite.glb",
+   "job": "cyborg",
+   "sex": "m",
+   "height": 1.85
+  },
+  {
+   "file": "android.glb",
+   "lite": "android-lite.glb",
+   "job": "android",
+   "sex": "f",
+   "height": 1.75
+  }
+ ]
+}

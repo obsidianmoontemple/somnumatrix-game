@@ -1,0 +1,13 @@
+# MakeHuman Material definition
+
+name noneMaterial
+
+// Color shading attributes
+diffuseColor  0.64 0.64 0.64
+specularColor  0.4 0.4 0.4
+shininess 1
+opacity 1
+
+// Textures and properties
+diffuseTexture claws.png
+

@@ -102,5 +102,101 @@
   "price": 600,
   "file": "assets/models/worn/foxtail.glb",
   "lite": "assets/models/worn/foxtail-lite.glb"
+ },
+ {
+  "key": "angelwings",
+  "label": "Angel Wings",
+  "slot": "wings",
+  "price": 1800,
+  "file": "assets/models/worn/angelwings.glb",
+  "lite": "assets/models/worn/angelwings-lite.glb"
+ },
+ {
+  "key": "faewings",
+  "label": "Fae Wings",
+  "slot": "wings",
+  "price": 1400,
+  "file": "assets/models/worn/faewings.glb",
+  "lite": "assets/models/worn/faewings-lite.glb"
+ },
+ {
+  "key": "demonwings",
+  "label": "Demon Wings",
+  "slot": "wings",
+  "price": 1600,
+  "file": "assets/models/worn/demonwings.glb",
+  "lite": "assets/models/worn/demonwings-lite.glb"
+ },
+ {
+  "key": "batwings",
+  "label": "Bat Wings",
+  "slot": "wings",
+  "price": 1600,
+  "file": "assets/models/worn/batwings.glb",
+  "lite": "assets/models/worn/batwings-lite.glb"
+ },
+ {
+  "key": "fairywings",
+  "label": "Fairy Wings",
+  "slot": "wings",
+  "price": 1200,
+  "file": "assets/models/worn/fairywings.glb",
+  "lite": "assets/models/worn/fairywings-lite.glb"
+ },
+ {
+  "key": "mechwings",
+  "label": "Mechanical Wings",
+  "slot": "wings",
+  "price": 2000,
+  "file": "assets/models/worn/mechwings.glb",
+  "lite": "assets/models/worn/mechwings-lite.glb"
+ },
+ {
+  "key": "bladewings",
+  "label": "Blade Wings",
+  "slot": "wings",
+  "price": 2000,
+  "file": "assets/models/worn/bladewings.glb",
+  "lite": "assets/models/worn/bladewings-lite.glb"
+ },
+ {
+  "key": "scorpiontail",
+  "label": "Scorpion Tail",
+  "slot": "tail",
+  "price": 700,
+  "file": "assets/models/worn/scorpiontail.glb",
+  "lite": "assets/models/worn/scorpiontail-lite.glb"
+ },
+ {
+  "key": "fluffytail",
+  "label": "Fluffy Fox Tail",
+  "slot": "tail",
+  "price": 600,
+  "file": "assets/models/worn/fluffytail.glb",
+  "lite": "assets/models/worn/fluffytail-lite.glb"
+ },
+ {
+  "key": "bluefoxtail",
+  "label": "Fox Tail",
+  "slot": "tail",
+  "price": 600,
+  "file": "assets/models/worn/bluefoxtail.glb",
+  "lite": "assets/models/worn/bluefoxtail-lite.glb"
+ },
+ {
+  "key": "cattail",
+  "label": "Cat Tail",
+  "slot": "tail",
+  "price": 500,
+  "file": "assets/models/worn/cattail.glb",
+  "lite": "assets/models/worn/cattail-lite.glb"
+ },
+ {
+  "key": "dragontail",
+  "label": "Dragon Tail",
+  "slot": "tail",
+  "price": 700,
+  "file": "assets/models/worn/dragontail.glb",
+  "lite": "assets/models/worn/dragontail-lite.glb"
  }
 ]

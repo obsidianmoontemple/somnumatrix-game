@@ -3,7 +3,12 @@
 <html lang="en">
 <head>
 <script>
-(function(){try{var t=location.hash||"",e=+localStorage.getItem("somnu_dr_pending")||0;if(/(^#|&)access_token=/.test(t)&&/(^#|&)type=magiclink(&|$)/.test(t)||e&&Date.now()-e<864e5&&/(^#|&)(access_token|error_code)=/.test(t))location.replace("dataroom.html"+t)}catch(t){}})();
+(function () { try {
+var h = location.hash || "", t = +localStorage.getItem("somnu_dr_pending") || 0;
+if (/(^#|&)access_token=/.test(h) && /(^#|&)type=magiclink(&|$)/.test(h) || t && Date.now() - t < 864e5 && /(^#|&)(access_token|error_code)=/.test(h))
+location.replace("dataroom.html" + h);
+}
+catch (e) { } })();
 </script>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -690,7 +695,102 @@ footer nav{display:flex;gap:20px;flex-wrap:wrap}
 </footer>
 
 <script>
-(function(){"use strict";var e=window.matchMedia&&window.matchMedia("(prefers-reduced-motion: reduce)").matches;var t=document.getElementById("nav");function n(){t.classList.toggle("solid",window.scrollY>40)}n();window.addEventListener("scroll",n,{passive:true});var o=document.getElementById("heroVid"),r=document.getElementById("vidToggle");function a(){r.textContent=o.paused?"Play video":"Pause video"}if(o&&!e){o.preload="auto";var i=o.play();if(i&&i.catch)i.catch(function(){});r.hidden=false;o.addEventListener("play",a);o.addEventListener("pause",a);r.addEventListener("click",function(){if(o.paused){o.play()}else{o.pause()}})}var c=document.querySelectorAll(".rv-in");if(e||!("IntersectionObserver"in window)){c.forEach(function(e){e.classList.add("on")})}else{var l=new IntersectionObserver(function(e){e.forEach(function(e){if(e.isIntersecting){e.target.classList.add("on");l.unobserve(e.target)}})},{rootMargin:"0px 0px -8% 0px",threshold:.06});c.forEach(function(e){l.observe(e)})}var s=document.getElementById("lb"),d=document.getElementById("lbImg"),u=document.getElementById("lbCap");document.querySelectorAll("#gal a").forEach(function(e){var t=e.querySelector("span").textContent;e.querySelector("img").alt=t;if(!s.showModal)return;e.addEventListener("click",function(n){n.preventDefault();d.src=e.getAttribute("href");d.alt=t;u.textContent=t;s.showModal()})});document.getElementById("lbClose").addEventListener("click",function(){s.close()});s.addEventListener("click",function(e){if(e.target===s)s.close()});var f="https://ryxmrkwgdyphcdlglwka.supabase.co",h="sb_publishable_rsf04iH4Pph9ZfLt8g6Ovg_EI_Zk9GY";function v(e){try{var t=null;try{t=localStorage.getItem("somnu_inv_v");if(!t){t=Math.random().toString(36).slice(2)+Date.now().toString(36);localStorage.setItem("somnu_inv_v",t)}}catch(e){}var n=null;try{var o=document.referrer&&new window.URL(document.referrer);if(o&&o.host!==location.host)n=o.host}catch(e){}fetch(f+"/rest/v1/rpc/investor_log",{method:"POST",keepalive:true,headers:{"Content-Type":"application/json",apikey:h,Authorization:"Bearer "+h},body:JSON.stringify({p_kind:e,p_visitor:t,p_ref:n})}).catch(function(){})}catch(e){}}v("invest_view");document.querySelectorAll('a[href="index.html?play"],a[href="dataroom.html"]').forEach(function(e){e.addEventListener("click",function(){v(e.getAttribute("href")==="index.html?play"?"play_click":"dataroom_click")})});try{fetch(f+"/rest/v1/app_config?select=value&key=eq.support_email",{headers:{apikey:h,Authorization:"Bearer "+h}}).then(function(e){return e.ok?e.json():[]}).then(function(e){var t=e&&e[0]&&e[0].value;if(typeof t!=="string")t=t&&t.email;if(!t||!/^[^@\s]+@[^@\s]+$/.test(t))return;var n=document.getElementById("contact");n.textContent="Investors' and buyers' questions: ";var o=document.createElement("a");o.href="mailto:"+t+"?subject="+encodeURIComponent("SomnuMatrix investment");o.textContent=t;n.appendChild(o);n.appendChild(document.createTextNode(", or request access through the data room."))}).catch(function(){})}catch(e){}})();
+(function () {
+"use strict";
+var reduce = window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var nav = document.getElementById("nav");
+function onScroll() { nav.classList.toggle("solid", window.scrollY > 40); }
+onScroll();
+window.addEventListener("scroll", onScroll, { passive: true });
+var v = document.getElementById("heroVid"), tg = document.getElementById("vidToggle");
+function setLabel() { tg.textContent = v.paused ? "Play video" : "Pause video"; }
+if (v && !reduce) {
+v.preload = "auto";
+var p = v.play();
+if (p && p.catch)
+p.catch(function () { });
+tg.hidden = false;
+v.addEventListener("play", setLabel);
+v.addEventListener("pause", setLabel);
+tg.addEventListener("click", function () { if (v.paused) {
+v.play();
+}
+else {
+v.pause();
+} });
+}
+var items = document.querySelectorAll(".rv-in");
+if (reduce || !("IntersectionObserver" in window)) {
+items.forEach(function (el) { el.classList.add("on"); });
+}
+else {
+var io = new IntersectionObserver(function (es) {
+es.forEach(function (e) { if (e.isIntersecting) {
+e.target.classList.add("on");
+io.unobserve(e.target);
+} });
+}, { rootMargin: "0px 0px -8% 0px", threshold: 0.06 });
+items.forEach(function (el) { io.observe(el); });
+}
+var lb = document.getElementById("lb"), li = document.getElementById("lbImg"), lc = document.getElementById("lbCap");
+document.querySelectorAll("#gal a").forEach(function (a) {
+var cap = a.querySelector("span").textContent;
+a.querySelector("img").alt = cap;
+if (!lb.showModal)
+return;
+a.addEventListener("click", function (e) { e.preventDefault(); li.src = a.getAttribute("href"); li.alt = cap; lc.textContent = cap; lb.showModal(); });
+});
+document.getElementById("lbClose").addEventListener("click", function () { lb.close(); });
+lb.addEventListener("click", function (e) { if (e.target === lb)
+lb.close(); });
+var URL = "https://ryxmrkwgdyphcdlglwka.supabase.co", KEY = "sb_publishable_rsf04iH4Pph9ZfLt8g6Ovg_EI_Zk9GY";
+function invLog(kind) {
+try {
+var v = null;
+try {
+v = localStorage.getItem("somnu_inv_v");
+if (!v) {
+v = Math.random().toString(36).slice(2) + Date.now().toString(36);
+localStorage.setItem("somnu_inv_v", v);
+}
+}
+catch (e) { }
+var ref = null;
+try {
+var r = document.referrer && new window.URL(document.referrer);
+if (r && r.host !== location.host)
+ref = r.host;
+}
+catch (e) { }
+fetch(URL + "/rest/v1/rpc/investor_log", { method: "POST", keepalive: true, headers: { "Content-Type": "application/json", apikey: KEY, Authorization: "Bearer " + KEY },
+body: JSON.stringify({ p_kind: kind, p_visitor: v, p_ref: ref }) }).catch(function () { });
+}
+catch (e) { }
+}
+invLog("invest_view");
+document.querySelectorAll('a[href="index.html?play"],a[href="dataroom.html"]').forEach(function (a) {
+a.addEventListener("click", function () { invLog(a.getAttribute("href") === "index.html?play" ? "play_click" : "dataroom_click"); });
+});
+try {
+fetch(URL + "/rest/v1/app_config?select=value&key=eq.support_email", { headers: { apikey: KEY, Authorization: "Bearer " + KEY } })
+.then(function (r) { return r.ok ? r.json() : []; })
+.then(function (rows) {
+var val = rows && rows[0] && rows[0].value;
+if (typeof val !== "string")
+val = val && val.email;
+if (!val || !/^[^@\s]+@[^@\s]+$/.test(val))
+return;
+var c = document.getElementById("contact");
+c.textContent = "Investors' and buyers' questions: ";
+var a = document.createElement("a");
+a.href = "mailto:" + val + "?subject=" + encodeURIComponent("SomnuMatrix investment");
+a.textContent = val;
+c.appendChild(a);
+c.appendChild(document.createTextNode(", or request access through the data room."));
+}).catch(function () { });
+}
+catch (e) { }
+})();
 </script>
 </body>
 </html>
